@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/src/main/java/com/Index.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/mytools/MyUI.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/mytools/MyUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/service/DataManageService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/util/BytesUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/util/MyDbUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/util/MyDecodeUitl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/util/MyExcelUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/util/MyUtils.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/util/TableListHandler.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/util/UiUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/view/Login.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/view/Shell.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/view/dataCollect/AbcUnitView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/view/dataCollect/Line1800.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/view/dataManage/DataManage.java" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
