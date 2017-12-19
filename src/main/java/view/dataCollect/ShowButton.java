@@ -13,14 +13,14 @@ import java.util.ArrayList;
 
 public class ShowButton extends JButton {
 
-    java.util.List<UnitBean> unitList;
-    JPanel jPanel;
+    private java.util.List<UnitBean> unitList;
+    private JPanel jPanel;
 
     public ShowButton() {
         this(null, null);
     }
 
-    public ShowButton(Icon icon) {
+    ShowButton(Icon icon) {
         this(null, icon);
     }
 
@@ -28,35 +28,48 @@ public class ShowButton extends JButton {
         this(text, null);
     }
 
-    JLabel titleLabel;
+    private JLabel titleLabel;
 
-    JLabel jlA, jlB, jlC, jlsub1, jlsub2;
+    private JLabel jlA;
+    private JLabel jlB;
+    private JLabel jlC;
+    private JLabel jldw;
 
-    JPanel center;
+    private JPanel center;
 
-    LadderFrame ladderFrame;
+    private LadderFrame ladderFrame;
 
-    public JPanel getjPanel() {
+    JPanel getjPanel() {
         return jPanel;
     }
 
-    public ShowButton(String text, Icon icon) {
+    private ShowButton(String text, Icon icon) {
         super(text, icon);
+        Font font = new Font(null, Font.PLAIN, 30);
         unitList = new ArrayList<>();
         jPanel = new JPanel();
         jPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         jPanel.setLayout(new BorderLayout());
-        jPanel.setBounds(0, 0, 100, 50);
+        jPanel.setBounds(0, 0, 200, 120);
         jPanel.setVisible(false);
 
         titleLabel = new JLabel("位置名称", JLabel.CENTER);
+        titleLabel.setFont(font);
         jPanel.add(titleLabel, BorderLayout.NORTH);
 
         jlA = new JLabel("A", JLabel.CENTER);
+        jlA.setFont(font);
         jlB = new JLabel("B", JLabel.CENTER);
+        jlB.setFont(font);
         jlC = new JLabel("C", JLabel.CENTER);
-        jlsub1 = new JLabel("--", JLabel.CENTER);
-        jlsub2 = new JLabel("--", JLabel.CENTER);
+        jlC.setFont(font);
+        JLabel jlsub1 = new JLabel("--", JLabel.CENTER);
+        jlsub1.setFont(font);
+        JLabel jlsub2 = new JLabel("--", JLabel.CENTER);
+        jlsub2.setFont(font);
+        jldw = new JLabel("", JLabel.CENTER);
+        jldw.setFont(font);
+
 
         center = new JPanel();
         center.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -67,6 +80,7 @@ public class ShowButton extends JButton {
         center.add(jlC);
 
         jPanel.add(center, BorderLayout.CENTER);
+        jPanel.add(jldw, BorderLayout.SOUTH);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -122,6 +136,17 @@ public class ShowButton extends JButton {
         unitList.add(unitBean);
         if (unitBean.getPlace() != null && !unitBean.getPlace().equals("")) {
             titleLabel.setText(unitBean.getPlace());
+        }
+        switch (unitBean.getType()) {
+            case 1:
+                jldw.setText("单位:MPa");
+                break;
+            case 2:
+                jldw.setText("单位:mm");
+                break;
+            case 3:
+                jldw.setText("单位:℃");
+                break;
         }
     }
 
