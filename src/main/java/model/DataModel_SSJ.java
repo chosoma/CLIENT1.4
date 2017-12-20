@@ -7,7 +7,7 @@ public class DataModel_SSJ extends DataManageModel {
 
     private static model.DataModel_SSJ DM = null;
 
-    private DataModel_SSJ() {
+    public DataModel_SSJ() {
         initDefault();
     }
 
