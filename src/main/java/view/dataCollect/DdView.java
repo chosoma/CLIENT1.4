@@ -74,23 +74,10 @@ public class DdView extends JPanel {
         for (int i = 10; i < showButtons.length; i++) {
             showButtons[i] = new ShowButton(new TempIconMIN());
         }
-        rs = new Rectangle[showButtons.length];
-        rs[0] = new Rectangle(430, 280,35,35);
-        rs[1] = new Rectangle(16, 227,35,35);
-        rs[2] = new Rectangle(150, 210,35,35);
-        rs[3] = new Rectangle(258, 128,35,35);
-        rs[4] = new Rectangle(350, 170,35,35);
-        rs[5] = new Rectangle(430, 205,35,35);
-        rs[6] = new Rectangle(510, 240,35,35);
-        rs[7] = new Rectangle(608, 244,35,35);
-        rs[8] = new Rectangle(689, 285,35,35);
-        rs[9] = new Rectangle(510, 310,35,35);
-        rs[10] = new Rectangle(256, 197,35,35);
-        rs[11] = new Rectangle(350, 240,35,35);
-        for (int i = 0; i < showButtons.length; i++) {
-            showButtons[i].setBounds(rs[i]);
-            this.add(showButtons[i]);
-        }
+        setBounds();
+//        if (!Shell.getInstance().isMaximized()) {
+
+//        }
         for (UnitBean unitBean : units) {
             int i = unitBean.getPoint();
             showButtons[i].addUnit(unitBean);
@@ -100,7 +87,28 @@ public class DdView extends JPanel {
         }
     }
 
-    Rectangle[] rs;
+    private void setBounds() {
+        Rectangle[] rs;
+        rs = new Rectangle[showButtons.length];
+        int width = getWidth();
+        int height = getHeight();
+        rs[0] = new Rectangle((int) (width / 1.71), (int) (height / 1.90), 35, 35);
+        rs[1] = new Rectangle((int) (width / 40.0), (int) (height / 2.35), 35, 35);
+        rs[2] = new Rectangle((int) (width / 4.71), (int) (height / 2.5), 35, 35);
+        rs[3] = new Rectangle((int) (width / 2.81), (int) (height / 4.3), 35, 35);
+        rs[4] = new Rectangle((int) (width / 2.06), (int) (height / 3.2), 35, 35);
+        rs[5] = new Rectangle((int) (width / 1.71), (int) (height / 2.61), 35, 35);
+        rs[6] = new Rectangle((int) (width / 1.42), (int) (height / 2.22), 35, 35);
+        rs[7] = new Rectangle((int) (width / 1.19), (int) (height / 2.17), 35, 35);
+        rs[8] = new Rectangle((int) (width / 1.06), (int) (height / 1.88), 35, 35);
+        rs[9] = new Rectangle((int) (width / 1.42), (int) (height / 1.72), 35, 35);
+        rs[10] = new Rectangle((int) (width / 2.81), (int) (height / 2.73), 35, 35);
+        rs[11] = new Rectangle((int) (width / 2.06), (int) (height / 2.22), 35, 35);
+        for (int i = 0; i < showButtons.length; i++) {
+            showButtons[i].setBounds(rs[i]);
+            this.add(showButtons[i]);
+        }
+    }
 
 
     ShowButton[] showButtons;
@@ -135,17 +143,18 @@ public class DdView extends JPanel {
             size = getSize();
         }
 
-        for (ShowButton showButton : showButtons) {
-            int homewidth1 = size.width;
-            int homeheight1 = size.height;
-            int x1 = showButton.getX();
-            int y1 = showButton.getY();
-            double dx = (x1 * 1.0) / homewidth1;
-            double dy = (y1 * 1.0) / homeheight1;
-            int x2 = (int) (dx * getWidth());
-            int y2 = (int) (dy * getHeight());
-            showButton.setBounds(x2, y2, showButton.getWidth(), showButton.getHeight());
-        }
+        setBounds();
+//        for (ShowButton showButton : showButtons) {
+//            int homewidth1 = size.width;
+//            int homeheight1 = size.height;
+//            int x1 = showButton.getX();
+//            int y1 = showButton.getY();
+//            double dx = (x1 * 1.0) / homewidth1;
+//            double dy = (y1 * 1.0) / homeheight1;
+//            int x2 = (int) (dx * getWidth());
+//            int y2 = (int) (dy * getHeight());
+//            showButton.setBounds(x2, y2, showButton.getWidth(), showButton.getHeight());
+//        }
 //        for (UnitPanel unitPanel : unitPanels) {
 //            if (Shell.getInstance().isMaximized()) {
 //                int homewidth1 = size.width;

@@ -256,6 +256,7 @@ public class Shell extends JFrame implements ActionListener {
                     Shell.this.setBounds(myDashedBorder.getBounds());
                     ShellState = Frame.NORMAL;
                     btnMax.setToolTipText("最大化");
+//                    ChartView.getInstance().getPanelSw().repaint();
                 } else {
                     // Shell.this.setExtendedState(Frame.MAXIMIZED_BOTH);
                     Shell.this.setBounds(getMaxBounds());

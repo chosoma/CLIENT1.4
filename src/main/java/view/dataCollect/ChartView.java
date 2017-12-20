@@ -19,6 +19,10 @@ public class ChartView extends JPanel {
     private AbcView panelSF6, panelWd, panelSSJ;
     private DdView panelSw;
 
+    public DdView getPanelSw() {
+        return panelSw;
+    }
+
     public CardLayout getCenterCard() {
         return centerCard;
     }
@@ -70,7 +74,6 @@ public class ChartView extends JPanel {
         this.add(panelSSJ, "SSJ");
         panelSw = new DdView();
         this.add(panelSw, "TX");
-
     }
 
     public void receDatas(DataBean... datas) {
