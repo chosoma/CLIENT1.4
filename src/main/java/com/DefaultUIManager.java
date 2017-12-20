@@ -21,14 +21,14 @@ public class DefaultUIManager {
 	public static List<Image> icons;
 
 	public DefaultUIManager() {
-		icons = new ArrayList<Image>();
-		icons.add(new ImageIcon(("com\\NGN16.png"))
+		icons = new ArrayList<>();
+		icons.add(new ImageIcon(("com\\tek16.png"))
 				.getImage());
-		icons.add(new ImageIcon(("com\\NGN24.png"))
+		icons.add(new ImageIcon(("com\\tek24.png"))
 				.getImage());
-		icons.add(new ImageIcon(("com\\NGN32.png"))
+		icons.add(new ImageIcon(("com\\tek32.png"))
 				.getImage());
-		icons.add(new ImageIcon(("com\\NGN48.png"))
+		icons.add(new ImageIcon(("com\\tek48.png"))
 				.getImage());
 
 		this.setFont();
