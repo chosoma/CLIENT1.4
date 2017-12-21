@@ -64,7 +64,8 @@ public class MyDecodeUitl {
      */
     public static byte[] Encryption(byte[] source) {
         List<Byte> btlist = new ArrayList<>();
-        btlist.add(ProtocolX.TAIL);// 头
+//        btlist.add(ProtocolX.TAIL);// 头
+        btlist.add(ProtocolX.HEAD);// 头
         for (byte aSource : source) {
             switch (aSource) {
                 case (ProtocolX.HEAD): {
@@ -97,7 +98,8 @@ public class MyDecodeUitl {
                 }
             }
         }
-        btlist.add(ProtocolX.HEAD);// 尾
+//        btlist.add(ProtocolX.HEAD);// 尾
+        btlist.add(ProtocolX.TAIL);
         byte[] ret = new byte[btlist.size()];
         int i = 0;
         for (byte data : btlist) {

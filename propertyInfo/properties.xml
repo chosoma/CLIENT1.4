@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<property>
-    <!--采集-->
-    <collection>
-        <commDelay wait="30000" space="20000" reply="10000" timeout="300000"/>
-        <!--预热-->
-        <fixed preheat="80000"/>
-        <!-- 报警：声音-->
-        <warning voice="true"/>
-        <!-- 温度频率-->
-        <wdPeriod wd1="40" wd2="46" jg1="5" jg2="2"/>
-    </collection>
-    <!--通讯-->
-    <communication>
-        <!--GPRS/CDMA-->
-        <GPRS addr="118.89.103.234" localport="8088"/>
-    </communication>
-    <!--数据库-->
-    <database ip="118.89.103.234" port="3306" dbname="gil"/>
-    <start jflib="" gzlib="C:\Program Files\Tencent\QQ\Bin\QQScLauncher"/>
-
+<property> 
+  <!--采集-->  
+  <collection> 
+    <commDelay wait="30000" space="20000" reply="10000" timeout="300000"/>  
+    <!--预热-->  
+    <fixed preheat="80000"/>  
+    <!-- 报警：声音-->  
+    <warning voice="true"/>  
+    <!-- 温度频率-->  
+    <wdPeriod wd1="40" wd2="46" jg1="5" jg2="2"/> 
+  </collection>  
+  <!--通讯-->  
+  <communication> 
+    <!--GPRS/CDMA-->  
+    <GPRS addr="118.89.103.234" localport="8088"/> 
+  </communication>  
+  <!--数据库-->  
+  <database ip="118.89.103.234" port="3306" dbname="gil"/>  
+  <start jflib="" gzlib="C:\Program Files\Tencent\QQ\Bin\QQScLauncher"/> 
 </property>
