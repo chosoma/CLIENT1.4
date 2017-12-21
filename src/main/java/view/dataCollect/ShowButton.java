@@ -45,13 +45,13 @@ public class ShowButton extends JButton {
 
     private ShowButton(String text, Icon icon) {
         super(text, icon);
-        Font font = new Font(null, Font.PLAIN, 30);
+        Font font = new Font(null, Font.PLAIN, 15);
         unitList = new ArrayList<>();
         jPanel = new JPanel();
         jPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         jPanel.setLayout(new BorderLayout());
-        jPanel.setBounds(0, 0, 200, 120);
-        jPanel.setVisible(false);
+        jPanel.setBounds(0, 0, 70, 70);
+        jPanel.setVisible(true);
 
         titleLabel = new JLabel("位置名称", JLabel.CENTER);
         titleLabel.setFont(font);
@@ -104,12 +104,12 @@ public class ShowButton extends JButton {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                jPanel.setVisible(true);
+//                jPanel.setVisible(true);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                jPanel.setVisible(false);
+//                jPanel.setVisible(false);
             }
 
             @Override

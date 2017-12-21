@@ -601,6 +601,7 @@ public class LadderPanel extends JPanel {
 
     public void setDatas(List<DataBean> datas) {
         this.historydatas = datas;
+        repaint();
     }
 
     public void setUnit(UnitBean unit) {

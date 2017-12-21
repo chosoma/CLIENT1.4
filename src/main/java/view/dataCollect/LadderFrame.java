@@ -197,7 +197,6 @@ public class LadderFrame extends JFrame {
                     }
                     LadderFrame.this.jPanel.setUnit(unit);
                     LadderFrame.this.jPanel.setDatas(dataList);
-                    LadderFrame.this.jPanel.repaint();
 
                 } catch (Exception e1) {
                     e1.printStackTrace();

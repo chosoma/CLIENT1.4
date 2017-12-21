@@ -83,6 +83,7 @@ public class DdView extends JPanel {
             showButtons[i].addUnit(unitBean);
         }
         for (ShowButton show : showButtons) {
+            this.add(show);
             this.add(show.getjPanel());
         }
     }
@@ -106,7 +107,29 @@ public class DdView extends JPanel {
         rs[11] = new Rectangle((int) (width / 2.06), (int) (height / 2.22), 35, 35);
         for (int i = 0; i < showButtons.length; i++) {
             showButtons[i].setBounds(rs[i]);
-            this.add(showButtons[i]);
+            JPanel jPanel = showButtons[i].getjPanel();
+            int x = showButtons[i].getX();
+            int y = showButtons[i].getY();
+            switch (i) {
+                case 0:
+                case 1:
+                case 2:
+                case 9:
+                case 10:
+                case 11:
+                    y += 35;
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                    x -= getWidth() / 22;
+                    y -= 100;
+                    break;
+            }
+            jPanel.setBounds(x, y, getWidth() / 11, 100);
         }
     }
 
