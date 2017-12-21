@@ -31,7 +31,7 @@ import view.systemSetup.SystemSetup;
 public class Index {
 
     private Shell shell;
-    FileLock lock;// 必须是全局变量，不然无效
+    private FileLock lock;// 必须是全局变量，不然无效
 
     public Index() {
 //         this.common();
@@ -59,7 +59,7 @@ public class Index {
 
         // TODO Auto-generated catch block
         String processName = getProcessName();
-        if (!processName.equals("DPS")) {
+        if (processName != null && !processName.equals("DPS")) {
             System.exit(0);
         }
     }
@@ -146,9 +146,8 @@ public class Index {
         try {
             Process proc = Runtime.getRuntime().exec(
                     "tasklist /FI \"PID eq " + pid + "\"");
-            bufferedReader = new BufferedReader(new InputStreamReader(
-                    proc.getInputStream()));
-            String line = null;
+            bufferedReader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line;
             while ((line = bufferedReader.readLine()) != null) {
                 if (line.contains(pid + "")) {
                     int indexName = line.indexOf(".exe");
@@ -163,40 +162,40 @@ public class Index {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
-                } catch (Exception ex) {
+                } catch (Exception ignored) {
                 }
             }
         }
 
     }
 
-    private String getProcessName(String pid) {
-        BufferedReader bufferedReader = null;
-        try {
-            Process proc = Runtime.getRuntime().exec(
-                    "tasklist /FI \"PID eq " + pid + "\"");
-            bufferedReader = new BufferedReader(new InputStreamReader(
-                    proc.getInputStream()));
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                if (line.contains(pid + "")) {
-                    int index = line.indexOf(".exe");
-                    return line.substring(0, index);
-                }
-            }
-            return null;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (Exception ex) {
-                }
-            }
-        }
-    }
+//    private String getProcessName(String pid) {
+//        BufferedReader bufferedReader = null;
+//        try {
+//            Process proc = Runtime.getRuntime().exec(
+//                    "tasklist /FI \"PID eq " + pid + "\"");
+//            bufferedReader = new BufferedReader(new InputStreamReader(
+//                    proc.getInputStream()));
+//            String line = null;
+//            while ((line = bufferedReader.readLine()) != null) {
+//                if (line.contains(pid + "")) {
+//                    int index = line.indexOf(".exe");
+//                    return line.substring(0, index);
+//                }
+//            }
+//            return null;
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            return null;
+//        } finally {
+//            if (bufferedReader != null) {
+//                try {
+//                    bufferedReader.close();
+//                } catch (Exception ex) {
+//                }
+//            }
+//        }
+//    }
 
     public static void main(String[] args) {
         new DefaultUIManager();

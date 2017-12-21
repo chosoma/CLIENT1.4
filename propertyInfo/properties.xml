@@ -18,5 +18,5 @@
   </communication>  
   <!--数据库-->  
   <database ip="118.89.103.234" port="3306" dbname="gil"/>  
-  <start jflib="" gzlib="C:\Program Files\Tencent\QQ\Bin\QQScLauncher"/> 
+  <start jflib="" gzlib=""/>
 </property>

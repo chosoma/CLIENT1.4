@@ -124,9 +124,9 @@ public class OrderFactory {
     /**
      * 初始化通用指令表头部分
      *
-     * @param num    设备编号,0表示该类型的所有设备
+     * @param num 设备编号,0表示该类型的所有设备
      * @param len 数据包长度
-     * @return
+     * @return byte[]
      */
     private static byte[] initHead(byte num, int len) {
         byte[] msg = new byte[len];
