@@ -283,6 +283,7 @@ public class AbcUnitView extends JPanel implements Comparable<AbcUnitView> {
                             }
                             SysUnitService.updateInitvari(unit);
                             unitBean.setInitvari(dataBean.getVari());
+                            ChartView.getInstance().alignZero(unitBean);
                             JOptionPane.showMessageDialog(null, "设置成功", "成功", JOptionPane.INFORMATION_MESSAGE);
                             jlwy.setText("0.0");
                             jlwy.setBackground(colorB);

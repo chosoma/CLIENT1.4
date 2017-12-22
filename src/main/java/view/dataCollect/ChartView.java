@@ -17,10 +17,10 @@ public class ChartView extends JPanel {
     private CardLayout centerCard;// 卡片布局
     private static ChartView CV = new ChartView();
     private AbcView panelSF6, panelWd, panelSSJ;
-    private DdView panelPhoto;
+    private DdView panelGraph;
 
-    public DdView getPanelPhoto() {
-        return panelPhoto;
+    public DdView getPanelGraph() {
+        return panelGraph;
     }
 
     public CardLayout getCenterCard() {
@@ -55,7 +55,7 @@ public class ChartView extends JPanel {
         panelWd.sort();
         panelSSJ.sort();
 //        List<Line1800> ddviews = SensorService.getDdUnitViews();
-//        panelPhoto.setViews(ddviews);
+//        panelGraph.setViews(ddviews);
     }
 
     public static ChartView getInstance() {
@@ -71,8 +71,12 @@ public class ChartView extends JPanel {
         this.add(panelWd, "WD");
         panelSSJ = new AbcView(SensorAttr.Sensor_SSJ);
         this.add(panelSSJ, "SSJ");
-        panelPhoto = new DdView();
-        this.add(panelPhoto, "TX");
+        panelGraph = new DdView();
+        this.add(panelGraph, "TX");
+    }
+
+    public void alignZero(UnitBean unit) {
+        panelGraph.alignZero(unit);
     }
 
     public void receDatas(DataBean... datas) {
@@ -95,7 +99,7 @@ public class ChartView extends JPanel {
                     panelWd.addData(data);
                     break;
             }
-            panelPhoto.addData(data);
+            panelGraph.addData(data);
         }
     }
 
@@ -140,7 +144,7 @@ public class ChartView extends JPanel {
                 panelWd.setTitle(unitBean, title);
                 break;
         }
-        panelPhoto.setTitle(unitBean.getPoint(), title);
+        panelGraph.setTitle(unitBean.getPoint(), title);
     }
 
 

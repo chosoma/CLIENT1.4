@@ -150,6 +150,20 @@ public class ShowButton extends JButton {
         }
     }
 
+    void alignZero(String xw) {
+        switch (xw) {
+            case "A":
+                jlA.setText("0.0");
+                break;
+            case "B":
+                jlB.setText("0.0");
+                break;
+            case "C":
+                jlC.setText("0.0");
+                break;
+        }
+    }
+
     void addData(DataBean dataBean) {
         String str = "";
         switch (dataBean.getUnitType()) {
@@ -157,7 +171,12 @@ public class ShowButton extends JButton {
                 str = String.valueOf(dataBean.getPres());
                 break;
             case 2:
-                str = String.valueOf(dataBean.getVari());
+                UnitBean unit = getUnit(dataBean);
+                double initvari = 0;
+                if (unit != null) {
+                    initvari = unit.getInitvari();
+                }
+                str = String.valueOf(((int) ((dataBean.getVari() - initvari) * 10)) / 10.0);
                 break;
             case 3:
                 str = String.valueOf(dataBean.getTemp());
@@ -180,12 +199,20 @@ public class ShowButton extends JButton {
 
     private String getXw(DataBean dataBean) {
         String xw = "";
-        for (UnitBean unit : unitList) {
-            if (dataBean.getUnitType() == unit.getType() && dataBean.getUnitNumber() == unit.getNumber()) {
-                xw = unit.getXw();
-            }
+        UnitBean unit = getUnit(dataBean);
+        if (unit != null) {
+            xw = unit.getXw();
         }
         return xw;
+    }
+
+    private UnitBean getUnit(DataBean dataBean) {
+        for (UnitBean unit : unitList) {
+            if (dataBean.getUnitType() == unit.getType() && dataBean.getUnitNumber() == unit.getNumber()) {
+                return unit;
+            }
+        }
+        return null;
     }
 
     public void setTitle(String title) {

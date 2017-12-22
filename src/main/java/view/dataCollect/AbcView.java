@@ -70,7 +70,6 @@ public class AbcView extends JPanel {
     }
 
     public void refresh(UnitBean unitBean) {
-        System.out.println("1");
         for (AbcUnitView unit : units) {
             if (unit.getUnitBean().equals(unitBean)) {
                 unit.refresh(unitBean);

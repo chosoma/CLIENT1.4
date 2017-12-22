@@ -56,6 +56,11 @@ public class DdView extends JPanel {
 
     java.util.List<UnitBean> units;
 
+
+    public void alignZero(UnitBean unit) {
+        showButtons[unit.getPoint()].alignZero(unit.getXw());
+    }
+
     private void init2() {
         units = SysUnitService.getUnitList();
 
