@@ -75,9 +75,7 @@ public class DdView extends JPanel {
             showButtons[i] = new ShowButton(new TempIconMIN());
         }
         setBounds();
-//        if (!Shell.getInstance().isMaximized()) {
 
-//        }
         for (UnitBean unitBean : units) {
             int i = unitBean.getPoint();
             showButtons[i].addUnit(unitBean);
@@ -130,7 +128,13 @@ public class DdView extends JPanel {
                     break;
             }
             jPanel.setBounds(x, y, getWidth() / 11, 100);
+            jPanel.updateUI();
         }
+    }
+
+
+    public void setTitle(int point, String title) {
+        showButtons[point].setTitle(title);
     }
 
 
@@ -158,41 +162,9 @@ public class DdView extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
         if (backgroud != null) {
             g.drawImage(backgroud, 0, 0, getWidth(), getHeight(), this);
         }
-        if (size == null) {
-            size = getSize();
-        }
-
         setBounds();
-//        for (ShowButton showButton : showButtons) {
-//            int homewidth1 = size.width;
-//            int homeheight1 = size.height;
-//            int x1 = showButton.getX();
-//            int y1 = showButton.getY();
-//            double dx = (x1 * 1.0) / homewidth1;
-//            double dy = (y1 * 1.0) / homeheight1;
-//            int x2 = (int) (dx * getWidth());
-//            int y2 = (int) (dy * getHeight());
-//            showButton.setBounds(x2, y2, showButton.getWidth(), showButton.getHeight());
-//        }
-//        for (UnitPanel unitPanel : unitPanels) {
-//            if (Shell.getInstance().isMaximized()) {
-//                int homewidth1 = size.width;
-//                int homeheight1 = size.height;
-//                int x1 = unitPanel.getX() + unitPanel.getWidth() / 2;
-//                int y1 = unitPanel.getY() + unitPanel.getHeight() / 2;
-//                double dx = (x1 * 1.0) / homewidth1;
-//                double dy = (y1 * 1.0) / homeheight1;
-//                int x2 = (int) (dx * getWidth() - unitPanel.getWidth() / 2);
-//                int y2 = (int) (dy * getHeight() - unitPanel.getHeight() / 2);
-//                unitPanel.setBounds(x2, y2, unitPanel.getWidth(), unitPanel.getHeight());
-//            } else {
-//                unitPanel.setBounds(unitPanel.getUnitBean().getX(), unitPanel.getUnitBean().getY(), unitPanel.getWidth(), unitPanel.getHeight());
-//            }
-//        }
-        size = getSize();
     }
 }

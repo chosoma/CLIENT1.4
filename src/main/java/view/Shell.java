@@ -256,7 +256,7 @@ public class Shell extends JFrame implements ActionListener {
                     Shell.this.setBounds(myDashedBorder.getBounds());
                     ShellState = Frame.NORMAL;
                     btnMax.setToolTipText("最大化");
-//                    ChartView.getInstance().getPanelSw().repaint();
+//                    ChartView.getInstance().getPanelPhoto().repaint();
                 } else {
                     // Shell.this.setExtendedState(Frame.MAXIMIZED_BOTH);
                     Shell.this.setBounds(getMaxBounds());
@@ -540,15 +540,7 @@ public class Shell extends JFrame implements ActionListener {
 
     private void myButtonGroup(ActionEvent e, String name) {
         MyButton4 jb = (MyButton4) e.getSource();
-        if (!jb.isSelected()) {
-            jb.setSelected(true);
-            for (Component b : buttonPanel.getComponents()) {
-                if (b != jb && ((MyButton4) b).isSelected()) {
-                    ((MyButton4) b).setSelected(false);
-                }
-            }
-            ChartView.getInstance().showPane(name);
-        }
+        myButtonGroup(jb, name);
     }
 
     private void myButtonGroup(MyButton4 jb, String name) {

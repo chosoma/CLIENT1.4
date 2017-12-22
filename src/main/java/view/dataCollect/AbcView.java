@@ -79,6 +79,14 @@ public class AbcView extends JPanel {
         }
     }
 
+    public void setTitle(UnitBean unitBean, String title) {
+        for (AbcUnitView auv : units) {
+            if (auv.getUnitBean().getPoint() == unitBean.getPoint()) {
+                auv.setTitle(title);
+            }
+        }
+    }
+
     public void sort() {
         Collections.sort(units);
         for (AbcUnitView unit : units) {

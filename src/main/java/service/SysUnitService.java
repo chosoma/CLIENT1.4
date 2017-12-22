@@ -34,6 +34,13 @@ public class SysUnitService {
         return null;
     }
 
+    public static void updatePlace(UnitBean unitBean) throws SQLException {
+        String sql = " update " + UnitTable + " set \n"
+                + " place = ? where point = ? ";
+        MyDbUtil.update(sql, unitBean.getPlace(), unitBean.getPoint());
+        init();
+    }
+
     public static Vector<UnitBean> getUnitBeans(String name) {
         Vector<UnitBean> beans = new Vector<UnitBean>();
         for (UnitBean unitBean : unitList) {

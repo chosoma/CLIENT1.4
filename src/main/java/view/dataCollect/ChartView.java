@@ -17,10 +17,10 @@ public class ChartView extends JPanel {
     private CardLayout centerCard;// 卡片布局
     private static ChartView CV = new ChartView();
     private AbcView panelSF6, panelWd, panelSSJ;
-    private DdView panelSw;
+    private DdView panelPhoto;
 
-    public DdView getPanelSw() {
-        return panelSw;
+    public DdView getPanelPhoto() {
+        return panelPhoto;
     }
 
     public CardLayout getCenterCard() {
@@ -55,7 +55,7 @@ public class ChartView extends JPanel {
         panelWd.sort();
         panelSSJ.sort();
 //        List<Line1800> ddviews = SensorService.getDdUnitViews();
-//        panelSw.setViews(ddviews);
+//        panelPhoto.setViews(ddviews);
     }
 
     public static ChartView getInstance() {
@@ -65,15 +65,14 @@ public class ChartView extends JPanel {
     private void init() {
         centerCard = new CardLayout();
         this.setLayout(centerCard);
-
         panelSF6 = new AbcView(SensorAttr.Sensor_SF6);
         this.add(panelSF6, "SF6");
         panelWd = new AbcView(SensorAttr.Sensor_WD);
         this.add(panelWd, "WD");
         panelSSJ = new AbcView(SensorAttr.Sensor_SSJ);
         this.add(panelSSJ, "SSJ");
-        panelSw = new DdView();
-        this.add(panelSw, "TX");
+        panelPhoto = new DdView();
+        this.add(panelPhoto, "TX");
     }
 
     public void receDatas(DataBean... datas) {
@@ -96,7 +95,7 @@ public class ChartView extends JPanel {
                     panelWd.addData(data);
                     break;
             }
-            panelSw.addData(data);
+            panelPhoto.addData(data);
         }
     }
 
@@ -127,6 +126,21 @@ public class ChartView extends JPanel {
                 break;
             default:
         }
+    }
+
+    public void setTitle(UnitBean unitBean, String title) {
+        switch (unitBean.getType()) {
+            case 1:
+                panelSF6.setTitle(unitBean, title);
+                break;
+            case 2:
+                panelSSJ.setTitle(unitBean, title);
+                break;
+            case 3:
+                panelWd.setTitle(unitBean, title);
+                break;
+        }
+        panelPhoto.setTitle(unitBean.getPoint(), title);
     }
 
 

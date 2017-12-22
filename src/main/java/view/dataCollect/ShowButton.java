@@ -188,4 +188,7 @@ public class ShowButton extends JButton {
         return xw;
     }
 
+    public void setTitle(String title) {
+        this.titleLabel.setText(title);
+    }
 }

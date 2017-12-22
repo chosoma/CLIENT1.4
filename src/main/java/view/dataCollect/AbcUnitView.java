@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ import javax.swing.border.Border;
 import com.PlayWAV;
 import domain.SensorAttr;
 import domain.UnitBean;
+import mytools.MyButton;
 import mytools.MyButton2;
 import mytools.MyUtil;
 import service.SysUnitService;
@@ -130,6 +133,11 @@ public class AbcUnitView extends JPanel implements Comparable<AbcUnitView> {
 
 
     static Dimension size = new Dimension(170, 120);
+    JLabel jlbSjbh;
+
+    public void setTitle(String title) {
+        jlbSjbh.setText("监测点:" + title);
+    }
 
     private void init() {
         this.setLayout(null);
@@ -139,12 +147,22 @@ public class AbcUnitView extends JPanel implements Comparable<AbcUnitView> {
         colorTitle = colorTitle3;
         colorSubTitle = colorSubTitle3;
 
-        JLabel jlbSjbh = new JLabel("监测点:" + unitBean.getPlace(), JLabel.CENTER);
-        jlbSjbh.setBounds(0, 0, 160, 21);
+        jlbSjbh = new JLabel("监测点:" + unitBean.getPlace(), JLabel.CENTER);
+        jlbSjbh.setBounds(0, 0, 121, 21);
         jlbSjbh.setBorder(border);
         jlbSjbh.setBackground(colorTitle);
         jlbSjbh.setOpaque(true);
         this.add(jlbSjbh);
+
+        MyButton2 jbreset = new MyButton2("修改");
+        jbreset.setBounds(120, 0, 41, 23);
+        jbreset.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                new SetTitleDialog(null, unitBean);
+            }
+        });
+        this.add(jbreset);
 
         JLabel jlbBz = new JLabel("监测相位:" + unitBean.getXw(), JLabel.CENTER);
         jlbBz.setBounds(0, 20, 160, 21);
