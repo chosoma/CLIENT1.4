@@ -102,6 +102,7 @@ public class SocketThreadGateway implements Runnable {
             offlineMSG = "已下线,port: ";
         } catch (SocketException e) {
 //            CollectOperate.getInstance().getJbtOpen1().setSelected(false);
+            e.printStackTrace();
             offlineMSG = "接受数据超时,port: ";
 //        } catch (SQLException e) {
 //            e.printStackTrace();

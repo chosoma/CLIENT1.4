@@ -70,8 +70,7 @@ public class Index {
             FileChannel chanel = new FileOutputStream(".dpsLock").getChannel();
             lock = chanel.tryLock();
             if (lock == null) {
-                JOptionPane.showMessageDialog(null, "程序已经启动", "错误",
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "程序已经启动", "错误", JOptionPane.ERROR_MESSAGE);
                 System.exit(0);
             }
         } catch (FileNotFoundException e) {

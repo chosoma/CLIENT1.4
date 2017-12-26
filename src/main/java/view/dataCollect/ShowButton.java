@@ -1,6 +1,7 @@
 package view.dataCollect;
 
 
+import data.FormatTransfer;
 import domain.DataBean;
 import domain.UnitBean;
 
@@ -172,11 +173,13 @@ public class ShowButton extends JButton {
                 break;
             case 2:
                 UnitBean unit = getUnit(dataBean);
-                double initvari = 0;
-                if (unit != null) {
-                    initvari = unit.getInitvari();
+                float vari;
+                if (unit == null) {
+                    vari = dataBean.getVari();
+                } else {
+                    vari = FormatTransfer.newScale(dataBean.getVari(), unit.getInitvari());
                 }
-                str = String.valueOf(((int) ((dataBean.getVari() - initvari) * 10)) / 10.0);
+                str = String.valueOf(vari);
                 break;
             case 3:
                 str = String.valueOf(dataBean.getTemp());

@@ -10,11 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
-import java.util.Random;
 
 
 import javax.imageio.ImageIO;
@@ -374,7 +370,6 @@ public class Shell extends JFrame implements ActionListener {
                 if (!b && debugs.isSelected()) {
                     ((MyTitleButton) toolBar.getComponent(toolBar
                             .getComponentCount() - 2)).doClick();
-
                 }
                 debugs.setVisible(b);
                 Debugs.getInstance().setShow(b);

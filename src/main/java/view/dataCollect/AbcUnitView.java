@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import com.PlayWAV;
+import data.FormatTransfer;
 import domain.SensorAttr;
 import domain.UnitBean;
 import mytools.MyButton;
@@ -96,8 +97,9 @@ public class AbcUnitView extends JPanel implements Comparable<AbcUnitView> {
                 jlyl.setBackground(colorB);
             }
         } else if (name.equals(SensorAttr.Sensor_SSJ)) {
-            jlwy.setText(String.valueOf(((int) (dataBean.getVari() - unitBean.getInitvari()) * 10) / 10.0));
-            if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (dataBean.getVari() - unitBean.getInitvari() > unitBean.getMaxvari() || dataBean.getVari() - unitBean.getInitvari() < unitBean.getMinvari())) {
+            float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
+            jlwy.setText(String.valueOf(vari));
+            if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
                 jlwy.setBackground(colorWarn);
                 flags.add(true);
             } else {

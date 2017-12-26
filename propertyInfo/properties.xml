@@ -7,7 +7,7 @@
     <!--预热-->  
     <fixed preheat="80000"/>  
     <!-- 报警：声音-->  
-    <warning voice="true"/>  
+    <warning voice="false"/>  
     <!-- 温度频率-->  
     <wdPeriod wd1="40" wd2="46" jg1="5" jg2="2"/> 
   </collection>  
@@ -18,5 +18,5 @@
   </communication>  
   <!--数据库-->  
   <database ip="118.89.103.234" port="3306" dbname="gil"/>  
-  <start jflib="" gzlib=""/>
+  <start jflib="" gzlib=""/> 
 </property>

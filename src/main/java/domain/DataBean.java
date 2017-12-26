@@ -1,5 +1,6 @@
 package domain;
 
+import data.FormatTransfer;
 import service.SysUnitService;
 
 import java.util.Date;
@@ -155,13 +156,13 @@ public class DataBean implements Comparable {
             data.add(null);
             data.add(null);
             UnitBean unit = SysUnitService.getUnitBean(unitType, unitNumber);
-            float initvari;
+            float vari;
             if (unit == null) {
-                initvari = 0;
+                vari = this.vari;
             } else {
-                initvari = unit.getInitvari();
+                vari = FormatTransfer.newScale(this.vari, unit.getInitvari());
             }
-            data.add((float) ((vari - initvari) * 10 / 10.0));
+            data.add(vari);
         } else {//温度
             data.add(null);
             data.add(null);

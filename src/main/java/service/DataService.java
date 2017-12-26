@@ -25,7 +25,7 @@ public class DataService {
         sqlInsert = "insert into " + tableName
                 + " (unittype,unitnumber,den,pres,temp,vari,batlv,date)"
                 + " values ( ?,?,?,?,?,?,?,? )";
-        sqlOrder = "order by d.date asc , d.batlv desc , d.pres desc , d.den desc , d.temp desc , d.vari desc ";
+        sqlOrder = "order by d.date desc , d.batlv desc , d.pres desc , d.den desc , d.temp desc , d.vari desc ";
     }
 
     public static List<DataBean> getBetween(UnitBean unitBean, DataSearchPara para) throws SQLException {
@@ -119,13 +119,14 @@ public class DataService {
         String sql = "select * from ( select g.number gatewaynumber, u.type unittype, u.number unitnumber, period, channel, pres, temp, den, vari, batlv, date\n" +
                 "from data d,unit u ,gateway g\n" +
                 "where d.unittype = u.type and d.unitnumber = u.number and u.gatewaytype = g.type and u.gatewaynumber = g.number  \n" +
-                sqlOrder + " ) d group by unittype ,unitnumber ;\n";
+                "order by date desc \n" +
+                " ) d group by unittype ,unitnumber ;\n";
         //        sql = "select s.type,a.sjbh,xw,unitid,dh,sj,dy,f1,f2,gcz,a.dw,yz from "
 //                + DataBaseAttr.DataTable + " a ," + DataBaseAttr.SensorTable
 //                + " s where s.sjbh=a.sjbh and s.type='"
 ////				+ SensorAttr.Sensor_SW
 //                + "' and sj >=  NOW() - INTERVAL ? HOUR ";
-//        List<DataBean> datasw = MyDbUtil.queryBeanListData(sql, DataBean.class,                6);
+//        List<DataBean> datasw = MyDbUtil.queryBeanListData(sql, DataBean.class,6);
 //        if (datas != null) {
 //            datas.addAll(datasw);
 //        } else {

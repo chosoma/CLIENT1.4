@@ -80,7 +80,7 @@ public class FormatTransfer {
     private static int cal_serv_crc(byte[] message, int off, int len) {
         int crc = 0x00;
         int polynomial = 0x1021;
-        for (int index = off; index < off+len; index++) {
+        for (int index = off; index < off + len; index++) {
             byte b = message[index];
             for (int i = 0; i < 8; i++) {
                 boolean bit = ((b >> (7 - i) & 1) == 1);
@@ -494,11 +494,14 @@ public class FormatTransfer {
     }
 
     public static boolean isSwitchOn(byte b) {
-        if (b == 0x00) {
-            return false;
-        } else {
-            return true;
-        }
+        return b != 0x00;
     }
+
+    public static float newScale(float f1, float f2) {
+        float f3 = f1 - f2;
+        int i1 = Math.round(f3 * 10);
+        return (float) (i1 / 10.0);
+    }
+
 
 }
