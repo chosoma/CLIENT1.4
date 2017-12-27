@@ -43,10 +43,14 @@ public class CollectShow extends JPanel {
     private JLabel jlbWarn;
     private boolean isNeedRoll = true;
 
-    private static JPanel warnPanel;
+    private JPanel warnPanel;
 
-    public static JPanel getWarnPanel() {
+    public JPanel getWarnPanel() {
         return warnPanel;
+    }
+
+    public void setPlace(String place) {
+        jlbWarn.setText(place);
     }
 
     private CollectShow() {
@@ -137,16 +141,17 @@ public class CollectShow extends JPanel {
         show.add(jspTable, "table");
 
         warnPanel = new JPanel(new BorderLayout());
-        warnPanel.setOpaque(false);
+        warnPanel.setOpaque(true);
         warnPanel.setVisible(false);
+        warnPanel.setBackground(AbcUnitView.colorWarn);
         this.add(warnPanel, BorderLayout.EAST);
 
         jlbWarn = new JLabel("", JLabel.CENTER);
-        jlbWarn.setForeground(Color.RED);
+        jlbWarn.setForeground(Color.BLUE);
         jlbWarn.setFont(MyUtil.FONT_16);
         warnPanel.add(jlbWarn, BorderLayout.CENTER);
 
-        JButton jb = new MyButton3("解除警报",new ImageIcon("images/delete.png"));
+        JButton jb = new MyButton3("解除警报", new ImageIcon("images/delete.png"));
 //        jb.setToolTipText("解除报警");
         jb.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

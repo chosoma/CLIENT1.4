@@ -1,7 +1,10 @@
 package view.dataCollect;
 
+import domain.PointBean;
 import domain.UnitBean;
 import mytools.MyButton2;
+import service.SensorService;
+import service.SysPointService;
 import service.SysUnitService;
 import view.icon.CloseIcon;
 
@@ -14,12 +17,11 @@ public class SetTitleDialog extends JDialog {
     JTextField jtftitle;
     private Point lastPoint;
     private static Color HeadC1 = new Color(240, 62, 20), HeadC2 = new Color(205, 49, 13);
-    UnitBean unitBean;
+    PointBean pointBean;
 
-
-    public SetTitleDialog(Window owner, UnitBean unit) {
+    public SetTitleDialog(Window owner, PointBean pointBean) {
         jtftitle = new JTextField();
-        this.unitBean = unit;
+        this.pointBean = pointBean;
         setModal(true);// 设置对话框模式
         setUndecorated(true);// 去除JDialog边框
         // 设置JDialog背景透明
@@ -102,16 +104,17 @@ public class SetTitleDialog extends JDialog {
         buttonSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                unitBean.setPlace(jtftitle.getText());
+                pointBean.setPlace(jtftitle.getText());
                 try {
-                    SysUnitService.updatePlace(unitBean);
+                    SysPointService.updatePlace(pointBean);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                     JOptionPane.showMessageDialog(null, "修改失败", "失败", JOptionPane.ERROR_MESSAGE);
                     dispose();
                     return;
                 }
-                ChartView.getInstance().setTitle(unitBean, jtftitle.getText());
+                ChartView.getInstance().setTitle(pointBean, jtftitle.getText());
+                SensorService.setPlace(pointBean, jtftitle.getText());
                 JOptionPane.showMessageDialog(null, "修改成功", "成功", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             }

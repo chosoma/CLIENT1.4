@@ -15,126 +15,114 @@ import javax.swing.border.Border;
 
 import com.PlayWAV;
 import data.FormatTransfer;
+import domain.PointBean;
 import domain.SensorAttr;
 import domain.UnitBean;
-import mytools.MyButton;
 import mytools.MyButton2;
 import mytools.MyUtil;
 import service.SysUnitService;
 import domain.DataBean;
-//import domain.SensorAttr;
-//import domain.SensorBean;
 
 /**
  * 单元视图
  */
-public class AbcUnitView extends JPanel implements Comparable<AbcUnitView> {
-    private UnitBean unitBean;
-    private DataBean dataBean;
+public class AbcUnitView extends JPanel
+//        implements Comparable<AbcUnitView>
+{
+    //    private UnitBean unitBean;
+//    private DataBean dataBean;
+    private List<UnitBean> units;
 
-    public UnitBean getUnitBean() {
-        return unitBean;
+//    public UnitBean getUnitBean() {
+//        return unitBean;
+//    }
+
+    String type;
+    JLabel jlwda, jlmda, jldya, jlyla, jlwya;
+    JLabel jlwdb, jlmdb, jldyb, jlylb, jlwyb;
+    JLabel jlwdc, jlmdc, jldyc, jlylc, jlwyc;
+    MyButton2 jbsetinita, jbsetinitb, jbsetinitc;
+
+    PointBean pointBean;
+
+    public PointBean getPointBean() {
+        return pointBean;
     }
 
-    String name, type;
-    JLabel jlwd, jlmd, jldy, jlyl, jlwy;
-    MyButton2 jbsetinit;
+//    public AbcUnitView(UnitBean unitBean) {
+//        this.unitBean = unitBean;
+//        init();
+//    }
 
-    public AbcUnitView(UnitBean unitBean) {
-        this.unitBean = unitBean;
+    public AbcUnitView(PointBean pointBean, List<UnitBean> units) {
+        this.pointBean = pointBean;
+        this.units = units;
+        flags = new ArrayList<Boolean>();
         init();
     }
+
 
     public String getType() {
         return type;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public boolean matchData(DataBean data) {
-        return unitBean.getNumber() == data.getUnitNumber();
+        for (UnitBean unit : units) {
+            if (unit.getNumber() == data.getUnitNumber()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static Color colorWarn = new Color(255, 80, 0);
     static Color colorB = new Color(255, 255, 255);
 
     public void addData(DataBean data) {
-        if (data != null) {
-            dataBean = data;
-        }
-        if (dataBean == null) {
+        flags.clear();
+        byte unitnumber = data.getUnitNumber();
+        UnitBean unit = getUnitBean(unitnumber);
+        if (unit == null) {
             return;
         }
-        List<Boolean> flags = new ArrayList<Boolean>();
-        String name = dataBean.getName();
-        if (name.equals(SensorAttr.Sensor_SF6)) {
-            jlwd.setText(String.valueOf(dataBean.getTemp()));
-            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
-                jlwd.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwd.setBackground(colorB);
-            }
-            jlmd.setText(String.valueOf(dataBean.getDen()));
-            if (unitBean.getMaxden() != null && unitBean.getMinden() != null && (dataBean.getDen() > unitBean.getMaxden() || dataBean.getDen() < unitBean.getMinden())) {
-                jlmd.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlmd.setBackground(colorB);
-            }
-            jlyl.setText(String.valueOf(dataBean.getPres()));
-            if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
-                jlyl.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlyl.setBackground(colorB);
-            }
-        } else if (name.equals(SensorAttr.Sensor_SSJ)) {
-            float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
-            jlwy.setText(String.valueOf(vari));
-            if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
-                jlwy.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwy.setBackground(colorB);
-            }
-        } else {
-            jlwd.setText(String.valueOf(dataBean.getTemp()));
-            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
-                jlwd.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwd.setBackground(colorB);
-            }
+        switch (unit.getXw()) {
+            case "A":
+                addDataA(unit, data);
+                break;
+            case "B":
+                addDataB(unit, data);
+                break;
+            case "C":
+                addDataC(unit, data);
+                break;
         }
-        jldy.setText(String.valueOf(dataBean.getBatlv()));
         for (boolean flag : flags) {
             if (flag) {
-                JPanel warnPanel = CollectShow.getWarnPanel();
+                JPanel warnPanel = CollectShow.getInstance().getWarnPanel();
+                CollectShow.getInstance().setPlace(pointBean.getPlace() + ":" + unit.getXw());
                 if (!warnPanel.isVisible()) warnPanel.setVisible(true);
                 PlayWAV.getInstance().play();//报警
                 break;
             }
         }
+//        if (data != null) {
+//            dataBean = data;
+//        }
+//        if (dataBean == null) {
+//            return;
+//        }
 
     }
 
-    public void refresh(UnitBean unitBean) {
-        this.unitBean = unitBean;
-        addData(dataBean);
-    }
+//    public void refresh(UnitBean unitBean) {
+//        this.unitBean = unitBean;
+//        addData(dataBean);
+//    }
 
     static Border border = MyUtil.Component_Border;
 
 
-    static Dimension size = new Dimension(170, 120);
+    static Dimension size = new Dimension(210, 120);
     JLabel jlbSjbh;
 
     public void setTitle(String title) {
@@ -149,153 +137,158 @@ public class AbcUnitView extends JPanel implements Comparable<AbcUnitView> {
         colorTitle = colorTitle3;
         colorSubTitle = colorSubTitle3;
 
-        jlbSjbh = new JLabel("监测点:" + unitBean.getPlace(), JLabel.CENTER);
-        jlbSjbh.setBounds(0, 0, 121, 21);
+        jlbSjbh = new JLabel("监测点:" + pointBean.getPlace(), JLabel.CENTER);
+//        jlbSjbh = new JLabel("监测点:" + unitBean.getPlace(), JLabel.CENTER);
+        jlbSjbh.setBounds(0, 0, 161, 21);
         jlbSjbh.setBorder(border);
         jlbSjbh.setBackground(colorTitle);
         jlbSjbh.setOpaque(true);
         this.add(jlbSjbh);
 
         MyButton2 jbreset = new MyButton2("修改");
-        jbreset.setBounds(120, 0, 41, 23);
+        jbreset.setBounds(160, 0, 41, 23);
         jbreset.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                new SetTitleDialog(null, unitBean);
+                new SetTitleDialog(null, pointBean);
             }
         });
         this.add(jbreset);
 
-        JLabel jlbBz = new JLabel("监测相位:" + unitBean.getXw(), JLabel.CENTER);
-        jlbBz.setBounds(0, 20, 160, 21);
-        jlbBz.setBorder(border);
-        jlbBz.setBackground(colorSubTitle);
-        jlbBz.setOpaque(true);
-        this.add(jlbBz);
 
         JLabel jlbwd = new JLabel("温度", JLabel.CENTER);
         jlbwd.setBorder(border);
-        jlbwd.setBackground(colorB);
+        jlbwd.setBackground(colorSubTitle3);
         jlbwd.setOpaque(true);
 
         JLabel jlbmd = new JLabel("密度", JLabel.CENTER);
         jlbmd.setBorder(border);
-        jlbmd.setBackground(colorB);
+        jlbmd.setBackground(colorSubTitle3);
         jlbmd.setOpaque(true);
 
 
         JLabel jlbyl = new JLabel("压力", JLabel.CENTER);
         jlbyl.setBorder(border);
-        jlbyl.setBackground(colorB);
+        jlbyl.setBackground(colorSubTitle3);
         jlbyl.setOpaque(true);
 
         JLabel jlbdy = new JLabel("电压", JLabel.CENTER);
         jlbdy.setBorder(border);
-        jlbdy.setBackground(colorB);
+        jlbdy.setBackground(colorSubTitle3);
         jlbdy.setOpaque(true);
 
-        final JLabel jlbwy = new JLabel("偏移量", JLabel.CENTER);
+        JLabel jlbwy = new JLabel("偏移量", JLabel.CENTER);
         jlbwy.setBorder(border);
-        jlbwy.setBackground(colorB);
+        jlbwy.setBackground(colorSubTitle3);
         jlbwy.setOpaque(true);
 
-        jlwd = new JLabel("", JLabel.CENTER);
-        jlwd.setBorder(border);
-        jlwd.setOpaque(true);
+        jlwda = new JLabel("", JLabel.CENTER);
+        jlwda.setBorder(border);
+        jlwda.setOpaque(true);
 
-        jlmd = new JLabel("", JLabel.CENTER);
-        jlmd.setBorder(border);
-        jlmd.setOpaque(true);
+        jlmda = new JLabel("", JLabel.CENTER);
+        jlmda.setBorder(border);
+        jlmda.setOpaque(true);
 
-        jlyl = new JLabel("", JLabel.CENTER);
-        jlyl.setBorder(border);
+        jlyla = new JLabel("", JLabel.CENTER);
+        jlyla.setBorder(border);
+        jlyla.setOpaque(true);
 
-        jldy = new JLabel("", JLabel.CENTER);
-        jldy.setBorder(border);
-        jldy.setOpaque(true);
+        jldya = new JLabel("", JLabel.CENTER);
+        jldya.setBorder(border);
+        jldya.setOpaque(true);
 
-        jlwy = new JLabel("", JLabel.CENTER);
-        jlwy.setBorder(border);
-        jlwy.setOpaque(true);
-        String name = unitBean.getName();
-        if (name.equals(SensorAttr.Sensor_SF6)) {
-            jlbwd.setBounds(0, 40, 41, 21);
-            jlbmd.setBounds(40, 40, 41, 21);
-            jlbyl.setBounds(80, 40, 41, 21);
-            jlbdy.setBounds(120, 40, 40, 21);
+        jlwya = new JLabel("", JLabel.CENTER);
+        jlwya.setBorder(border);
+        jlwya.setOpaque(true);
+
+        jlwdb = new JLabel("", JLabel.CENTER);
+        jlwdb.setBorder(border);
+        jlwdb.setOpaque(true);
+
+        jlmdb = new JLabel("", JLabel.CENTER);
+        jlmdb.setBorder(border);
+        jlmdb.setOpaque(true);
+
+        jlylb = new JLabel("", JLabel.CENTER);
+        jlylb.setBorder(border);
+        jlylb.setOpaque(true);
+
+        jldyb = new JLabel("", JLabel.CENTER);
+        jldyb.setBorder(border);
+        jldyb.setOpaque(true);
+
+        jlwyb = new JLabel("", JLabel.CENTER);
+        jlwyb.setBorder(border);
+        jlwyb.setOpaque(true);
+
+        jlwdc = new JLabel("", JLabel.CENTER);
+        jlwdc.setBorder(border);
+        jlwdc.setOpaque(true);
+
+        jlmdc = new JLabel("", JLabel.CENTER);
+        jlmdc.setBorder(border);
+        jlmdc.setOpaque(true);
+
+        jlylc = new JLabel("", JLabel.CENTER);
+        jlylc.setBorder(border);
+        jlylc.setOpaque(true);
+
+        jldyc = new JLabel("", JLabel.CENTER);
+        jldyc.setBorder(border);
+        jldyc.setOpaque(true);
+
+        jlwyc = new JLabel("", JLabel.CENTER);
+        jlwyc.setBorder(border);
+        jlwyc.setOpaque(true);
+
+        addXwA(40);
+        addXwB(60);
+        addXwC(80);
+        int x = 0;
+        int y = 20;
+        JLabel jlbxw = new JLabel("相位", JLabel.CENTER);
+        jlbxw.setBorder(border);
+        jlbxw.setBackground(colorSubTitle3);
+        jlbxw.setOpaque(true);
+        jlbxw.setBounds(x, y, 41, 21);
+        x += 40;
+        this.add(jlbxw);
+        if (this.pointBean.getUnitType() == 1) {
+            jlbwd.setBounds(x, y, 41, 21);
+            x += 40;
+            jlbmd.setBounds(x, y, 41, 21);
+            x += 40;
+            jlbyl.setBounds(x, y, 41, 21);
+            x += 40;
+            jlbdy.setBounds(x, y, 40, 21);
+            x += 40;
             this.add(jlbwd);
             this.add(jlbmd);
             this.add(jlbyl);
             this.add(jlbdy);
-            jlwd.setBounds(0, 60, 41, 21);
-            jlmd.setBounds(40, 60, 41, 21);
-            jlyl.setBounds(80, 60, 41, 21);
-            jldy.setBounds(120, 60, 40, 21);
-            this.add(jlwd);
-            this.add(jlmd);
-            this.add(jlyl);
-            this.add(jldy);
         } else {
-            if (name.equals(SensorAttr.Sensor_SSJ)) {
-                jlbwy.setBounds(0, 40, 61, 21);
+            if (this.pointBean.getUnitType() == 2) {
+                jlbwy.setBounds(x, y, 61, 21);
+                x += 60;
+                jlbdy.setBounds(x, y, 61, 21);
+                x += 60;
+                JLabel jLabel = new JLabel("");
+                jLabel.setBorder(border);
+                jLabel.setOpaque(true);
+                jLabel.setBackground(colorSubTitle);
+                jLabel.setBounds(x, y, 40, 21);
+                this.add(jLabel);
                 this.add(jlbwy);
-                jlwy.setBounds(0, 60, 61, 21);
-                this.add(jlwy);
-                jlbdy.setBounds(60, 40, 61, 21);
                 this.add(jlbdy);
-                jldy.setBounds(60, 60, 61, 21);
-                this.add(jldy);
-                jbsetinit = new MyButton2("校零");
-                jbsetinit.setBounds(120, 40, 42, 43);
-                this.add(jbsetinit);
             } else {
-                jlbwd.setBounds(0, 40, 81, 21);
+                jlbwd.setBounds(x, y, 81, 21);
+                x += 80;
+                jlbdy.setBounds(x, y, 80, 21);
+                x += 80;
                 this.add(jlbwd);
-                jlwd.setBounds(0, 60, 81, 21);
-                this.add(jlwd);
-                jlbdy.setBounds(80, 40, 80, 21);
                 this.add(jlbdy);
-                jldy.setBounds(80, 60, 80, 21);
-                this.add(jldy);
             }
-
-        }
-        if (jbsetinit != null) {
-            jbsetinit.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    String valistr = jlwy.getText();
-
-                    if (valistr == null || valistr.equals("")) {
-                        JOptionPane.showMessageDialog(null, "请先获得初始值", "错误", JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        if (unitBean.getInitvari() != 0.0f) {
-                            int flag = JOptionPane.showConfirmDialog(null, "初始值已存在是否覆盖", "提示", JOptionPane.OK_CANCEL_OPTION);
-                            if (flag != JOptionPane.OK_OPTION) {
-                                return;
-                            }
-                        }
-                        try {
-                            UnitBean unit = SysUnitService.getUnitBean(unitBean.getType(), unitBean.getNumber());
-                            if (unit == null) {
-                                JOptionPane.showMessageDialog(null, "单元不存在,请先添加单元!", "设置失败", JOptionPane.WARNING_MESSAGE);
-                                return;
-                            } else {
-                                unit.setInitvari(dataBean.getVari());
-                            }
-                            SysUnitService.updateInitvari(unit);
-                            unitBean.setInitvari(dataBean.getVari());
-                            ChartView.getInstance().alignZero(unitBean);
-                            JOptionPane.showMessageDialog(null, "设置成功", "成功", JOptionPane.INFORMATION_MESSAGE);
-                            jlwy.setText("0.0");
-                            jlwy.setBackground(colorB);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            JOptionPane.showMessageDialog(null, "存储失败,请稍后重试", "设置失败", JOptionPane.WARNING_MESSAGE);
-                        }
-                    }
-                }
-            });
         }
 
     }
@@ -415,19 +408,399 @@ public class AbcUnitView extends JPanel implements Comparable<AbcUnitView> {
 //
 //    }
 
-    @Override
-    public int compareTo(AbcUnitView o) {
+    private void addXwA(int y) {
+        JLabel jlba = new JLabel("A", JLabel.CENTER);
+        jlba.setBorder(border);
+        jlba.setOpaque(true);
+        jlba.setBackground(colorSubTitle3);
+        int x = 0;
+        jlba.setBounds(x, y, 41, 21);
+        this.add(jlba);
+        x += 40;
 
-        int u1 = unitBean.getNumber();
-        int u2 = o.unitBean.getNumber();
-        if (u1 < 0) {
-            u1 += 256;
+        if (this.pointBean.getUnitType() == 1) {
+            jlwda.setBounds(x, y, 41, 21);
+            x += 40;
+            jlmda.setBounds(x, y, 41, 21);
+            x += 40;
+            jlyla.setBounds(x, y, 41, 21);
+            x += 40;
+            jldya.setBounds(x, y, 40, 21);
+            x += 40;
+            this.add(jlwda);
+            this.add(jlmda);
+            this.add(jlyla);
+            this.add(jldya);
+        } else {
+            if (this.pointBean.getUnitType() == 2) {
+                jlwya.setBounds(x, y, 61, 21);
+                x += 60;
+                jldya.setBounds(x, y, 61, 21);
+                x += 60;
+                this.add(jlwya);
+                this.add(jldya);
+                jbsetinita = new MyButton2("校零");
+                jbsetinita.setBounds(x, y, 42, 23);
+                x += 40;
+                this.add(jbsetinita);
+            } else {
+                jlwda.setBounds(x, y, 81, 21);
+                x += 80;
+                jldya.setBounds(x, y, 80, 21);
+                x += 80;
+                this.add(jlwda);
+                this.add(jldya);
+            }
+
         }
-        if (u2 < 0) {
-            u2 += 256;
+        if (jbsetinita != null) {
+            jbsetinita.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    String valistr = jlwyb.getText();
+                    if (valistr == null || valistr.equals("")) {
+                        JOptionPane.showMessageDialog(null, "请先获得初始值", "错误", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        UnitBean unitBean = getUnitBean("A");
+                        if (unitBean == null) {
+                            return;
+                        }
+                        updateUnit(unitBean, "A");
+                    }
+                }
+            });
         }
-        return u1 - u2;
     }
 
+    private void addXwB(int y) {
+        JLabel jlba = new JLabel("B", JLabel.CENTER);
+        jlba.setBorder(border);
+        jlba.setOpaque(true);
+        jlba.setBackground(colorSubTitle3);
+        int x = 0;
+        jlba.setBounds(x, y, 41, 21);
+        this.add(jlba);
+        x += 40;
+        if (this.pointBean.getUnitType() == 1) {
+            jlwdb.setBounds(x, y, 41, 21);
+            x += 40;
+            jlmdb.setBounds(x, y, 41, 21);
+            x += 40;
+            jlylb.setBounds(x, y, 41, 21);
+            x += 40;
+            jldyb.setBounds(x, y, 40, 21);
+            x += 40;
+            this.add(jlwdb);
+            this.add(jlmdb);
+            this.add(jlylb);
+            this.add(jldyb);
+        } else {
+            if (this.pointBean.getUnitType() == 2) {
+                jlwyb.setBounds(x, y, 61, 21);
+                x += 60;
+                jldyb.setBounds(x, y, 61, 21);
+                x += 60;
+                this.add(jlwyb);
+                this.add(jldyb);
+                jbsetinitb = new MyButton2("校零");
+                jbsetinitb.setBounds(x, y, 42, 23);
+                x += 40;
+                this.add(jbsetinitb);
+            } else {
+                jlwdb.setBounds(x, y, 81, 21);
+                x += 80;
+                jldyb.setBounds(x, y, 80, 21);
+                x += 80;
+                this.add(jlwdb);
+                this.add(jldyb);
+            }
+        }
+        if (jbsetinitb != null) {
+            jbsetinitb.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    String valistr = jlwyb.getText();
+
+                    if (valistr == null || valistr.equals("")) {
+                        JOptionPane.showMessageDialog(null, "请先获得初始值", "错误", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        UnitBean unitBean = getUnitBean("B");
+                        if (unitBean == null) {
+                            return;
+                        }
+                        updateUnit(unitBean, "B");
+                    }
+                }
+            });
+        }
+    }
+
+    private void addXwC(int y) {
+        JLabel jlba = new JLabel("C", JLabel.CENTER);
+        jlba.setBorder(border);
+        jlba.setOpaque(true);
+        jlba.setBackground(colorSubTitle3);
+        int x = 0;
+        jlba.setBounds(x, y, 41, 21);
+        this.add(jlba);
+        x += 40;
+        if (this.pointBean.getUnitType() == 1) {
+            jlwdc.setBounds(x, y, 41, 21);
+            x += 40;
+            jlmdc.setBounds(x, y, 41, 21);
+            x += 40;
+            jlylc.setBounds(x, y, 41, 21);
+            x += 40;
+            jldyc.setBounds(x, y, 40, 21);
+            x += 40;
+            this.add(jlwdc);
+            this.add(jlmdc);
+            this.add(jlylc);
+            this.add(jldyc);
+        } else {
+            if (this.pointBean.getUnitType() == 2) {
+                jlwyc.setBounds(x, y, 61, 21);
+                x += 60;
+                jldyc.setBounds(x, y, 61, 21);
+                x += 60;
+                this.add(jlwyc);
+                this.add(jldyc);
+                jbsetinitc = new MyButton2("校零");
+                jbsetinitc.setBounds(x, y, 42, 23);
+                x += 40;
+                this.add(jbsetinitc);
+            } else {
+                jlwdc.setBounds(x, y, 81, 21);
+                x += 80;
+                this.add(jlwdc);
+                jldyc.setBounds(x, y, 80, 21);
+                x += 80;
+                this.add(jldyc);
+            }
+
+        }
+        if (jbsetinitc != null) {
+            jbsetinitc.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    String valistr = jlwyb.getText();
+                    if (valistr == null || valistr.equals("")) {
+                        JOptionPane.showMessageDialog(null, "请先获得初始值", "错误", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        UnitBean unitBean = getUnitBean("C");
+                        if (unitBean == null) {
+                            return;
+                        }
+                        updateUnit(unitBean, "C");
+                    }
+                }
+            });
+        }
+    }
+
+    List<Boolean> flags;
+
+    private void addDataA(UnitBean unitBean, DataBean dataBean) {
+        String name = dataBean.getName();
+        if (name.equals(SensorAttr.Sensor_SF6)) {
+            jlwda.setText(String.valueOf(dataBean.getTemp()));
+            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                jlwda.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlwda.setBackground(colorB);
+            }
+            jlmda.setText(String.valueOf(dataBean.getDen()));
+            if (unitBean.getMaxden() != null && unitBean.getMinden() != null && (dataBean.getDen() > unitBean.getMaxden() || dataBean.getDen() < unitBean.getMinden())) {
+                jlmda.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlmda.setBackground(colorB);
+            }
+            jlyla.setText(String.valueOf(dataBean.getPres()));
+            if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
+                jlyla.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlyla.setBackground(colorB);
+            }
+        } else if (name.equals(SensorAttr.Sensor_SSJ)) {
+            float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
+            jlwya.setText(String.valueOf(vari));
+            if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
+                jlwya.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlwya.setBackground(colorB);
+            }
+        } else {
+            jlwda.setText(String.valueOf(dataBean.getTemp()));
+            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                jlwda.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlwda.setBackground(colorB);
+            }
+        }
+        jldya.setText(String.valueOf(dataBean.getBatlv()));
+
+    }
+
+    private void addDataB(UnitBean unitBean, DataBean dataBean) {
+        String name = dataBean.getName();
+        if (name.equals(SensorAttr.Sensor_SF6)) {
+            jlwdb.setText(String.valueOf(dataBean.getTemp()));
+            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                jlwdb.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlwdb.setBackground(colorB);
+            }
+            jlmdb.setText(String.valueOf(dataBean.getDen()));
+            if (unitBean.getMaxden() != null && unitBean.getMinden() != null && (dataBean.getDen() > unitBean.getMaxden() || dataBean.getDen() < unitBean.getMinden())) {
+                jlmdb.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlmdb.setBackground(colorB);
+            }
+            jlylb.setText(String.valueOf(dataBean.getPres()));
+            if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
+                jlylb.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlylb.setBackground(colorB);
+            }
+        } else if (name.equals(SensorAttr.Sensor_SSJ)) {
+            float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
+            jlwyb.setText(String.valueOf(vari));
+            if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
+                jlwyb.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlwyb.setBackground(colorB);
+            }
+        } else {
+            jlwdb.setText(String.valueOf(dataBean.getTemp()));
+            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                jlwdb.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlwdb.setBackground(colorB);
+            }
+        }
+        jldyb.setText(String.valueOf(dataBean.getBatlv()));
+    }
+
+    private void addDataC(UnitBean unitBean, DataBean dataBean) {
+        String name = dataBean.getName();
+        if (name.equals(SensorAttr.Sensor_SF6)) {
+            jlwdc.setText(String.valueOf(dataBean.getTemp()));
+            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                jlwdc.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlwdc.setBackground(colorB);
+            }
+            jlmdc.setText(String.valueOf(dataBean.getDen()));
+            if (unitBean.getMaxden() != null && unitBean.getMinden() != null && (dataBean.getDen() > unitBean.getMaxden() || dataBean.getDen() < unitBean.getMinden())) {
+                jlmdc.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlmdc.setBackground(colorB);
+            }
+            jlylc.setText(String.valueOf(dataBean.getPres()));
+            if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
+                jlylc.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlylc.setBackground(colorB);
+            }
+        } else if (name.equals(SensorAttr.Sensor_SSJ)) {
+            float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
+            jlwyc.setText(String.valueOf(vari));
+            if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
+                jlwyc.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlwyc.setBackground(colorB);
+            }
+        } else {
+            jlwdc.setText(String.valueOf(dataBean.getTemp()));
+            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                jlwdc.setBackground(colorWarn);
+                flags.add(true);
+            } else {
+                jlwdc.setBackground(colorB);
+            }
+        }
+        jldyc.setText(String.valueOf(dataBean.getBatlv()));
+    }
+
+//    @Override
+//    public int compareTo(AbcUnitView o) {
+//
+//        int u1 = unitBean.getNumber();
+//        int u2 = o.unitBean.getNumber();
+//        if (u1 < 0) {
+//            u1 += 256;
+//        }
+//        if (u2 < 0) {
+//            u2 += 256;
+//        }
+//        return u1 - u2;
+//    }
+
+    private UnitBean getUnitBean(String xw) {
+        for (UnitBean unit : units) {
+            if (unit.getXw().equals(xw)) {
+                return unit;
+            }
+        }
+        return null;
+    }
+
+    private UnitBean getUnitBean(byte number) {
+        for (UnitBean unit : units) {
+            if (unit.getNumber() == number) {
+                return unit;
+            }
+        }
+        return null;
+    }
+
+    private void updateUnit(UnitBean unitBean, String xw) {
+        if (unitBean.getInitvari() != 0.0f) {
+            int flag = JOptionPane.showConfirmDialog(null, "初始值已存在是否覆盖", "提示", JOptionPane.OK_CANCEL_OPTION);
+            if (flag != JOptionPane.OK_OPTION) {
+                return;
+            }
+        }
+        try {
+            UnitBean unit = SysUnitService.getUnitBean(unitBean.getType(), unitBean.getNumber());
+            if (unit == null) {
+                JOptionPane.showMessageDialog(null, "单元不存在,请先添加单元!", "设置失败", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            SysUnitService.updateInitvari(unit);
+            switch (xw) {
+                case "A":
+                    unit.setInitvari(Float.parseFloat(jlwya.getText()));
+                    break;
+                case "B":
+                    unit.setInitvari(Float.parseFloat(jlwyb.getText()));
+                    break;
+                case "C":
+                    unit.setInitvari(Float.parseFloat(jlwyc.getText()));
+                    break;
+            }
+            ChartView.getInstance().alignZero(unitBean);
+            JOptionPane.showMessageDialog(null, "设置成功", "成功", JOptionPane.INFORMATION_MESSAGE);
+            jlwyb.setText("0.0");
+            jlwyb.setBackground(colorB);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "存储失败,请稍后重试", "设置失败", JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
 }

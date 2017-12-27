@@ -67,9 +67,10 @@ public class DataFactory {
             UnitBean unit = unitPacket.getUnit(unitType, unitNumber);
             if (unit == null) {
                 System.out.println("单元不存在,添加一个");
-                UnitBean unitBean = new UnitBean(gatewayType, gatewaynumber, unitType, unitNumber);
-                unitPacket.addUnit(unitBean);
-                ChartView.getInstance().addNewUnit(new AbcUnitView(unitBean));
+                return;
+//                UnitBean unitBean = new UnitBean(gatewayType, gatewaynumber, unitType, unitNumber);
+//                unitPacket.addUnit(unitBean);
+//                ChartView.getInstance().addNewUnit(new AbcUnitView(unitBean));
             }
             try {
                 off++;
@@ -94,9 +95,9 @@ public class DataFactory {
                 float dy = data[off] / 10.0f;
                 databean.setBatlv(dy);// 电量
                 if (unitType == ProtocolX.UnitTypeSF6) {// ----SF6单元
-                    Float f1 = FormatTransfer.bytesL2Float2(bytes1, 0, 4, 1);
-                    Float f2 = FormatTransfer.bytesL2Float2(bytes2, 0, 4, 1);
-                    Float f3 = FormatTransfer.bytesL2Float2(bytes3, 0, 4, 1);
+                    Float f1 = FormatTransfer.bytesL2Float3(bytes1, 0, 4, 10000);
+                    Float f2 = FormatTransfer.bytesL2Float3(bytes2, 0, 4, 100);
+                    Float f3 = FormatTransfer.bytesL2Float3(bytes3, 0, 4, 1);
                     databean.setPres(f1);
                     databean.setTemp(f2);// F1
                     databean.setDen(f3);

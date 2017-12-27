@@ -25,7 +25,7 @@ public class DataManageService {
 //        }
         if (para.getPlace() != null) {
             p.add(para.getPlace());
-            sql += " and u.place = ? ";
+            sql += " and p.place = ? ";
         }
         if (para.getXw() != null) {
             p.add(para.getXw());

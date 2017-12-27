@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import domain.PointBean;
 import domain.UnitBean;
 import service.SensorService;
 import domain.DataBean;
@@ -38,7 +39,7 @@ public class ChartView extends JPanel {
         panelSSJ.clearAbcUnits();
         panelWd.clearAbcUnits();
         for (AbcUnitView view : views) {
-            byte type = view.getUnitBean().getType();
+            byte type = view.getPointBean().getUnitType();
             switch (type) {
                 case 1:
                     panelSF6.addAbcUnit(view);
@@ -103,22 +104,22 @@ public class ChartView extends JPanel {
         }
     }
 
-    public void refresh(UnitBean unit) {
-        switch (unit.getType()) {
-            case 1:
-                panelSF6.refresh(unit);
-                break;
-            case 2:
-                panelSSJ.refresh(unit);
-                break;
-            case 3:
-                panelWd.refresh(unit);
-                break;
-        }
-    }
+//    public void refresh(UnitBean unit) {
+//        switch (unit.getType()) {
+//            case 1:
+//                panelSF6.refresh(unit);
+//                break;
+//            case 2:
+//                panelSSJ.refresh(unit);
+//                break;
+//            case 3:
+//                panelWd.refresh(unit);
+//                break;
+//        }
+//    }
 
     public void addNewUnit(AbcUnitView abcUnitView) {
-        switch (abcUnitView.getUnitBean().getType()) {
+        switch (abcUnitView.getPointBean().getUnitType()) {
             case 1:
                 panelSF6.addAbcUnit(abcUnitView);
                 break;
@@ -132,19 +133,19 @@ public class ChartView extends JPanel {
         }
     }
 
-    public void setTitle(UnitBean unitBean, String title) {
-        switch (unitBean.getType()) {
+    public void setTitle(PointBean pointBean, String title) {
+        switch (pointBean.getUnitType()) {
             case 1:
-                panelSF6.setTitle(unitBean, title);
+                panelSF6.setTitle(pointBean, title);
                 break;
             case 2:
-                panelSSJ.setTitle(unitBean, title);
+                panelSSJ.setTitle(pointBean, title);
                 break;
             case 3:
-                panelWd.setTitle(unitBean, title);
+                panelWd.setTitle(pointBean, title);
                 break;
         }
-        panelGraph.setTitle(unitBean.getPoint(), title);
+        panelGraph.setTitle(pointBean.getPoint(), title);
     }
 
 

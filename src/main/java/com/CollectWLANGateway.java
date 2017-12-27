@@ -46,39 +46,39 @@ public class CollectWLANGateway {
     public void openConnection() throws IOException {
 
         int localPort = Integer.valueOf(MyConfigure.getLocalPort());
-        ss = new ServerSocket(localPort);
+//        ss = new ServerSocket(localPort);
         listST.clear();
 
 
-//        String addr = MyConfigure.getAddr();
-//        s = new Socket(addr, localPort);
-//        System.out.println(s);
-//        System.out.println(s.isConnected());
-//        new Thread(new SocketThreadGateway(s)).start();
+              String addr = MyConfigure.getAddr();
+        s = new Socket(addr, localPort);
+        System.out.println(s);
+        System.out.println(s.isConnected());
+        new Thread(new SocketThreadGateway(s)).start();
 
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        Socket s = ss.accept();
-                        new Thread(new SocketThreadGateway(s)).start();
-                    }
-                } catch (IOException e) {
-                    // e.printStackTrace();
-                } finally {
-                    // 关闭serverSocket
-                    if (!ss.isClosed()) {
-                        try {
-                            ss.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    while (true) {
+//                        Socket s = ss.accept();
+//                        new Thread(new SocketThreadGateway(s)).start();
+//                    }
+//                } catch (IOException e) {
+//                    // e.printStackTrace();
+//                } finally {
+//                    // 关闭serverSocket
+//                    if (!ss.isClosed()) {
+//                        try {
+//                            ss.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            }
+//        }).start();
     }
 
     //
@@ -90,8 +90,8 @@ public class CollectWLANGateway {
             operateThread.interrupt();
         }
         try {
-//            s.close();
-            ss.close();
+            s.close();
+//            ss.close();
         } catch (IOException e1) {
             e1.printStackTrace();
         }

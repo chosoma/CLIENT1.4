@@ -150,7 +150,7 @@ public class DataManage extends JPanel {
         jtaXW.setEditable(false);
         toolBarL.add(jtaXW);
 
-        jcbXW = new JComboBox(new String[]{"全部", "A", "B", "C"});
+        jcbXW = new JComboBox<>(new String[]{"全部", "A", "B", "C"});
         toolBarL.add(jcbXW);
         toolBarL.add(Box.createHorizontalStrut(5));
 

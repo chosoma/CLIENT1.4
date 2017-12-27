@@ -3,7 +3,6 @@ package service;
 import java.sql.SQLException;
 import java.util.*;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import domain.*;
 import model.*;
 
@@ -11,13 +10,13 @@ import util.MyDbUtil;
 import view.dataCollect.AbcUnitView;
 import view.dataCollect.Line1800;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-
 
 public class SensorService {
     private static String UnitTable = DataBaseAttr.UnitTable;
+    private static String PointTable = DataBaseAttr.PointTable;
     private static List<UnitBean> units;
     private static List<UnitPacket> unitPackets;
+    private static List<PointBean> points;
 
     static {
         unitPackets = new ArrayList<>();
@@ -34,21 +33,35 @@ public class SensorService {
      * @throws SQLException
      */
     public static void refreshSensor() throws SQLException {
-        String sql = " select * from " + UnitTable;
-        units = MyDbUtil.queryBeanListData(sql, UnitBean.class);
+        units = SysUnitService.getUnitList();
+        points = SysPointService.getPointList();
         Collections.sort(units);
-        refreshUnitPackts();
-        for (UnitBean unitBean : units) {
-            UnitPacket unitPacket = getUnitPacket(unitBean.getGatewaytype(), unitBean.getGatewaynumber());
+        refreshUnitPackts();//获取gateway
+
+        for (PointBean point : points) {
+            UnitPacket unitPacket = getUnitPacket(point.getGatewayType(), point.getGatewayNumber());
             if (unitPacket == null) {
-                unitPacket = new UnitPacket(unitBean.getGatewaytype(), unitBean.getGatewaynumber());
-                unitPacket.addUnit(unitBean);
+                unitPacket = new UnitPacket(point.getGatewayType(), point.getGatewayNumber());
                 unitPackets.add(unitPacket);
-            } else {
-                unitPacket.addUnit(unitBean);
+            }
+            unitPacket.addPoint(point);
+            for (UnitBean unitBean : units) {
+                if (unitBean.getPoint() == point.getUnitType()) {
+                    unitPacket.addUnit(unitBean);
+                }
             }
         }
-        SensorModel.getInstance().setUnits(units);
+//        for (UnitBean unitBean : units) {
+//            UnitPacket unitPacket = getUnitPacket(unitBean.getGatewaytype(), unitBean.getGatewaynumber());
+//            if (unitPacket == null) {
+//                unitPacket = new UnitPacket(unitBean.getGatewaytype(), unitBean.getGatewaynumber());
+//                unitPacket.addUnit(unitBean);
+//                unitPackets.add(unitPacket);
+//            } else {
+//                unitPacket.addUnit(unitBean);
+//            }
+//        }
+        SensorModel.getInstance().setUnits(units);//系统设置
     }
 
     /**
@@ -98,9 +111,6 @@ public class SensorService {
 
     /**
      * 根据类型获取编号
-     *
-     * @param
-     * @return
      */
     public static Vector<Integer> getNumbers(String name) {
         Vector<Integer> numbers = new Vector<>();
@@ -111,6 +121,14 @@ public class SensorService {
         }
         Collections.sort(numbers);
         return numbers;
+    }
+
+    public static void setPlace(PointBean pointBean, String place) {
+        for (UnitBean unit : units) {
+            if (unit.getPoint() == pointBean.getPoint()) {
+                unit.setPlace(place);
+            }
+        }
     }
 
     public static Vector<String> getPlaces(String name) {

@@ -67,7 +67,7 @@ public class DataModel_WD extends DataManageModel {
 //                "  g.number AS gn,\n" +
 //                "  u.type AS ut,\n" +
 //                "  u.number AS un,\n" +
-                "  u.place AS us,\n" +
+                "  p.place AS us,\n" +
                 "  u.xw AS ux,\n" +
                 "  i.Temp AS temp,\n" +
                 "  i.BatLv AS batlv,\n" +
@@ -76,7 +76,8 @@ public class DataModel_WD extends DataManageModel {
                 "  gateway g\n" +
                 "    JOIN unit u\n" +
                 "    JOIN data i\n" +
+                "    JOIN point p\n" +
                 "WHERE\n" +
-                "  g.type = u.gatewaytype AND u.type = i.unittype AND u.type = 3 AND g.number = u.gatewaynumber AND u.number = i.unitnumber ";
+                "  g.type = p.gatewaytype AND u.type = i.unittype AND u.type = 3 AND g.number = p.gatewaynumber AND u.number = i.unitnumber AND u.point = p.point";
     }
 }

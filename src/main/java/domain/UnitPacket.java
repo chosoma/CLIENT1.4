@@ -1,6 +1,7 @@
 package domain;
 
 import protocol.ProtocolX;
+import service.SysUnitService;
 import view.dataCollect.AbcUnitView;
 
 import javax.sound.midi.Soundbank;
@@ -12,11 +13,13 @@ import java.util.List;
  */
 public class UnitPacket {
     private List<UnitBean> units;
+    private List<PointBean> points;
     private byte gatewaytype;
     private byte gatewaynumber;
 
     public UnitPacket() {
         units = new ArrayList<>();
+        points = new ArrayList<>();
     }
 
     public UnitPacket(byte gt, byte gn) {
@@ -39,6 +42,13 @@ public class UnitPacket {
             units.remove(unit);
         }
         return units.add(unit);
+    }
+
+    public boolean addPoint(PointBean point) {
+        if (points.contains(point)) {
+            points.remove(point);
+        }
+        return points.add(point);
     }
 
     /**
@@ -105,9 +115,20 @@ public class UnitPacket {
      */
     public List<AbcUnitView> getAbcUnitViews() {
         List<AbcUnitView> views = new ArrayList<AbcUnitView>();
-        for (UnitBean unitBean : units) {
-            views.add(new AbcUnitView(unitBean));
+
+        for (PointBean point : points) {
+            List<UnitBean> units = new ArrayList<>();
+            for (UnitBean unit : SysUnitService.getUnitList()) {
+                if (unit.getType() == point.getUnitType()) {
+                    units.add(unit);
+                }
+            }
+            views.add(new AbcUnitView(point, units));
         }
+
+//        for (UnitBean unitBean : units) {
+//            views.add(new AbcUnitView(unitBean));
+//        }
         return views;
     }
 

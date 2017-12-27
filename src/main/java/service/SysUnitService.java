@@ -19,6 +19,7 @@ public class SysUnitService {
     public static String[] names = SensorAttr.UnitNames;
     private static String UnitTable = DataBaseAttr.UnitTable;
     private static String NetTable = DataBaseAttr.NetTable;
+    private static String PointTable = DataBaseAttr.PointTable;
     private static List<UnitBean> unitList;
 
     public static List<UnitBean> getUnitList() {
@@ -58,7 +59,11 @@ public class SysUnitService {
      * @throws SQLException
      */
     public static void init() throws SQLException {
-        String sql = "select * from " + UnitTable;
+        String sql = "select " +
+                "type , number , p.gatewaytype, p.gatewaynumber, " +
+                "period, initvari, minvari, maxvari, minden, minden, maxper, minper, warntemp, xw, u.point, p.place " +
+                "from " + UnitTable + " u , " + PointTable + " p " +
+                "where u.point = p.point";
         unitList = MyDbUtil.queryBeanListData(sql, UnitBean.class);
         SysUnitModel.getInstance().addDatas(unitList);
     }
@@ -116,9 +121,7 @@ public class SysUnitService {
      * @throws SQLException
      */
     public static void addUnit(UnitBean bean) throws SQLException {
-        String sql = "insert into "
-                + UnitTable
-                + " (type,number,period,gatewaytype,gatewaynumber) values (?,?,?,?,?)";
+        String sql = "insert into " + UnitTable + " (type,number,period,gatewaytype,gatewaynumber) values (?,?,?,?,?)";
         MyDbUtil.update(sql, getUnittype(bean.getName()), bean.getNumber(), bean.getPeriod(), bean.getGatewaytype(), bean.getGatewaynumber());
         unitList.add(bean);
         SysUnitModel.getInstance().addData(bean);

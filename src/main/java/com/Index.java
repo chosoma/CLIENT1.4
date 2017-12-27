@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import mytools.ChartUtil;
 import service.SensorService;
 import service.SysNetService;
+import service.SysPointService;
 import service.SysUnitService;
 import view.Debugs;
 import view.Login;
@@ -98,6 +99,7 @@ public class Index {
         login.loading(10, "Loading DataCollection... ...");
         try {
             SysNetService.init();
+            SysPointService.init();
             SysUnitService.init();
         } catch (SQLException e) {
             // TODO Auto-generated catch block

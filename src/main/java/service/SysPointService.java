@@ -1,18 +1,15 @@
 package service;
 
 import domain.DataBaseAttr;
-import domain.NetBean;
 import domain.PointBean;
-import domain.UnitBean;
-import model.SysNetModel;
 import util.MyDbUtil;
 
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 
 public class SysPointService {
     private static String pointTable = DataBaseAttr.PointTable;
+    private static String unitTable = DataBaseAttr.UnitTable;
     private static List<PointBean> pointList;
 
     public static List<PointBean> getPointList() {
@@ -20,7 +17,9 @@ public class SysPointService {
     }
 
     public static void init() throws SQLException {
-        String sql = " select * from " + pointTable;
+        String sql = " select p.point,place ,gatewaytype,gatewaynumber,u.type as unittype\n" +
+                " from " + pointTable + " p , " + unitTable + " u\n" +
+                " where u.point = p.point group by p.point";
         pointList = MyDbUtil.queryBeanListData(sql, PointBean.class);
     }
 

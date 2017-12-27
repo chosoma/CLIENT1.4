@@ -352,7 +352,7 @@ public class SetWarnDialog extends JDialog {
                     break;
             }
             SysUnitService.updateWarning(unit);
-            ChartView.getInstance().refresh(unit);
+//            ChartView.getInstance().refresh(unit);
             if (flag) {
                 break;
             }

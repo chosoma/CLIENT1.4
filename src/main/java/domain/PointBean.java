@@ -4,6 +4,32 @@ public class PointBean {
     private int id;
     private int point;
     private String place;
+    private byte unitType;
+    private byte gatewayType, gatewayNumber;
+
+    public byte getUnitType() {
+        return unitType;
+    }
+
+    public void setUnitType(byte unitType) {
+        this.unitType = unitType;
+    }
+
+    public byte getGatewayType() {
+        return gatewayType;
+    }
+
+    public void setGatewayType(byte gatewayType) {
+        this.gatewayType = gatewayType;
+    }
+
+    public byte getGatewayNumber() {
+        return gatewayNumber;
+    }
+
+    public void setGatewayNumber(byte gatewayNumber) {
+        this.gatewayNumber = gatewayNumber;
+    }
 
     public int getId() {
         return id;

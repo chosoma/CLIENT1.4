@@ -117,8 +117,9 @@ public class DataService {
 //                + DataBaseAttr.SensorTable
 //                + " s where s.sjbh=a.sjbh and s.type!=? order by s.type,a.sjbh,a.xw";
         String sql = "select * from ( select g.number gatewaynumber, u.type unittype, u.number unitnumber, period, channel, pres, temp, den, vari, batlv, date\n" +
-                "from data d,unit u ,gateway g\n" +
-                "where d.unittype = u.type and d.unitnumber = u.number and u.gatewaytype = g.type and u.gatewaynumber = g.number  \n" +
+                "from data d,unit u ,gateway g , point p\n" +
+                "where d.unittype = u.type and d.unitnumber = u.number and u.point = p.point" +
+                " and p.gatewaytype = g.type and p.gatewaynumber = g.number  \n" +
                 "order by date desc \n" +
                 " ) d group by unittype ,unitnumber ;\n";
         //        sql = "select s.type,a.sjbh,xw,unitid,dh,sj,dy,f1,f2,gcz,a.dw,yz from "

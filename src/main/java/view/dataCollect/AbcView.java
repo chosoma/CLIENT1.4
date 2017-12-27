@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import domain.PointBean;
 import domain.UnitBean;
 import view.ModifiedFlowLayout;
 import domain.DataBean;
@@ -71,23 +72,23 @@ public class AbcView extends JPanel {
 
     public void refresh(UnitBean unitBean) {
         for (AbcUnitView unit : units) {
-            if (unit.getUnitBean().equals(unitBean)) {
-                unit.refresh(unitBean);
-                break;
-            }
+//            if (unit.getUnitBean().equals(unitBean)) {
+//                unit.refresh(unitBean);
+//                break;
+//            }
         }
     }
 
-    public void setTitle(UnitBean unitBean, String title) {
+    public void setTitle(PointBean pointBean, String title) {
         for (AbcUnitView auv : units) {
-            if (auv.getUnitBean().getPoint() == unitBean.getPoint()) {
+            if (auv.getPointBean().getPoint() == pointBean.getPoint()) {
                 auv.setTitle(title);
             }
         }
     }
 
     public void sort() {
-        Collections.sort(units);
+//        Collections.sort(units);
         for (AbcUnitView unit : units) {
             content.add(unit);
         }

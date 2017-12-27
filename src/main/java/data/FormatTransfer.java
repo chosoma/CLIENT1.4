@@ -243,7 +243,13 @@ public class FormatTransfer {
         BigDecimal bd = new BigDecimal(f);
         return bd.setScale(newScale, BigDecimal.ROUND_HALF_UP).floatValue();
     }
-
+    public static Float bytesL2Float3(byte[] b, int off, int len, int newScale) {
+        int temp = 0;
+        for (int i = off; i < off + len; i++) {
+            temp = temp | (b[i] & 0xFF) << (8 * (i - off));
+        }
+        return (float) (temp * 1.0 / newScale);
+    }
     public static Float bytesL2Float2(byte[] b, int off, int len, int newScale) {
         // int temp = ((((b[3] & 0xFF) << 8 | (b[2] & 0xFF)) << 8) | (b[1] &
         // 0xFF)) << 8
