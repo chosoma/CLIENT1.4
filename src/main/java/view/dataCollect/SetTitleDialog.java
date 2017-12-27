@@ -61,8 +61,7 @@ public class SetTitleDialog extends JDialog {
             }
         });
 
-        JLabel jltitle = new JLabel("监测点", new ImageIcon(
-                "images/main/sensor_24.png"), JLabel.LEFT);
+        JLabel jltitle = new JLabel("监测点", new ImageIcon("images/main/sensor_24.png"), JLabel.LEFT);
         jltitle.setForeground(Color.WHITE);
         jltitle.setFont(new Font("微软雅黑", Font.BOLD, 14));
 
@@ -104,7 +103,23 @@ public class SetTitleDialog extends JDialog {
         buttonSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pointBean.setPlace(jtftitle.getText());
+                if (jtftitle.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "请输入监测位置名称", "错误", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String begin = "";
+                switch (pointBean.getUnitType()) {
+                    case 1:
+                        begin = "SF6:";
+                        break;
+                    case 2:
+                        begin = "伸缩节:";
+                        break;
+                    case 3:
+                        begin = "温度:";
+                        break;
+                }
+                pointBean.setPlace(begin + jtftitle.getText());
                 try {
                     SysPointService.updatePlace(pointBean);
                 } catch (SQLException e1) {
@@ -113,8 +128,9 @@ public class SetTitleDialog extends JDialog {
                     dispose();
                     return;
                 }
-                ChartView.getInstance().setTitle(pointBean, jtftitle.getText());
+                ChartView.getInstance().setTitle(pointBean);
                 SensorService.setPlace(pointBean, jtftitle.getText());
+                CollectOperate.getInstance().setPlace();
                 JOptionPane.showMessageDialog(null, "修改成功", "成功", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             }

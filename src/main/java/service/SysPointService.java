@@ -6,6 +6,7 @@ import util.MyDbUtil;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Vector;
 
 public class SysPointService {
     private static String pointTable = DataBaseAttr.PointTable;
@@ -28,4 +29,15 @@ public class SysPointService {
         MyDbUtil.update(sql, pointBean.getPlace(), pointBean.getPoint());
         init();
     }
+
+    public static Vector<String> getPlaces() {
+        Vector<String> v = new Vector<>();
+        for (PointBean point : pointList) {
+            if (!v.contains(point.getPlace())) {
+                v.add(point.getPlace());
+            }
+        }
+        return v;
+    }
+
 }

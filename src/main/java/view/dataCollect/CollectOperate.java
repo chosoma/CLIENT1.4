@@ -13,6 +13,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import domain.NetBean;
+import domain.UnitBean;
+import kotlin.Unit;
 import mytools.MyButton2;
 import mytools.MyFoldPanel;
 import mytools.MyUtil;
@@ -55,11 +57,11 @@ public class CollectOperate {
 //		this.initSecond();
         this.initThird();
 //        this.initFourth();
-//        this.initFifth();
+        this.initFifth();
     }
 
     JComboBox<String> jcbUnitType1;
-    JComboBox<Integer> jcbUnitNumber1;
+    JComboBox<String> jcbUnitNumber1;
     JComboBox<Byte> jcbPeriod1;
     MyButton2 jbtOpen1, jbtSet1;
     JLabel jlbOpen1, jlbWait1;
@@ -70,7 +72,7 @@ public class CollectOperate {
 
     private void initFirst() {
         JPanel pane = new JPanel(null);
-        pane.setPreferredSize(new Dimension(248, 150));
+        pane.setPreferredSize(new Dimension(248, 200));
         center.add(new MyFoldPanel("SF6、温度、伸缩节", false, pane));
 
         jbtOpen1 = new MyButton2("启动服务");
@@ -97,8 +99,8 @@ public class CollectOperate {
 //                    jcbNetId4.setEnabled(false);
 //                    jcbTimes4.setEnabled(false);
 //                    setAlarm4.setEnabled(false);
-//                    jcbUnittype5.setEnabled(false);
-//                    jcbUnitnumber5.setEnabled(false);
+//                    jcbUnitType5.setEnabled(false);
+//                    jcbUnitNumber5.setEnabled(false);
 //                    jbtSet5.setEnabled(false);
                     CollectService.setEditable(true);
                 } else {
@@ -123,9 +125,9 @@ public class CollectOperate {
 //                                    jcbNetId4.setEnabled(true);
 //                                    jcbTimes4.setEnabled(true);
 //                                    setAlarm4.setEnabled(true);
-//                                    jcbUnittype5.setEnabled(true);
-//                                    jcbUnittype5.setSelectedIndex(0);
-//                                    jcbUnitnumber5.setEnabled(true);
+//                                    jcbUnitType5.setEnabled(true);
+//                                    jcbUnitType5.setSelectedIndex(0);
+//                                    jcbUnitNumber5.setEnabled(true);
 //                                    jbtSet5.setEnabled(true);
                                     CollectService.setEditable(false);
                                 } catch (Exception e) {
@@ -158,40 +160,39 @@ public class CollectOperate {
         jlbWait1.setVisible(false);
         pane.add(jlbWait1);
 
-        JLabel jlbType = new JLabel("类型:", JLabel.RIGHT);
-        jlbType.setBounds(5, 70, 50, 20);
+        JLabel jlbType = new JLabel("监测点:", JLabel.RIGHT);
+        jlbType.setBounds(25, 70, 50, 20);
         pane.add(jlbType);
 
-        jcbUnitType1 = new JComboBox<String>(new String[]{SensorAttr.Sensor_SF6,
-                SensorAttr.Sensor_WD, SensorAttr.Sensor_SSJ});
-        jcbUnitType1.setBounds(55, 70, 60, 20);
+        jcbUnitType1 = new JComboBox<String>(SysPointService.getPlaces());
+        jcbUnitType1.setBounds(75, 70, 100, 20);
         jcbUnitType1.setEnabled(false);
         jcbUnitType1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String type = (String) jcbUnitType1.getSelectedItem();
-                jcbUnitNumber1.setModel(new DefaultComboBoxModel<>(SysUnitService.getUnitIdsByType(type)));
+//                String type = (String) jcbUnitType1.getSelectedItem();
+//                jcbUnitNumber1.setModel(new DefaultComboBoxModel<>(SysUnitService.getUnitIdsByType(type)));
             }
         });
         pane.add(jcbUnitType1);
 
-        JLabel jlbMkh = new JLabel("单元号:", JLabel.RIGHT);
-        jlbMkh.setBounds(120, 70, 50, 20);
+        JLabel jlbMkh = new JLabel("相位:", JLabel.RIGHT);
+        jlbMkh.setBounds(25, 100, 50, 20);
         pane.add(jlbMkh);
 
-        jcbUnitNumber1 = new JComboBox<>();
-        jcbUnitNumber1.setBounds(170, 70, 60, 20);
+        jcbUnitNumber1 = new JComboBox<>(new String[]{"A", "B", "C"});
+        jcbUnitNumber1.setBounds(75, 100, 100, 20);
         jcbUnitNumber1.setEnabled(false);
         jcbUnitNumber1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String type = (String) jcbUnitType1.getSelectedItem();
-                Integer unitidint = (Integer) jcbUnitNumber1.getSelectedItem();
-                if (unitidint != null) {
-                    Byte unitid = (byte) (int) unitidint;
-                    Byte jg = SysUnitService.getJgMin(type, unitid);
-                    jcbPeriod1.setSelectedItem(jg);
-                }
+//                String type = (String) jcbUnitType1.getSelectedItem();
+//                Integer unitidint = (Integer) jcbUnitNumber1.getSelectedItem();
+//                if (unitidint != null) {
+//                    Byte unitid = (byte) (int) unitidint;
+//                    Byte jg = SysUnitService.getJgMin(type, unitid);
+//                    jcbPeriod1.setSelectedItem(jg);
+//                }
             }
         });
         pane.add(jcbUnitNumber1);
@@ -199,7 +200,7 @@ public class CollectOperate {
         JPanel jp2 = new JPanel(null);
         jp2.setOpaque(false);
         jp2.setBorder(new TitledBorder("采样周期"));
-        jp2.setBounds(5, 100, 240, 50);
+        jp2.setBounds(5, 140, 240, 50);
         pane.add(jp2);
 
         jcbPeriod1 = new JComboBox<Byte>(
@@ -216,16 +217,24 @@ public class CollectOperate {
         jbtSet1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String type = (String) jcbUnitType1.getSelectedItem();
-                Integer unitidint = (Integer) jcbUnitNumber1.getSelectedItem();
-                Byte unitid;
-                if (unitidint != null) {
-                    unitid = (byte) (int) unitidint;
-                } else {
-                    unitid = null;
-                }
+                String place = (String) jcbUnitType1.getSelectedItem();
+                String xw = (String) jcbUnitNumber1.getSelectedItem();
+                List<UnitBean> unitBeans = SysUnitService.getUnit(place, xw);
+
+
+//                String type = (String) jcbUnitType1.getSelectedItem();
+//                Integer unitidint = (Integer) jcbUnitNumber1.getSelectedItem();
+//                Byte unitid;
+//                if (unitidint != null) {
+//                    unitid = (byte) (int) unitidint;
+//                } else {
+//                    unitid = null;
+//                }
                 byte jg = (byte) jcbPeriod1.getSelectedItem();
-                CollectService.setPeriod(type, unitid, jg);
+//                CollectService.setPeriod(type, unitid, jg);
+                for (UnitBean unit : unitBeans) {
+                    CollectService.setPeriod(unit.getName(), unit.getNumber(), jg);
+                }
             }
         });
         jp2.add(jbtSet1);
@@ -568,58 +577,84 @@ public class CollectOperate {
 
     }
 
-    JComboBox<String> jcbUnittype5;
-    JComboBox<Integer> jcbUnitnumber5;
+    public void setPlace() {
+        jcbUnitType1.setModel(new DefaultComboBoxModel<>(SysPointService.getPlaces()));
+        jcbUnitType5.setModel(new DefaultComboBoxModel<>(SysPointService.getPlaces()));
+    }
+
+    JComboBox<String> jcbUnitType5;
+    JComboBox<String> jcbUnitNumber5;
     JButton jbtSet5;
 
     private void initFifth() {
         JPanel pane = new JPanel(null);
-        pane.setPreferredSize(new Dimension(248, 76));
+        pane.setPreferredSize(new Dimension(248, 116));
         center.add(new MyFoldPanel("报警值设置", false, pane));
 
         JLabel jltype = new JLabel("类型:", JLabel.RIGHT);
-        jltype.setBounds(10, 10, 40, 20);
+        jltype.setBounds(25, 10, 50, 20);
         pane.add(jltype);
 
-        jcbUnittype5 = new JComboBox<>(new String[]{SensorAttr.Sensor_SF6, SensorAttr.Sensor_WD, SensorAttr.Sensor_SSJ});
-        jcbUnittype5.setBounds(50, 10, 70, 20);
-//        jcbUnittype5.setEnabled(false);
-        jcbUnittype5.addActionListener(new ActionListener() {
+        jcbUnitType5 = new JComboBox<>(SysPointService.getPlaces());
+        jcbUnitType5.setBounds(75, 10, 100, 20);
+//        jcbUnitType5.setEnabled(false);
+        jcbUnitType5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String type = (String) jcbUnittype5.getSelectedItem();
-                jcbUnitnumber5.setModel(new DefaultComboBoxModel<>(SysUnitService.getUnitIdsByType(type)));
+//                String type = (String) jcbUnitType5.getSelectedItem();
+//                jcbUnitNumber5.setModel(new DefaultComboBoxModel<>(SysUnitService.getUnitIdsByType(type)));
             }
         });
-        pane.add(jcbUnittype5);
+        pane.add(jcbUnitType5);
 
         JLabel jlnumber = new JLabel("单元号:", JLabel.RIGHT);
-        jlnumber.setBounds(120, 10, 50, 20);
+        jlnumber.setBounds(25, 40, 50, 20);
         pane.add(jlnumber);
 
-        jcbUnitnumber5 = new JComboBox<>();
-        jcbUnitnumber5.setBounds(170, 10, 50, 20);
-//        jcbUnitnumber5.setEnabled(false);
-        pane.add(jcbUnitnumber5);
+        jcbUnitNumber5 = new JComboBox<>(new String[]{"A", "B", "C"});
+        jcbUnitNumber5.setBounds(75, 40, 100, 20);
+//        jcbUnitNumber5.setEnabled(false);
+        pane.add(jcbUnitNumber5);
 
         jbtSet5 = new MyButton2("设置");
-        jbtSet5.setBounds(84, 40, 80, 26);
+        jbtSet5.setBounds(84, 80, 80, 26);
 //        jbtSet5.setEnabled(false);
         jbtSet5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = (String) jcbUnittype5.getSelectedItem();
-                Integer numberint = (Integer) jcbUnitnumber5.getSelectedItem();
-                Byte number;
-                if (numberint != null) {
-                    number = (byte) (int) numberint;
-                } else {
-                    number = null;
+                String place = (String) jcbUnitType5.getSelectedItem();
+                if (place != null && place.equals("")) {
+                    JOptionPane.showMessageDialog(null, "请选择监测点", "提示", JOptionPane.INFORMATION_MESSAGE);
+                    return;
                 }
-                new SetWarnDialog(name, number);
+                String xw = (String) jcbUnitNumber5.getSelectedItem();
+//                System.out.println("xw:" + xw);
+                List<UnitBean> unitBeans = SysUnitService.getUnit(place, xw);
+//                System.out.println(unitBeans);
+
+                for (UnitBean unit : unitBeans) {
+                    new SetWarnDialog(unit);
+                }
+
+//                UnitBean unit = unitBeans.get(0);
+//                UnitBean unitBean;
+//                if (xw.equals("")) {
+//                    unitBean = new UnitBean();
+//                }
+//                String name = (String) jcbUnitType5.getSelectedItem();
+//                Integer numberint = (Integer) jcbUnitNumber5.getSelectedItem();
+//                Byte number;
+//                if (numberint != null) {
+//                    number = (byte) (int) numberint;
+//                } else {
+//                    number = null;
+//                }
+//                new SetWarnDialog(name, number);
+//                System.out.println(unitBean);
+//                new SetWarnDialog(unitBean);
             }
         });
-        jcbUnittype5.setSelectedIndex(0);
+        jcbUnitType5.setSelectedIndex(0);
         pane.add(jbtSet5);
 
 

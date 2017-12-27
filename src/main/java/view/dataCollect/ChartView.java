@@ -104,19 +104,19 @@ public class ChartView extends JPanel {
         }
     }
 
-//    public void refresh(UnitBean unit) {
-//        switch (unit.getType()) {
-//            case 1:
-//                panelSF6.refresh(unit);
-//                break;
-//            case 2:
-//                panelSSJ.refresh(unit);
-//                break;
-//            case 3:
-//                panelWd.refresh(unit);
-//                break;
-//        }
-//    }
+    public void refresh(UnitBean unit) {
+        switch (unit.getType()) {
+            case 1:
+                panelSF6.refresh(unit);
+                break;
+            case 2:
+                panelSSJ.refresh(unit);
+                break;
+            case 3:
+                panelWd.refresh(unit);
+                break;
+        }
+    }
 
     public void addNewUnit(AbcUnitView abcUnitView) {
         switch (abcUnitView.getPointBean().getUnitType()) {
@@ -133,19 +133,19 @@ public class ChartView extends JPanel {
         }
     }
 
-    public void setTitle(PointBean pointBean, String title) {
+    public void setTitle(PointBean pointBean) {
         switch (pointBean.getUnitType()) {
             case 1:
-                panelSF6.setTitle(pointBean, title);
+                panelSF6.setTitle(pointBean);
                 break;
             case 2:
-                panelSSJ.setTitle(pointBean, title);
+                panelSSJ.setTitle(pointBean);
                 break;
             case 3:
-                panelWd.setTitle(pointBean, title);
+                panelWd.setTitle(pointBean);
                 break;
         }
-        panelGraph.setTitle(pointBean.getPoint(), title);
+        panelGraph.setTitle(pointBean.getPoint(), pointBean.getPlace());
     }
 
 

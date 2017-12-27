@@ -126,7 +126,7 @@ public class AbcUnitView extends JPanel
     JLabel jlbSjbh;
 
     public void setTitle(String title) {
-        jlbSjbh.setText("监测点:" + title);
+        jlbSjbh.setText(title);
     }
 
     private void init() {
@@ -137,7 +137,7 @@ public class AbcUnitView extends JPanel
         colorTitle = colorTitle3;
         colorSubTitle = colorSubTitle3;
 
-        jlbSjbh = new JLabel("监测点:" + pointBean.getPlace(), JLabel.CENTER);
+        jlbSjbh = new JLabel(pointBean.getPlace(), JLabel.CENTER);
 //        jlbSjbh = new JLabel("监测点:" + unitBean.getPlace(), JLabel.CENTER);
         jlbSjbh.setBounds(0, 0, 161, 21);
         jlbSjbh.setBorder(border);

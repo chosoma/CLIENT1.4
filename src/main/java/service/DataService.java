@@ -30,8 +30,8 @@ public class DataService {
 
     public static List<DataBean> getBetween(UnitBean unitBean, DataSearchPara para) throws SQLException {
         String sql = "select * from ( select g.number gatewaynumber, u.type unittype, u.number unitnumber, period, channel, pres, temp, den, vari, batlv, date\n" +
-                "from data d,unit u ,gateway g\n" +
-                "where d.unittype = u.type and d.unitnumber = u.number and u.gatewaytype = g.type and u.gatewaynumber = g.number and u.type = ? and u.number = ? \n";
+                "from data d,unit u ,gateway g,point p\n" +
+                "where p.point = u.point and d.unittype = u.type and d.unitnumber = u.number and p.gatewaytype = g.type and p.gatewaynumber = g.number and u.type = ? and u.number = ? \n";
         ArrayList<Object> p = new ArrayList<>();
         p.add(unitBean.getType());
         p.add(unitBean.getNumber());

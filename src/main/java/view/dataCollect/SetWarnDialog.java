@@ -27,6 +27,12 @@ public class SetWarnDialog extends JDialog {
         initDefault(null);
     }
 
+    public SetWarnDialog(UnitBean unit) {
+        unitBean = unit;
+        this.name = unit.getPlace();
+        initDefault(null);
+    }
+
     private void initDefault(Window owner) {
 
         setModal(true);// 设置对话框模式
@@ -166,26 +172,26 @@ public class SetWarnDialog extends JDialog {
     protected JPanel initContent() {
         JPanel centerPanel = new JPanel(null);
         int y = 13;
-        JLabel jlbType = new JLabel("单元类型:", JLabel.RIGHT);
+        JLabel jlbType = new JLabel("监测点:", JLabel.RIGHT);
         jlbType.setBounds(30, y, 75, 20);
         centerPanel.add(jlbType);
 
-        jlbTypes = new JLabel(name);
+        jlbTypes = new JLabel(unitBean.getPlace(), JLabel.CENTER);
         jlbTypes.setBounds(105, y, 70, 20);
         centerPanel.add(jlbTypes);
 
         y += 30;
         if (unitBean != null) {
-            JLabel jlbNumber = new JLabel("单元编号:", JLabel.RIGHT);
+            JLabel jlbNumber = new JLabel("相位:", JLabel.RIGHT);
             jlbNumber.setBounds(30, y, 75, 20);
             centerPanel.add(jlbNumber);
-            jlbNumbers = new JLabel(String.valueOf(unitBean.getNumber()));
+            jlbNumbers = new JLabel(unitBean.getXw());
             jlbNumbers.setBounds(105, y, 70, 20);
             centerPanel.add(jlbNumbers);
             y += 30;
         }
 
-        if (name.equals(SensorAttr.Sensor_SF6)) {
+        if (unitBean.getType() == 1) {
             JLabel jlbdenmax = new JLabel("密度最大值:", JLabel.RIGHT);
             jlbdenmax.setBounds(30, y, 75, 20);
             centerPanel.add(jlbdenmax);
@@ -245,7 +251,7 @@ public class SetWarnDialog extends JDialog {
             if (unitBean != null && unitBean.getWarnTemp() != null) {
                 jtftemp.setText(String.valueOf(unitBean.getWarnTemp()));
             }
-        } else if (name.equals(SensorAttr.Sensor_WD)) {
+        } else if (unitBean.getType() == 3) {
             JLabel jlbtemp = new JLabel("温度:", JLabel.RIGHT);
             jlbtemp.setBounds(30, y, 75, 20);
             centerPanel.add(jlbtemp);
@@ -289,21 +295,25 @@ public class SetWarnDialog extends JDialog {
 //        UnitBean unitBean = new UnitBean();
 //        String name = jlbTypes.getText();
 //        unitBean.setName(name);
+        System.out.println("1");
         for (UnitBean unit : SysUnitService.getUnitList()) {
-            boolean flag = false;
-            if (this.unitBean != null) {
-                if (unit.equals(this.unitBean)) {
-                    flag = true;
-                }
-                if (!flag) {
-                    continue;
-                }
-            }
-            if (!unit.getName().equals(name)) {
+//            boolean flag = false;
+//            if (this.unitBean != null) {
+            if (!unit.equals(this.unitBean)) {
                 continue;
+//                    flag = true;
             }
-            switch (unit.getName()) {
-                case "SF6":
+//                if (!flag) {
+//                    continue;
+//                }
+//            }
+//            if (!unit.getName().equals(name)) {
+//                continue;
+//            }
+            System.out.println("2");
+
+            switch (unit.getType()) {
+                case 1:
                     if (jtfdenmax != null) {
                         float denmax = Float.parseFloat(jtfdenmax.getText());
                         unit.setMaxden(denmax);
@@ -331,13 +341,13 @@ public class SetWarnDialog extends JDialog {
                         throw new NumberFormatException();
                     }
                     break;
-                case "温度":
+                case 3:
                     if (jtftemp != null) {
                         float temp = Float.parseFloat(jtftemp.getText());
                         unit.setWarnTemp(temp);
                     }
                     break;
-                case "伸缩节":
+                case 2:
                     if (jtfvarimax != null) {
                         float varimax = Float.parseFloat(jtfvarimax.getText());
                         unit.setMaxvari(varimax);
@@ -352,10 +362,11 @@ public class SetWarnDialog extends JDialog {
                     break;
             }
             SysUnitService.updateWarning(unit);
+//            System.out.println(unit);
 //            ChartView.getInstance().refresh(unit);
-            if (flag) {
-                break;
-            }
+//            if (flag) {
+//                break;
+//            }
         }
     }
 

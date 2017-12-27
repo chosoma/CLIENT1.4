@@ -389,8 +389,7 @@ public class DataManage extends JPanel {
 
         // 表头设置
         JTableHeader tableHeader = table.getTableHeader();
-        DefaultTableCellRenderer dtcr = (DefaultTableCellRenderer) tableHeader
-                .getDefaultRenderer();
+        DefaultTableCellRenderer dtcr = (DefaultTableCellRenderer) tableHeader.getDefaultRenderer();
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);// 表头居中
         Dimension dimension = dtcr.getSize();
         dimension.height = MyUtil.HeadHeight;

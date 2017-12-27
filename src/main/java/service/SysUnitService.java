@@ -52,6 +52,20 @@ public class SysUnitService {
         return beans;
     }
 
+    public static List<UnitBean> getUnit(String place, String xw) {
+        List<UnitBean> units = new ArrayList<>();
+        for (UnitBean unit : unitList) {
+            if (xw.equals("")) {
+                if (unit.getPlace().equals(place)) {
+                    units.add(unit);
+                }
+            } else if (unit.getPlace().equals(place) && unit.getXw().equals(xw)) {
+                units.add(unit);
+            }
+        }
+        return units;
+    }
+
     /**
      * 获取采集单元信息
      *
