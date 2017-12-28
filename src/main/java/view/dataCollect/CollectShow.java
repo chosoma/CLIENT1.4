@@ -107,10 +107,12 @@ public class CollectShow extends JPanel {
         // 设置单行选中
         dataTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 //        dataTable.getColumn("单元ID").setPreferredWidth(35);
-        dataTable.getColumn("类型").setPreferredWidth(35);
-        dataTable.getColumn("单元编号").setPreferredWidth(50);
+//        dataTable.getColumn("类型").setPreferredWidth(35);
+        dataTable.getColumn("监测点").setPreferredWidth(120);
+        dataTable.getColumn("相位").setPreferredWidth(35);
+//        dataTable.getColumn("单元编号").setPreferredWidth(50);
 //        dataTable.getColumn("网关类型").setPreferredWidth(50);
-        dataTable.getColumn("网关编号").setPreferredWidth(50);
+//        dataTable.getColumn("网关编号").setPreferredWidth(50);
         dataTable.getColumn("密度").setPreferredWidth(50);
         dataTable.getColumn("压力(Pa)").setPreferredWidth(50);
         dataTable.getColumn("温度(℃)").setPreferredWidth(50);

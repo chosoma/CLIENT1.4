@@ -18,10 +18,11 @@ public class Collect_DataModel extends DefaultTableModel {
 
     private Collect_DataModel() {
         Vector<String> column = new Vector<String>();
-        column.add("类型");
-        column.add("单元编号");
+//        column.add("类型");
+        column.add("监测点");
+        column.add("相位");
 //        column.add("网关类型");
-        column.add("网关编号");
+//        column.add("网关编号");
         column.add("密度");
         column.add("压力(Pa)");
         column.add("温度(℃)");
@@ -59,12 +60,12 @@ public class Collect_DataModel extends DefaultTableModel {
     @Override
     public Class<?> getColumnClass(int column) {
         // type,sjbh,xw,unitid,dh,sj,dy,f1,f2,gcz,dw,yx
-        if (column == 0) {
+        if (column == 0 || column == 1 || column == 2) {
             return String.class;
-        } else if (column == 1) {
-            return Byte.class;
-        } else if (column == 2) {
-            return Integer.class;
+//        } else if (column == 1) {
+//            return Byte.class;
+//        } else if (column == 2) {
+//            return Integer.class;
         } else if (column == 8) {
             return Date.class;
         } else

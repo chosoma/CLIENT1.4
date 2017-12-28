@@ -8,10 +8,19 @@ import java.util.Vector;
 
 public class DataBean implements Comparable {
     private int id;
-    private String name;
+    private String name, place, xw;
     private byte gatewayType, gatewayNumber, unitType, unitNumber;
     private float pres, temp, den, vari, batlv;
     private Date date;
+    private int point;
+
+    public String getXw() {
+        return xw;
+    }
+
+    public void setXw(String xw) {
+        this.xw = xw;
+    }
 
     public int getId() {
         return id;
@@ -71,6 +80,21 @@ public class DataBean implements Comparable {
         this.name = name;
     }
 
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
 
     public float getPres() {
         return pres;
@@ -160,10 +184,12 @@ public class DataBean implements Comparable {
     public Vector<Object> getTableData2() {
 
         Vector<Object> data = new Vector<Object>();
-        data.add(name);
-        data.add(unitNumber);
+//        data.add(name);
+        data.add(place);
+        data.add(xw);
+//        data.add(unitNumber);
 //        data.add(gatewayType);
-        data.add(gatewayNumber);
+//        data.add(gatewayNumber);
         if (name.equals("SF6")) {
             data.add(den);
             data.add(pres);

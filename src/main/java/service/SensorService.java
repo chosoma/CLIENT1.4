@@ -37,7 +37,7 @@ public class SensorService {
         points = SysPointService.getPointList();
         Collections.sort(units);
         refreshUnitPackts();//获取gateway
-
+//        System.out.println(units);
         for (PointBean point : points) {
             UnitPacket unitPacket = getUnitPacket(point.getGatewayType(), point.getGatewayNumber());
             if (unitPacket == null) {
@@ -45,8 +45,9 @@ public class SensorService {
                 unitPackets.add(unitPacket);
             }
             unitPacket.addPoint(point);
+
             for (UnitBean unitBean : units) {
-                if (unitBean.getPoint() == point.getUnitType()) {
+                if (unitBean.getPoint() == point.getPoint()) {
                     unitPacket.addUnit(unitBean);
                 }
             }

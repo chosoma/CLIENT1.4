@@ -175,7 +175,8 @@ public class DataBufferX {
                 e.printStackTrace();
                 // 数据线程出错
             } finally {
-                lock.unlock();
+//                lock.unlock();
+                run();
             }
         }
     }

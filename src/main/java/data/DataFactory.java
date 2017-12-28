@@ -66,7 +66,7 @@ public class DataFactory {
             databean.setUnitNumber(unitNumber);
             UnitBean unit = unitPacket.getUnit(unitType, unitNumber);
             if (unit == null) {
-                System.out.println("单元不存在,添加一个");
+                System.out.println("单元不存在");
                 return;
 //                UnitBean unitBean = new UnitBean(gatewayType, gatewaynumber, unitType, unitNumber);
 //                unitPacket.addUnit(unitBean);
@@ -111,6 +111,8 @@ public class DataFactory {
                     databean.setTemp(f3);
                     databean.setName(SensorAttr.Sensor_WD);// 类型 伸缩节
                 }
+                databean.setPlace(unit.getPlace());
+                databean.setXw(unit.getXw());
                 show.receData(databean);
                 DataService.saveCollData(databean);
             } catch (ArrayIndexOutOfBoundsException aioobe) {
