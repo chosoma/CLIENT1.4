@@ -23,8 +23,7 @@ public class DataBufferX {
     private List<RawDataX> buffer;
     // 缓冲区添加数据和移除数据的线程锁
     private Object dataLock = new Object();
-    // 数据包表示长度的起始地址,最小、最大数据长度
-    int len_off = 5, minLen = 22;
+    private int minLen = 22;
 
     // 数据处理线程
     private Thread dataThread;
@@ -43,7 +42,6 @@ public class DataBufferX {
      * 将有效长度为length的数据添加到数据缓冲区
      *
      * @param //数据
-     * @param //   有效数据长度
      */
     public void receDatas(RawDataX rawData) {
         synchronized (dataLock) {
@@ -80,6 +78,7 @@ public class DataBufferX {
     class DataRunnable implements Runnable {
         @Override
         public void run() {// 如果flag标志为true，则继续循环
+
             lock.lock();
             try {
                 while (alive) {
@@ -92,7 +91,7 @@ public class DataBufferX {
                             // 判断缓冲区数据是否达到最小数据长度,如果没有则线程休眠
                             if (buffer.size() == 0) {
                                 factory.saveData();// 数据存储
-                                con.await();
+                                con.await();//很关键
                             }
                             continue;
                         }
@@ -112,6 +111,7 @@ public class DataBufferX {
                     // }
 
                     // 单条数据内容长度
+                    int len_off = 5;
                     int dataLength = FormatTransfer.getDataLen(data[len_off], data[len_off + 1]);
 
                     if ((dataLength == ProtocolX.LenHeartR1 || dataLength == ProtocolX.LenHeartR2) && data[3] == ProtocolX.cmdHeartR) {// 心跳包
@@ -171,12 +171,14 @@ public class DataBufferX {
                     }
                 }
 //            } catch (InterruptedException e) {
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+                run();
             } catch (Exception e) {
                 e.printStackTrace();
                 // 数据线程出错
             } finally {
-//                lock.unlock();
-                run();
+                lock.unlock();
             }
         }
     }
