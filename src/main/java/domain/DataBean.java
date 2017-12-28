@@ -76,6 +76,24 @@ public class DataBean implements Comparable {
         return pres;
     }
 
+    @Override
+    public String toString() {
+        return "DataBean{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", gatewayType=" + gatewayType +
+                ", gatewayNumber=" + gatewayNumber +
+                ", unitType=" + unitType +
+                ", unitNumber=" + unitNumber +
+                ", pres=" + pres +
+                ", temp=" + temp +
+                ", den=" + den +
+                ", vari=" + vari +
+                ", batlv=" + batlv +
+                ", date=" + date +
+                '}';
+    }
+
     public void setPres(float pres) {
         this.pres = pres;
     }
@@ -172,19 +190,6 @@ public class DataBean implements Comparable {
         data.add(batlv);
         data.add(date);
         return data;
-    }
-
-    @Override
-    public String toString() {
-        return "DataBean{" +
-                "name='" + name + '\'' +
-                ", pres=" + pres +
-                ", temp=" + temp +
-                ", den=" + den +
-                ", vari=" + vari +
-                ", batlv=" + batlv +
-                ", date=" + date +
-                '}';
     }
 
     public Vector<Object> getSqlData() {

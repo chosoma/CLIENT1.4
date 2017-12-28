@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 
 import domain.PointBean;
 import domain.UnitBean;
+import service.SysUnitService;
 import view.ModifiedFlowLayout;
 import domain.DataBean;
 import domain.SensorAttr;
@@ -62,13 +63,24 @@ public class AbcView extends JPanel {
     }
 
     public void addData(DataBean data) {
-        for (AbcUnitView unit : units) {
-            if (unit.matchData(data)) {
-                unit.addData(data);
+        UnitBean unit = SysUnitService.getUnitBean(data.getUnitType(), data.getUnitNumber());
+        if (unit == null) {
+            return;
+        }
+        for (AbcUnitView aunit : units) {
+//            System.out.println(data);
+//            System.out.println(aunit.getPointBean());
+            if (unit.getPoint() == aunit.getPointBean().getPoint()) {
+                aunit.addData(data);
                 break;
             }
+//            if (aunit.matchData(data)) {
+//                aunit.addData(data);
+//                break;
+//            }
         }
     }
+
 
     public void refresh(UnitBean unitBean) {
         for (AbcUnitView unit : units) {

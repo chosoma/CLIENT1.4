@@ -67,7 +67,9 @@ public class AbcUnitView extends JPanel
     }
 
     public boolean matchData(DataBean data) {
+
         for (UnitBean unit : units) {
+            System.out.println(unit);
             if (unit.getNumber() == data.getUnitNumber()) {
                 return true;
             }
@@ -457,7 +459,7 @@ public class AbcUnitView extends JPanel
             jbsetinita.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    String valistr = jlwyb.getText();
+                    String valistr = jlwya.getText();
                     if (valistr == null || valistr.equals("")) {
                         JOptionPane.showMessageDialog(null, "请先获得初始值", "错误", JOptionPane.WARNING_MESSAGE);
                     } else {
@@ -583,7 +585,7 @@ public class AbcUnitView extends JPanel
             jbsetinitc.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    String valistr = jlwyb.getText();
+                    String valistr = jlwyc.getText();
                     if (valistr == null || valistr.equals("")) {
                         JOptionPane.showMessageDialog(null, "请先获得初始值", "错误", JOptionPane.WARNING_MESSAGE);
                     } else {
@@ -781,7 +783,6 @@ public class AbcUnitView extends JPanel
                 JOptionPane.showMessageDialog(null, "单元不存在,请先添加单元!", "设置失败", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            SysUnitService.updateInitvari(unit);
             switch (xw) {
                 case "A":
                     unit.setInitvari(Float.parseFloat(jlwya.getText()));
@@ -793,10 +794,23 @@ public class AbcUnitView extends JPanel
                     unit.setInitvari(Float.parseFloat(jlwyc.getText()));
                     break;
             }
+            SysUnitService.updateInitvari(unit);
             ChartView.getInstance().alignZero(unitBean);
+            switch (xw) {
+                case "A":
+                    jlwya.setText("0.0");
+                    jlwya.setBackground(colorB);
+                    break;
+                case "B":
+                    jlwyb.setText("0.0");
+                    jlwyb.setBackground(colorB);
+                    break;
+                case "C":
+                    jlwyc.setText("0.0");
+                    jlwyc.setBackground(colorB);
+                    break;
+            }
             JOptionPane.showMessageDialog(null, "设置成功", "成功", JOptionPane.INFORMATION_MESSAGE);
-            jlwyb.setText("0.0");
-            jlwyb.setBackground(colorB);
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "存储失败,请稍后重试", "设置失败", JOptionPane.WARNING_MESSAGE);

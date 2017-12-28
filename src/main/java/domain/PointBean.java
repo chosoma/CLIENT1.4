@@ -55,6 +55,18 @@ public class PointBean {
         this.place = place;
     }
 
+    @Override
+    public String toString() {
+        return "PointBean{" +
+                "id=" + id +
+                ", point=" + point +
+                ", place='" + place + '\'' +
+                ", unitType=" + unitType +
+                ", gatewayType=" + gatewayType +
+                ", gatewayNumber=" + gatewayNumber +
+                '}';
+    }
+
     public PointBean() {
 
     }
