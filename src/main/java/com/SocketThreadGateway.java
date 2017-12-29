@@ -46,10 +46,10 @@ public class SocketThreadGateway implements Runnable {
             System.out.println("链接成功");
             in = socket.getInputStream();
             out = socket.getOutputStream();
-            byte[] bytes = new byte[4];
-            bytes[0] = 0x7d;
-            bytes[3] = 0x7e;
-            out.write(bytes);
+//            byte[] bytes = new byte[4];
+//            bytes[0] = 0x7d;
+//            bytes[3] = 0x7e;
+//            out.write(bytes);
             // 接受数据超时
             byte[] b = new byte[1024];
             int num = -1;

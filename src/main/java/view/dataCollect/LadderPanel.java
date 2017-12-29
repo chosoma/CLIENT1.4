@@ -89,13 +89,13 @@ public class LadderPanel extends JPanel {
                 break;
             case 2:
                 MaxVari = 125;
-                MinVari = -375;
+                MinVari = -125;
                 MaxBat = 200;
                 MinBat = 0;
                 break;
             case 3:
                 MaxTemp = 150;
-                MinTemp = -310;
+                MinTemp = -80;
                 MaxBat = 200;
                 MinBat = 0;
                 break;
@@ -421,6 +421,9 @@ public class LadderPanel extends JPanel {
 //                    }
 //                } else {
                 for (DataBean databean : historydatas) {
+                    if (databean.getVari() == 65535) {
+                        continue;
+                    }
                     varis.add((float) ((int) ((databean.getVari() - unit.getInitvari()) * 10.0) / 10.0));
                     dates.add(databean.getDate());
                 }
@@ -619,13 +622,13 @@ public class LadderPanel extends JPanel {
                 break;
             case 2:
                 MaxVari = 125;
-                MinVari = -375;
+                MinVari = -125;
                 MaxBat = 200;
                 MinBat = 0;
                 break;
             case 3:
                 MaxTemp = 150;
-                MinTemp = -310;
+                MinTemp = -80;
                 MaxBat = 200;
                 MinBat = 0;
                 break;
