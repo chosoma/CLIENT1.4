@@ -612,11 +612,11 @@ public class LadderPanel extends JPanel {
         switch (unit.getType()) {
             case 1:
                 MaxTemp = 150;//150
-                MinTemp = -770;//-80  +3
-                MaxPres = 400;//200 +1
-                MinPres = -400;//0 +2
+                MinTemp = -450;//-50  +2
+                MaxPres = 8;//4 +1
+                MinPres = -4;//0 +1
                 MaxDen = 300;//100 +2
-                MinDen = -100;//0 +1
+                MinDen = 0;//0
                 MaxBat = 400;//100 +3
                 MinBat = 0;//0
                 break;
@@ -628,7 +628,7 @@ public class LadderPanel extends JPanel {
                 break;
             case 3:
                 MaxTemp = 150;
-                MinTemp = -80;
+                MinTemp = -50;
                 MaxBat = 200;
                 MinBat = 0;
                 break;

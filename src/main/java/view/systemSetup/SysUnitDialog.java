@@ -142,7 +142,7 @@ public abstract class SysUnitDialog extends JDialog {
                             return;
                         }
                         SysUnitService.addUnit(newUnitBean);
-                        UnitPacket unitPacket = SensorService.getUnitPacket(newUnitBean.getGatewaytype(),newUnitBean.getGatewaynumber());
+                        UnitPacket unitPacket = SensorService.getUnitPacket(newUnitBean.getGatewaytype(), newUnitBean.getGatewaynumber());
                         unitPacket.addUnit(newUnitBean);
                         ChartView.getInstance().loadSensor();
                         int flag = JOptionPane.showConfirmDialog(null, "资料添加成功，是否需要继续添加？", "提示", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -153,7 +153,7 @@ public abstract class SysUnitDialog extends JDialog {
                         }
                     }
 
-                       } catch (NullPointerException e) {
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "请先添加网关", "失败", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException e) {

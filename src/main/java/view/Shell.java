@@ -95,8 +95,7 @@ public class Shell extends JFrame implements ActionListener {
 
         contentCard = new CardLayout();
         contentPane = new JPanel(contentCard);
-        contentPane.setBorder(BorderFactory.createLineBorder(new Color(44, 46,
-                54)));
+        contentPane.setBorder(BorderFactory.createLineBorder(new Color(44, 46,                54)));
         setContentPane(contentPane);
 
         try {

@@ -84,7 +84,7 @@ public class SocketThreadGateway implements Runnable {
                         sendMSG(msgD);
                         dataFactory.receDatas(new RawDataX(data, time));
                     } else if (cmdType == ProtocolX.cmdSetR) {// 设置应答
-//                        JOptionPane.showMessageDialog(null, "设置成功");
+                        JOptionPane.showMessageDialog(null, "设置成功");
                         System.out.println("设置应答");
 //                        byte unitType = b[8];
 //                        byte unitId = b[9];
