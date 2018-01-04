@@ -70,7 +70,12 @@ public class MouseInputHandler implements MouseInputListener {
      * PrivilegedExceptionAction needed by mouseDragged method to obtain new
      * location of window on screen during the drag.
      */
-    private final PrivilegedExceptionAction getLocationAction = () -> MouseInfo.getPointerInfo().getLocation();
+    private final PrivilegedExceptionAction getLocationAction = new PrivilegedExceptionAction() {
+        @Override
+        public Object run() throws Exception {
+            return MouseInfo.getPointerInfo().getLocation();
+        }
+    };
 
     public void mousePressed(MouseEvent ev) {
         Point dragWindowOffset = ev.getPoint();

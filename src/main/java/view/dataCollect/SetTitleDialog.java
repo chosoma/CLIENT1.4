@@ -19,7 +19,7 @@ public class SetTitleDialog extends JDialog {
     private static Color HeadC1 = new Color(240, 62, 20), HeadC2 = new Color(205, 49, 13);
     PointBean pointBean;
 
-    public SetTitleDialog(Window owner, PointBean pointBean) {
+    public SetTitleDialog(Window owner, final PointBean pointBean) {
         jtftitle = new JTextField();
         this.pointBean = pointBean;
         setModal(true);// 设置对话框模式

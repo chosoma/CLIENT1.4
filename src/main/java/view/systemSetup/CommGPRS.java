@@ -55,13 +55,13 @@ public class CommGPRS extends JPanel implements UpdateInfo {
 	// 保存配置信息
 	@Override
 	public void saveInfo() throws Exception {
-		String s = portInput.getText().trim();
+//		String s = portInput.getText().trim();
 		String s2 = portInput2.getText().trim();
 		int j = Integer.parseInt(s2);
-		String ipreg = "((?:(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))";
-		if(!s.matches(ipreg)){
-			throw new Exception("IP 输入有误");
-		}
+//		String ipreg = "((?:(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))";
+//		if(!s.matches(ipreg)){
+//			throw new Exception("IP 输入有误");
+//		}
 		if (j < 1025 || j > 65535) {
 			throw new Exception("端口号必须位于介于[ 1025 -- 65535 ]之间!!!");
 		}

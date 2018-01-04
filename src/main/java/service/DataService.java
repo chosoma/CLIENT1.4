@@ -116,12 +116,60 @@ public class DataService {
 //                + " group by sjbh,xw) b on a.sjbh=b.sjbh and a.xw=b.xw and a.sj=b.sj,"
 //                + DataBaseAttr.SensorTable
 //                + " s where s.sjbh=a.sjbh and s.type!=? order by s.type,a.sjbh,a.xw";
-        String sql = "select * from ( select g.number gatewaynumber, u.type unittype, u.number unitnumber, period, channel, pres, temp, den, vari, batlv, date,u.xw, p.point, p.place\n" +
-                "from data d,unit u ,gateway g , point p\n" +
-                "where d.unittype = u.type and d.unitnumber = u.number and u.point = p.point" +
-                " and p.gatewaytype = g.type and p.gatewaynumber = g.number  \n" +
-                "order by date desc \n" +
-                " ) d group by unittype ,unitnumber ;\n";
+        String sql = "(SELECT\n" +
+                "  `d`.`gatewaynumber`,\n" +
+                "  `d`.`unittype`,\n" +
+                "  `d`.`unitnumber`,\n" +
+                "  `d`.`period`,\n" +
+                "  `d`.`channel`,\n" +
+                "  `d`.`pres`,\n" +
+                "  `d`.`temp`,\n" +
+                "  `d`.`den`,\n" +
+                "  `d`.`vari`,\n" +
+                "  `d`.`batlv`,\n" +
+                "  `d`.`date`,\n" +
+                "  `d`.`xw`,\n" +
+                "  `d`.`point`,\n" +
+                "  `d`.`place`\n" +
+                "FROM\n" +
+                "  (\n" +
+                "    (SELECT\n" +
+                "      `g`.`number` AS 'gatewaynumber',\n" +
+                "      `u`.`type` AS 'unittype',\n" +
+                "      `u`.`number` AS 'unitnumber',\n" +
+                "      `u`.`period`,\n" +
+                "      `g`.`channel`,\n" +
+                "      `d`.`Pres` AS 'pres',\n" +
+                "      `d`.`Temp` AS 'temp',\n" +
+                "      `d`.`Den` AS 'den',\n" +
+                "      `d`.`Vari` AS 'vari',\n" +
+                "      `d`.`BatLv` AS 'batlv',\n" +
+                "      `d`.`date`,\n" +
+                "      `u`.`xw`,\n" +
+                "      `p`.`point`,\n" +
+                "      `p`.`place`\n" +
+                "    FROM\n" +
+                "      (((`data` d\n" +
+                "        JOIN `unit` u)\n" +
+                "        JOIN `gateway` g)\n" +
+                "        JOIN `point` p)\n" +
+                "    WHERE\n" +
+                "      ((`d`.`unittype` = `u`.`type`)\n" +
+                "        AND (`d`.`unitnumber` = `u`.`number`)\n" +
+                "        AND (`u`.`point` = `p`.`point`)\n" +
+                "        AND (`p`.`gatewaytype` = `g`.`type`)\n" +
+                "        AND (`p`.`gatewaynumber` = `g`.`number`))) d\n" +
+                "      JOIN (SELECT\n" +
+                "        `data`.`unittype`, `data`.`unitnumber`, MAX(`data`.`date`) AS 'date'\n" +
+                "      FROM\n" +
+                "        `data`\n" +
+                "      GROUP BY\n" +
+                "        `data`.`unittype`, `data`.`unitnumber`) da\n" +
+                "  )\n" +
+                "WHERE\n" +
+                "  ((`d`.`unittype` = `da`.`unittype`) AND (`d`.`unitnumber` = `da`.`unitnumber`) AND (`d`.`date` = `da`.`date`))\n" +
+                "GROUP BY\n" +
+                "  `d`.`unittype`, `d`.`unitnumber`)";
         //        sql = "select s.type,a.sjbh,xw,unitid,dh,sj,dy,f1,f2,gcz,a.dw,yz from "
 //                + DataBaseAttr.DataTable + " a ," + DataBaseAttr.SensorTable
 //                + " s where s.sjbh=a.sjbh and s.type='"
