@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +13,13 @@ import javax.swing.JPanel;
 
 import domain.DataBean;
 import domain.UnitBean;
-import service.DataService;
 import service.SysUnitService;
-import view.Shell;
 import view.icon.*;
 
 public class DdView extends JPanel {
 
 
-    Image backgroud;
+    private Image backgroud;
 
     public DdView() {
         this.setLayout(null);
@@ -42,7 +39,7 @@ public class DdView extends JPanel {
 
     }
 
-    static java.util.List<LadderFrame> ladders;
+    private static java.util.List<LadderFrame> ladders;
 
     Dimension size;
 
@@ -54,7 +51,7 @@ public class DdView extends JPanel {
     }
 
 
-    java.util.List<UnitBean> units;
+    private java.util.List<UnitBean> units;
 
 
     public void alignZero(UnitBean unit) {
@@ -143,7 +140,7 @@ public class DdView extends JPanel {
     }
 
 
-    ShowButton[] showButtons;
+    private ShowButton[] showButtons;
 
     public void addData(DataBean dataBean) {
         UnitBean unitBean = getUnit(dataBean);

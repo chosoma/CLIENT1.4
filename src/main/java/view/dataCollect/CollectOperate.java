@@ -485,8 +485,11 @@ public class CollectOperate {
         addData.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
+                    long start = System.currentTimeMillis();
                     List<DataBean> datas = DataService.getLatestDatas();
                     CollectShow.getInstance().receDatas(datas);
+                    long end = System.currentTimeMillis();
+                    System.out.println(end - start);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }

@@ -91,15 +91,16 @@ public class ShowButton extends JButton {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                ladderFrame.getjPanel().setFlag(true);
-                ladderFrame.getjPanel().clear();
+//                ladderFrame.getjPanel().setFlag(true);
+//                ladderFrame.getjPanel().clear();
+                ladderFrame.clear();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 ladderFrame.setHeadTitle(titleLabel.getText());
                 ladderFrame.setUnitBeanList(unitList);
-                ladderFrame.getjPanel().setFlag(false);
+//                ladderFrame.getjPanel().setFlag(false);
                 ladderFrame.setVisible(true);
             }
 

@@ -58,7 +58,6 @@ public class Index {
             e.printStackTrace();
         }
 
-        // TODO Auto-generated catch block
         String processName = getProcessName();
         if (processName != null && !processName.equals("DPS")) {
             System.exit(0);

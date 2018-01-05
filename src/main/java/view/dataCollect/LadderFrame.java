@@ -49,9 +49,9 @@ public class LadderFrame extends JFrame {
     private Point lastPoint;
     private static Color HeadC1 = new Color(115, 168, 240),
             HeadC2 = new Color(136, 186, 205);
-    private LadderPanel jPanel;
+    private JPanel jPanel;
 
-    public LadderPanel getjPanel() {
+    public JPanel getjPanel() {
         return jPanel;
     }
 
@@ -60,13 +60,14 @@ public class LadderFrame extends JFrame {
     JLabel title;
 
     JComboBox<String> jcbxw;
+    JPanel contentPane;
 
     public LadderFrame() {
 //        setModal(true);// 设置对话框模式
         setUndecorated(true);// 去除JDialog边框
         // 设置JDialog背景透明
         AWTUtilities.setWindowOpaque(this, false);
-        JPanel contentPane = new JPanel(new BorderLayout());
+        contentPane = new JPanel(new BorderLayout());
         contentPane.setBorder(BorderFactory.createLineBorder(new Color(44, 46, 54)));
         this.setContentPane(contentPane);
 
@@ -127,10 +128,6 @@ public class LadderFrame extends JFrame {
         });
         headRight.add(close);
 
-
-        jPanel = new LadderPanel();
-        jPanel.setPreferredSize(getSize());
-        contentPane.add(jPanel, BorderLayout.CENTER);
 
         this.setSize(500, 300);
         this.setMinimumSize(new Dimension(500, 300));
@@ -195,8 +192,13 @@ public class LadderFrame extends JFrame {
                         JOptionPane.showMessageDialog(null, "时间段没有数据", "提示", JOptionPane.INFORMATION_MESSAGE);
                         return;
                     }
-                    LadderFrame.this.jPanel.setUnit(unit);
-                    LadderFrame.this.jPanel.setDatas(dataList);
+                    clear();
+                    jPanel = LineLadder.getInstance().getJPanel(unit, dataList, getSize());
+//                    jPanel.setPreferredSize(getSize());
+                    contentPane.add(jPanel, BorderLayout.CENTER);
+                    contentPane.validate();
+//                    LadderFrame.this.jPanel.setUnit(unit);
+//                    LadderFrame.this.jPanel.setDatas(dataList);
 
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -272,5 +274,13 @@ public class LadderFrame extends JFrame {
 
     public void setHeadTitle(String title) {
         this.title.setText(title);
+    }
+
+    public void clear() {
+        if (jPanel == null) {
+            return;
+        }
+        contentPane.remove(jPanel);
+        contentPane.repaint();
     }
 }

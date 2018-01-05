@@ -421,7 +421,7 @@ public class LadderPanel extends JPanel {
 //                    }
 //                } else {
                 for (DataBean databean : historydatas) {
-                    if (databean.getVari() == 65535) {
+                    if (databean.getVari() >= 65535) {
                         continue;
                     }
                     varis.add((float) ((int) ((databean.getVari() - unit.getInitvari()) * 10.0) / 10.0));

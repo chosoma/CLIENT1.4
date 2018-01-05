@@ -342,6 +342,16 @@ public class Shell extends JFrame implements ActionListener {
         });
         buttonPanel.add(jbSw);
 
+        JButton jbHit = new MyButton4("故障定位");
+        jbHit.setPreferredSize(buttonsize);
+        jbHit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                myButtonGroup(e, "GZ");
+            }
+        });
+        buttonPanel.add(jbHit);
+
     }
 
     JPanel buttonPanel;
@@ -482,6 +492,9 @@ public class Shell extends JFrame implements ActionListener {
                     break;
                 case 3:
                     str = "TX";
+                    break;
+                case 4:
+                    str = "GZ";
                     break;
             }
             ChartView.getInstance().showPane(str);

@@ -90,7 +90,7 @@ public class DataService {
     /**
      * 各点最后一条数据
      *
-     * @return
+     * @return List
      * @throws SQLException
      */
     public static List<DataBean> getLatestDatas() throws SQLException {

@@ -19,6 +19,7 @@ public class ChartView extends JPanel {
     private static ChartView CV = new ChartView();
     private AbcView panelSF6, panelWd, panelSSJ;
     private DdView panelGraph;
+    private HitchView panelHitch;
 
     public DdView getPanelGraph() {
         return panelGraph;
@@ -74,6 +75,8 @@ public class ChartView extends JPanel {
         this.add(panelSSJ, "SSJ");
         panelGraph = new DdView();
         this.add(panelGraph, "TX");
+        panelHitch = new HitchView();
+        this.add(panelHitch, "GZ");
     }
 
     public void alignZero(UnitBean unit) {

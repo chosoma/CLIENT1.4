@@ -37,13 +37,13 @@ public class AbcUnitView extends JPanel
 //        return unitBean;
 //    }
 
-    String type;
-    JLabel jlwda, jlmda, jldya, jlyla, jlwya;
-    JLabel jlwdb, jlmdb, jldyb, jlylb, jlwyb;
-    JLabel jlwdc, jlmdc, jldyc, jlylc, jlwyc;
-    MyButton2 jbsetinita, jbsetinitb, jbsetinitc;
+    private String type;
+    private JLabel jlwda, jlmda, jldya, jlyla, jlwya;
+    private JLabel jlwdb, jlmdb, jldyb, jlylb, jlwyb;
+    private JLabel jlwdc, jlmdc, jldyc, jlylc, jlwyc;
+    private MyButton2 jbsetinita, jbsetinitb, jbsetinitc;
 
-    PointBean pointBean;
+    private PointBean pointBean;
 
     public PointBean getPointBean() {
         return pointBean;
@@ -295,8 +295,8 @@ public class AbcUnitView extends JPanel
 
     }
 
-    static Color colorTitle3 = new Color(182, 216, 245);// 138, 191, 237
-    static Color colorSubTitle3 = new Color(232, 242, 254);// 182, 216, 245
+    private static Color colorTitle3 = new Color(182, 216, 245);// 138, 191, 237
+    private static Color colorSubTitle3 = new Color(232, 242, 254);// 182, 216, 245
 
 //    void init2() {
 //        this.setLayout(new GridLayout(6, 1, 1, 1));
@@ -600,140 +600,164 @@ public class AbcUnitView extends JPanel
         }
     }
 
-    List<Boolean> flags;
+    private List<Boolean> flags;
 
     private void addDataA(UnitBean unitBean, DataBean dataBean) {
-        String name = dataBean.getName();
-        if (name.equals(SensorAttr.Sensor_SF6)) {
-            jlwda.setText(String.valueOf(dataBean.getTemp()));
-            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
-                jlwda.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwda.setBackground(colorB);
-            }
-            jlmda.setText(String.valueOf(dataBean.getDen()));
-            if (unitBean.getMaxden() != null && unitBean.getMinden() != null && (dataBean.getDen() > unitBean.getMaxden() || dataBean.getDen() < unitBean.getMinden())) {
-                jlmda.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlmda.setBackground(colorB);
-            }
-            jlyla.setText(String.valueOf(dataBean.getPres()));
-            if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
-                jlyla.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlyla.setBackground(colorB);
-            }
-        } else if (name.equals(SensorAttr.Sensor_SSJ)) {
-            float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
-            jlwya.setText(String.valueOf(vari));
-            if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
-                jlwya.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwya.setBackground(colorB);
-            }
-        } else {
-            jlwda.setText(String.valueOf(dataBean.getTemp()));
-            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
-                jlwda.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwda.setBackground(colorB);
-            }
+        byte type = dataBean.getUnitType();
+        switch (type) {
+            case 1:
+                jlwda.setText(String.valueOf(dataBean.getTemp()));
+                if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                    jlwda.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlwda.setBackground(colorB);
+                }
+                jlmda.setText(String.valueOf(dataBean.getDen()));
+                if (unitBean.getMaxden() != null && unitBean.getMinden() != null && (dataBean.getDen() > unitBean.getMaxden() || dataBean.getDen() < unitBean.getMinden())) {
+                    jlmda.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlmda.setBackground(colorB);
+                }
+                jlyla.setText(String.valueOf(dataBean.getPres()));
+                if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
+                    jlyla.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlyla.setBackground(colorB);
+                }
+                break;
+            case 2:
+                float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
+                if (dataBean.getVari() >= 65535) {
+                    jlwya.setText("断连");
+                } else {
+                    jlwya.setText(String.valueOf(vari));
+                }
+                if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
+                    jlwya.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlwya.setBackground(colorB);
+                }
+                break;
+            case 3:
+                jlwda.setText(String.valueOf(dataBean.getTemp()));
+                if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                    jlwda.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlwda.setBackground(colorB);
+                }
+                break;
         }
         jldya.setText(String.valueOf(dataBean.getBatlv()));
 
     }
 
     private void addDataB(UnitBean unitBean, DataBean dataBean) {
-        String name = dataBean.getName();
-        if (name.equals(SensorAttr.Sensor_SF6)) {
-            jlwdb.setText(String.valueOf(dataBean.getTemp()));
-            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
-                jlwdb.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwdb.setBackground(colorB);
-            }
-            jlmdb.setText(String.valueOf(dataBean.getDen()));
-            if (unitBean.getMaxden() != null && unitBean.getMinden() != null && (dataBean.getDen() > unitBean.getMaxden() || dataBean.getDen() < unitBean.getMinden())) {
-                jlmdb.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlmdb.setBackground(colorB);
-            }
-            jlylb.setText(String.valueOf(dataBean.getPres()));
-            if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
-                jlylb.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlylb.setBackground(colorB);
-            }
-        } else if (name.equals(SensorAttr.Sensor_SSJ)) {
-            float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
-            jlwyb.setText(String.valueOf(vari));
-            if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
-                jlwyb.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwyb.setBackground(colorB);
-            }
-        } else {
-            jlwdb.setText(String.valueOf(dataBean.getTemp()));
-            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
-                jlwdb.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwdb.setBackground(colorB);
-            }
+        byte type = dataBean.getUnitType();
+        switch (type) {
+            case 1:
+                jlwdb.setText(String.valueOf(dataBean.getTemp()));
+                if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                    jlwdb.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlwdb.setBackground(colorB);
+                }
+                jlmdb.setText(String.valueOf(dataBean.getDen()));
+                if (unitBean.getMaxden() != null && unitBean.getMinden() != null && (dataBean.getDen() > unitBean.getMaxden() || dataBean.getDen() < unitBean.getMinden())) {
+                    jlmdb.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlmdb.setBackground(colorB);
+                }
+                jlylb.setText(String.valueOf(dataBean.getPres()));
+                if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
+                    jlylb.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlylb.setBackground(colorB);
+                }
+                break;
+            case 2:
+                float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
+                if (dataBean.getVari() >= 65535) {
+                    jlwyb.setText("断连");
+                } else {
+                    jlwyb.setText(String.valueOf(vari));
+                }
+                if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
+                    jlwyb.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlwyb.setBackground(colorB);
+                }
+                break;
+            case 3:
+                jlwdb.setText(String.valueOf(dataBean.getTemp()));
+                if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                    jlwdb.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlwdb.setBackground(colorB);
+                }
+                break;
         }
         jldyb.setText(String.valueOf(dataBean.getBatlv()));
     }
 
     private void addDataC(UnitBean unitBean, DataBean dataBean) {
-        String name = dataBean.getName();
-        if (name.equals(SensorAttr.Sensor_SF6)) {
-            jlwdc.setText(String.valueOf(dataBean.getTemp()));
-            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
-                jlwdc.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwdc.setBackground(colorB);
-            }
-            jlmdc.setText(String.valueOf(dataBean.getDen()));
-            if (unitBean.getMaxden() != null && unitBean.getMinden() != null && (dataBean.getDen() > unitBean.getMaxden() || dataBean.getDen() < unitBean.getMinden())) {
-                jlmdc.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlmdc.setBackground(colorB);
-            }
-            jlylc.setText(String.valueOf(dataBean.getPres()));
-            if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
-                jlylc.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlylc.setBackground(colorB);
-            }
-        } else if (name.equals(SensorAttr.Sensor_SSJ)) {
-            float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
-            jlwyc.setText(String.valueOf(vari));
-            if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
-                jlwyc.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwyc.setBackground(colorB);
-            }
-        } else {
-            jlwdc.setText(String.valueOf(dataBean.getTemp()));
-            if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
-                jlwdc.setBackground(colorWarn);
-                flags.add(true);
-            } else {
-                jlwdc.setBackground(colorB);
-            }
+        byte type = dataBean.getUnitType();
+        switch (type) {
+            case 1:
+                jlwdc.setText(String.valueOf(dataBean.getTemp()));
+                if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                    jlwdc.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlwdc.setBackground(colorB);
+                }
+                jlmdc.setText(String.valueOf(dataBean.getDen()));
+                if (unitBean.getMaxden() != null && unitBean.getMinden() != null && (dataBean.getDen() > unitBean.getMaxden() || dataBean.getDen() < unitBean.getMinden())) {
+                    jlmdc.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlmdc.setBackground(colorB);
+                }
+                jlylc.setText(String.valueOf(dataBean.getPres()));
+                if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
+                    jlylc.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlylc.setBackground(colorB);
+                }
+                break;
+            case 2:
+                float vari = FormatTransfer.newScale(dataBean.getVari(), unitBean.getInitvari());
+                if (dataBean.getVari() >= 65535) {
+                    jlwyc.setText("断连");
+                } else {
+                    jlwyc.setText(String.valueOf(vari));
+                }
+                if (unitBean.getMaxvari() != null && unitBean.getMinvari() != null && (vari > unitBean.getMaxvari() || vari < unitBean.getMinvari())) {
+                    jlwyc.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlwyc.setBackground(colorB);
+                }
+                break;
+            case 3:
+                jlwdc.setText(String.valueOf(dataBean.getTemp()));
+                if (unitBean.getWarnTemp() != null && dataBean.getTemp() > unitBean.getWarnTemp()) {
+                    jlwdc.setBackground(colorWarn);
+                    flags.add(true);
+                } else {
+                    jlwdc.setBackground(colorB);
+                }
+                break;
         }
         jldyc.setText(String.valueOf(dataBean.getBatlv()));
     }

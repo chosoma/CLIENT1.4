@@ -17,7 +17,10 @@ public class TestFlout {
 //        bytes[2] = (byte) 0xff;
 //        bytes[3] = (byte) 0xff;
 //        System.out.println(FormatTransfer.bytesL2Float2(bytes, 0, 4, 1));
-        newScale();
+//        newScale();/**/
+        int i = 5;
+        i += i *= i /= i -= i++;
+        System.out.println(i);
 
     }
 
