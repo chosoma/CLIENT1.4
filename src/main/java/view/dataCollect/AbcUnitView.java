@@ -94,11 +94,11 @@ public class AbcUnitView extends JPanel
                 addDataA(unit, data);
                 break;
             case "B":
-                dataBeanc = data;
+                dataBeanb = data;
                 addDataB(unit, data);
                 break;
             case "C":
-                dataBeanb = data;
+                dataBeanc = data;
                 addDataC(unit, data);
                 break;
         }
