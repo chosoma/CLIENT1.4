@@ -3,7 +3,11 @@ package view.dataCollect;
 
 import data.FormatTransfer;
 import domain.DataBean;
+import domain.PointBean;
 import domain.UnitBean;
+import view.icon.SF6IconMIN;
+import view.icon.TempIconMIN;
+import view.icon.VariIconMIN;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,20 +20,14 @@ public class ShowButton extends JButton {
 
     private java.util.List<UnitBean> unitList;
     private JPanel jPanel;
+    private PointBean pointBean;
 
-    public ShowButton() {
-        this(null, null);
-    }
-
-    ShowButton(Icon icon) {
-        this(null, icon);
-    }
-
-    public ShowButton(String text) {
-        this(text, null);
-    }
 
     private JLabel titleLabel;
+
+    public PointBean getPointBean() {
+        return pointBean;
+    }
 
     private JLabel jlA;
     private JLabel jlB;
@@ -44,8 +42,19 @@ public class ShowButton extends JButton {
         return jPanel;
     }
 
-    private ShowButton(String text, Icon icon) {
-        super(text, icon);
+    public ShowButton(PointBean pointBean) {
+        this.pointBean = pointBean;
+        switch (pointBean.getPoint()) {
+            case 0:
+                this.setIcon(new VariIconMIN());
+                break;
+            case 10:
+            case 11:
+                this.setIcon(new TempIconMIN());
+                break;
+            default:
+                this.setIcon(new SF6IconMIN());
+        }
         Font font = new Font(null, Font.PLAIN, 15);
         unitList = new ArrayList<>();
         jPanel = new JPanel();
@@ -54,9 +63,9 @@ public class ShowButton extends JButton {
         jPanel.setBounds(0, 0, 70, 70);
         jPanel.setVisible(true);
 
-        titleLabel = new JLabel("位置名称", JLabel.CENTER);
-        titleLabel.setFont(font);
-        jPanel.add(titleLabel, BorderLayout.NORTH);
+//        titleLabel = new JLabel(pointBean.getPlace(), JLabel.CENTER);
+//        titleLabel.setFont(font);
+//        jPanel.add(titleLabel, BorderLayout.NORTH);
 
         jlA = new JLabel("A", JLabel.CENTER);
         jlA.setFont(font);
@@ -73,7 +82,7 @@ public class ShowButton extends JButton {
 
 
         center = new JPanel();
-        center.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        center.setLayout(new GridLayout(5, 1));
         center.add(jlA);
         center.add(jlsub1);
         center.add(jlB);
@@ -81,7 +90,7 @@ public class ShowButton extends JButton {
         center.add(jlC);
 
         jPanel.add(center, BorderLayout.CENTER);
-        jPanel.add(jldw, BorderLayout.SOUTH);
+//        jPanel.add(jldw, BorderLayout.SOUTH);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -98,7 +107,7 @@ public class ShowButton extends JButton {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                ladderFrame.setHeadTitle(titleLabel.getText());
+//                ladderFrame.setHeadTitle(titleLabel.getText());
                 ladderFrame.setUnitBeanList(unitList);
 //                ladderFrame.getjPanel().setFlag(false);
                 ladderFrame.setVisible(true);
@@ -136,20 +145,20 @@ public class ShowButton extends JButton {
 
     void addUnit(UnitBean unitBean) {
         unitList.add(unitBean);
-        if (unitBean.getPlace() != null && !unitBean.getPlace().equals("")) {
-            titleLabel.setText(unitBean.getPlace());
-        }
-        switch (unitBean.getType()) {
-            case 1:
-                jldw.setText("单位:MPa");
-                break;
-            case 2:
-                jldw.setText("单位:mm");
-                break;
-            case 3:
-                jldw.setText("单位:℃");
-                break;
-        }
+//        if (unitBean.getPlace() != null && !unitBean.getPlace().equals("")) {
+//            titleLabel.setText(unitBean.getPlace());
+//        }
+//        switch (unitBean.getType()) {
+//            case 1:
+//                jldw.setText("单位:MPa");
+//                break;
+//            case 2:
+//                jldw.setText("单位:mm");
+//                break;
+//            case 3:
+//                jldw.setText("单位:℃");
+//                break;
+//        }
     }
 
     void alignZero(String xw) {

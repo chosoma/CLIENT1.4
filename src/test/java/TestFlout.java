@@ -18,10 +18,11 @@ public class TestFlout {
 //        bytes[3] = (byte) 0xff;
 //        System.out.println(FormatTransfer.bytesL2Float2(bytes, 0, 4, 1));
 //        newScale();/**/
-        int i = 5;
-        i += i *= i /= i -= i++;
-        System.out.println(i);
-
+//        int i = 5;
+//        i += i *= i /= i -= i++;
+//        System.out.println(i);
+        float f = (float) 0.00011;
+        System.out.println(String.valueOf(f));
     }
 
     public static void newScale() {

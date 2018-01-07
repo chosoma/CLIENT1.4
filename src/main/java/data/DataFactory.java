@@ -97,10 +97,16 @@ public class DataFactory {
                 if (unitType == ProtocolX.UnitTypeSF6) {// ----SF6单元
                     Float f1 = FormatTransfer.bytesL2Float3(bytes1, 0, 4, 10000);
                     Float f2 = FormatTransfer.bytesL2Float3(bytes2, 0, 4, 100);
-                    Float f3 = FormatTransfer.bytesL2Float3(bytes1, 0, 4, 1);
+//                    Float f3 = FormatTransfer.bytesL2Float3(bytes1, 0, 4, 1);
                     databean.setPres(f1);
+                    databean.setDen(f1);
                     databean.setTemp(f2);// F1
-                    databean.setDen(f3);
+                    if (bytes3[0] == 1) {
+                        databean.setLowPres(true);
+                    }
+                    if (bytes3[1] == 1) {
+                        databean.setLowLock(true);
+                    }
                     databean.setName(SensorAttr.Sensor_SF6);// 类型 SF6
                 } else if (unitType == ProtocolX.UnitTypeSSJ) {
                     Float f3 = FormatTransfer.bytesL2Float2(bytes3, 0, 4, 1);
@@ -115,13 +121,6 @@ public class DataFactory {
                 databean.setXw(unit.getXw());
                 show.receData(databean);
                 DataService.saveCollData(databean);
-//                String str = "";
-//                if(bytes3[0] == 1){
-//
-//                }
-//                if(bytes3[1] == 1){
-//
-//                }
             } catch (ArrayIndexOutOfBoundsException aioobe) {
                 System.out.println("数据长度不足");
                 aioobe.printStackTrace();

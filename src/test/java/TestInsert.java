@@ -10,20 +10,22 @@ import java.util.List;
 public class TestInsert {
     public static void main(String[] args) {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, 2016);
-        c.set(Calendar.MONTH, Calendar.DECEMBER);
-        c.set(Calendar.MONTH, Calendar.JANUARY);
-        c.set(Calendar.DAY_OF_MONTH, 12);
-        Date date = c.getTime();
+//        c.set(Calendar.YEAR, 2017);
+//        c.set(Calendar.MONTH, Calendar.DECEMBER);
+//        c.set(Calendar.MONTH, Calendar.JANUARY);
+//        c.set(Calendar.DAY_OF_MONTH, 12);
+//        Date date = c.getTime();
+        Date date = new Date();
+
         List<DataBean> datas = new ArrayList<>();
 
         for (byte i = 1; i <= 27; i++) {
             DataBean dataBean = new DataBean();
             dataBean.setUnitType((byte) 1);
             dataBean.setUnitNumber(i);
-            dataBean.setPres((float) (i * 0.1));
-            dataBean.setTemp((float) (i * 0.1));
-            dataBean.setDen((float) (i * 0.1));
+            dataBean.setPres((float) (i * 10));
+            dataBean.setTemp((float) (i * 20));
+            dataBean.setDen((float) (i * 30));
             dataBean.setBatlv((float) 3.8);
             dataBean.setDate(date);
             datas.add(dataBean);

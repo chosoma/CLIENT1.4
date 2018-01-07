@@ -159,6 +159,7 @@ public class CollectShow extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 PlayWAV.getInstance().stop();
                 jlbWarn.setText(null);
+                warnPanel.setVisible(false);
             }
         });
         warnPanel.add(jb, BorderLayout.EAST);

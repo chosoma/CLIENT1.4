@@ -13,6 +13,7 @@ public class DataBean implements Comparable {
     private float pres, temp, den, vari, batlv;
     private Date date;
     private int point;
+    private boolean lowPres, lowLock;
 
     public String getXw() {
         return xw;
@@ -160,6 +161,22 @@ public class DataBean implements Comparable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public boolean isLowPres() {
+        return lowPres;
+    }
+
+    public void setLowPres(boolean lowPres) {
+        this.lowPres = lowPres;
+    }
+
+    public boolean isLowLock() {
+        return lowLock;
+    }
+
+    public void setLowLock(boolean lowLock) {
+        this.lowLock = lowLock;
     }
 
     public Vector<Object> getTableData() {

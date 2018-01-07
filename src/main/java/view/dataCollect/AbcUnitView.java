@@ -38,9 +38,9 @@ public class AbcUnitView extends JPanel
 //    }
 
     private String type;
-    private JLabel jlwda, jlmda, jldya, jlyla, jlwya;
-    private JLabel jlwdb, jlmdb, jldyb, jlylb, jlwyb;
-    private JLabel jlwdc, jlmdc, jldyc, jlylc, jlwyc;
+    private JLabel jlwda, jlmda, jldya, jlyla, jlwya, jljza;
+    private JLabel jlwdb, jlmdb, jldyb, jlylb, jlwyb, jljzb;
+    private JLabel jlwdc, jlmdc, jldyc, jlylc, jlwyc, jljzc;
     private MyButton2 jbsetinita, jbsetinitb, jbsetinitc;
 
     private PointBean pointBean;
@@ -77,6 +77,7 @@ public class AbcUnitView extends JPanel
         return false;
     }
 
+    private DataBean dataBeana, dataBeanb, dataBeanc;
     static Color colorWarn = new Color(255, 80, 0);
     static Color colorB = new Color(255, 255, 255);
 
@@ -89,12 +90,15 @@ public class AbcUnitView extends JPanel
         }
         switch (unit.getXw()) {
             case "A":
+                dataBeana = data;
                 addDataA(unit, data);
                 break;
             case "B":
+                dataBeanc = data;
                 addDataB(unit, data);
                 break;
             case "C":
+                dataBeanb = data;
                 addDataC(unit, data);
                 break;
         }
@@ -179,10 +183,27 @@ public class AbcUnitView extends JPanel
         jlbdy.setBackground(colorSubTitle3);
         jlbdy.setOpaque(true);
 
+        JLabel jlbjz = new JLabel("基准值", JLabel.CENTER);
+        jlbjz.setBorder(border);
+        jlbjz.setBackground(colorSubTitle3);
+        jlbjz.setOpaque(true);
+
         JLabel jlbwy = new JLabel("偏移量", JLabel.CENTER);
         jlbwy.setBorder(border);
         jlbwy.setBackground(colorSubTitle3);
         jlbwy.setOpaque(true);
+
+        jljza = new JLabel("", JLabel.CENTER);
+        jljzb = new JLabel("", JLabel.CENTER);
+        jljzc = new JLabel("", JLabel.CENTER);
+
+        jljza.setBorder(border);
+        jljzb.setBorder(border);
+        jljzc.setBorder(border);
+
+        jljza.setOpaque(true);
+        jljzb.setOpaque(true);
+        jljzc.setOpaque(true);
 
         jlwda = new JLabel("", JLabel.CENTER);
         jlwda.setBorder(border);
@@ -271,15 +292,18 @@ public class AbcUnitView extends JPanel
             this.add(jlbdy);
         } else {
             if (this.pointBean.getUnitType() == 2) {
-                jlbwy.setBounds(x, y, 61, 21);
-                x += 60;
-                jlbdy.setBounds(x, y, 61, 21);
-                x += 60;
+                jlbjz.setBounds(x, y, 41, 21);
+                x += 40;
+                jlbwy.setBounds(x, y, 41, 21);
+                x += 40;
+                jlbdy.setBounds(x, y, 41, 21);
+                x += 40;
                 JLabel jLabel = new JLabel("");
                 jLabel.setBorder(border);
                 jLabel.setOpaque(true);
                 jLabel.setBackground(colorSubTitle);
                 jLabel.setBounds(x, y, 40, 21);
+                this.add(jlbjz);
                 this.add(jLabel);
                 this.add(jlbwy);
                 this.add(jlbdy);
@@ -292,7 +316,27 @@ public class AbcUnitView extends JPanel
                 this.add(jlbdy);
             }
         }
+        setInit();
+    }
 
+    private void setInit() {
+        if (pointBean.getPoint() != 0) {
+            return;
+        }
+        for (UnitBean unit : units) {
+            in:
+            switch (unit.getXw()) {
+                case "A":
+                    jljza.setText(String.valueOf(unit.getInitvari()));
+                    break in;
+                case "B":
+                    jljzb.setText(String.valueOf(unit.getInitvari()));
+                    break in;
+                case "C":
+                    jljzc.setText(String.valueOf(unit.getInitvari()));
+                    break in;
+            }
+        }
     }
 
     private static Color colorTitle3 = new Color(182, 216, 245);// 138, 191, 237
@@ -435,10 +479,13 @@ public class AbcUnitView extends JPanel
             this.add(jldya);
         } else {
             if (this.pointBean.getUnitType() == 2) {
-                jlwya.setBounds(x, y, 61, 21);
-                x += 60;
-                jldya.setBounds(x, y, 61, 21);
-                x += 60;
+                jljza.setBounds(x, y, 41, 21);
+                x += 40;
+                jlwya.setBounds(x, y, 41, 21);
+                x += 40;
+                jldya.setBounds(x, y, 41, 21);
+                x += 40;
+                this.add(jljza);
                 this.add(jlwya);
                 this.add(jldya);
                 jbsetinita = new MyButton2("校零");
@@ -484,6 +531,7 @@ public class AbcUnitView extends JPanel
         this.add(jlba);
         x += 40;
         if (this.pointBean.getUnitType() == 1) {
+
             jlwdb.setBounds(x, y, 41, 21);
             x += 40;
             jlmdb.setBounds(x, y, 41, 21);
@@ -498,10 +546,13 @@ public class AbcUnitView extends JPanel
             this.add(jldyb);
         } else {
             if (this.pointBean.getUnitType() == 2) {
-                jlwyb.setBounds(x, y, 61, 21);
-                x += 60;
-                jldyb.setBounds(x, y, 61, 21);
-                x += 60;
+                jljzb.setBounds(x, y, 41, 21);
+                x += 40;
+                jlwyb.setBounds(x, y, 41, 21);
+                x += 40;
+                jldyb.setBounds(x, y, 41, 21);
+                x += 40;
+                this.add(jljzb);
                 this.add(jlwyb);
                 this.add(jldyb);
                 jbsetinitb = new MyButton2("校零");
@@ -531,6 +582,7 @@ public class AbcUnitView extends JPanel
                             return;
                         }
                         updateUnit(unitBean, "B");
+
                     }
                 }
             });
@@ -561,10 +613,13 @@ public class AbcUnitView extends JPanel
             this.add(jldyc);
         } else {
             if (this.pointBean.getUnitType() == 2) {
-                jlwyc.setBounds(x, y, 61, 21);
-                x += 60;
-                jldyc.setBounds(x, y, 61, 21);
-                x += 60;
+                jljzc.setBounds(x, y, 41, 21);
+                x += 40;
+                jlwyc.setBounds(x, y, 41, 21);
+                x += 40;
+                jldyc.setBounds(x, y, 41, 21);
+                x += 40;
+                this.add(jljzc);
                 this.add(jlwyc);
                 this.add(jldyc);
                 jbsetinitc = new MyButton2("校零");
@@ -620,7 +675,19 @@ public class AbcUnitView extends JPanel
                 } else {
                     jlmda.setBackground(colorB);
                 }
-                jlyla.setText(String.valueOf(dataBean.getPres()));
+                if (dataBean.isLowLock()) {
+                    jlyla.setText("闭锁");
+                    jlyla.setBackground(colorWarn);
+                    flags.add(true);
+                    break;
+                } else if (dataBean.isLowPres()) {
+                    jlyla.setBackground(colorWarn);
+                    flags.add(true);
+                    jlyla.setText("低压");
+                    break;
+                } else {
+                    jlyla.setText(String.valueOf(dataBean.getPres()));
+                }
                 if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
                     jlyla.setBackground(colorWarn);
                     flags.add(true);
@@ -674,7 +741,19 @@ public class AbcUnitView extends JPanel
                 } else {
                     jlmdb.setBackground(colorB);
                 }
-                jlylb.setText(String.valueOf(dataBean.getPres()));
+                if (dataBean.isLowLock()) {
+                    jlylb.setText("闭锁");
+                    jlylb.setBackground(colorWarn);
+                    flags.add(true);
+                    break;
+                } else if (dataBean.isLowPres()) {
+                    jlylb.setBackground(colorWarn);
+                    flags.add(true);
+                    jlylb.setText("低压");
+                    break;
+                } else {
+                    jlylb.setText(String.valueOf(dataBean.getPres()));
+                }
                 if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
                     jlylb.setBackground(colorWarn);
                     flags.add(true);
@@ -727,7 +806,19 @@ public class AbcUnitView extends JPanel
                 } else {
                     jlmdc.setBackground(colorB);
                 }
-                jlylc.setText(String.valueOf(dataBean.getPres()));
+                if (dataBean.isLowLock()) {
+                    jlylc.setText("闭锁");
+                    jlylc.setBackground(colorWarn);
+                    flags.add(true);
+                    break;
+                } else if (dataBean.isLowPres()) {
+                    jlylc.setText("低压");
+                    jlylc.setBackground(colorWarn);
+                    flags.add(true);
+                    break;
+                } else {
+                    jlylc.setText(String.valueOf(dataBean.getPres()));
+                }
                 if (unitBean.getMaxper() != null && unitBean.getMinper() != null && (dataBean.getPres() > unitBean.getMaxper() || dataBean.getPres() < unitBean.getMinper())) {
                     jlylc.setBackground(colorWarn);
                     flags.add(true);
@@ -809,13 +900,16 @@ public class AbcUnitView extends JPanel
             }
             switch (xw) {
                 case "A":
-                    unit.setInitvari(Float.parseFloat(jlwya.getText()));
+                    unit.setInitvari(dataBeana.getVari());
+                    jljza.setText(String.valueOf(unit.getInitvari()));
                     break;
                 case "B":
-                    unit.setInitvari(Float.parseFloat(jlwyb.getText()));
+                    unit.setInitvari(dataBeanb.getVari());
+                    jljzb.setText(String.valueOf(unit.getInitvari()));
                     break;
                 case "C":
-                    unit.setInitvari(Float.parseFloat(jlwyc.getText()));
+                    unit.setInitvari(dataBeanc.getVari());
+                    jljzc.setText(String.valueOf(unit.getInitvari()));
                     break;
             }
             SysUnitService.updateInitvari(unit);

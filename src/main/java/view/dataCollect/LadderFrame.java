@@ -129,7 +129,7 @@ public class LadderFrame extends JFrame {
         headRight.add(close);
 
 
-        this.setSize(500, 300);
+        this.setSize(1000, 600);
         this.setMinimumSize(new Dimension(500, 300));
         this.setLocationRelativeTo(null);
         MouseInputListener listener = new MouseInputHandler(this);
