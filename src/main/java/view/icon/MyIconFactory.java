@@ -186,7 +186,7 @@ public class MyIconFactory {
     }
 
     static Image sound_16, sound_muted_16, rollscreen_16, rollscreen_muted_16, showDebug_16, showDebug_muted_16, msg_16, msg_muted_16,
-            temp, vari, SF6, ladder, unknown, SF6_28, temp_28, vari_28;
+            temp, vari, SF6, ladder, unknown, SF6_28, temp_28, vari_28, warn;
 
     static {
         try {
@@ -206,6 +206,7 @@ public class MyIconFactory {
             SF6_28 = ImageIO.read(MyIconFactory.class.getResource("sf6_28.png"));
             ladder = ImageIO.read(MyIconFactory.class.getResource("ladder.png"));
             unknown = ImageIO.read(MyIconFactory.class.getResource("unknown.png"));
+            warn = ImageIO.read(MyIconFactory.class.getResource("warn.png"));
 
         } catch (IOException e) {
             e.printStackTrace();

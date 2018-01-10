@@ -29,7 +29,8 @@ public class DdView extends JPanel {
 
         try {
             backgroud = ImageIO.read(this.getClass().getResource("indexGroud.png"));
-            dwimage = ImageIO.read(this.getClass().getResource("danwei.bmp"));
+//            dwimage = ImageIO.read(this.getClass().getResource("danwei.bmp"));
+            dwimage = ImageIO.read(this.getClass().getResource("danwei.png"));
         } catch (IOException ignored) {
 
         }
@@ -189,7 +190,7 @@ public class DdView extends JPanel {
             g.drawImage(backgroud, 0, 0, getWidth(), getHeight(), this);
         }
         if (dwimage != null) {
-            g.drawImage(dwimage, getWidth() - 240, 10, 230, 22, this);
+            g.drawImage(dwimage, getWidth() - 260, 10, 250, 30, this);
         }
         setBounds();
     }

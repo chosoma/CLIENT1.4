@@ -67,7 +67,7 @@ public class DataModel_SSJ extends DataManageModel {
 //                "  u.number AS un,\n" +
                 "  p.place AS us,\n" +
                 "  u.xw AS ux,\n" +
-                "  i.Vari-u.initvari AS vari,\n" +
+                "  case when i.Vari < 0 or i.Vari > 125 then '××' else i.Vari-u.initvari end AS vari,\n" +
                 "  i.BatLv AS batlv,\n" +
                 "  i.date\n" +
                 "FROM\n" +

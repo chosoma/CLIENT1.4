@@ -22,16 +22,24 @@ public class DataService {
 
     static {
         String tableName = DataBaseAttr.DataTable;
-        sqlInsert = "insert into " + tableName
+        sqlInsert = " insert into " + tableName
                 + " (unittype,unitnumber,den,pres,temp,vari,batlv,date)"
                 + " values ( ?,?,?,?,?,?,?,? )";
-        sqlOrder = "order by d.date desc , d.batlv desc , d.pres desc , d.den desc , d.temp desc , d.vari desc ";
+        sqlOrder = " order by d.date desc , d.batlv desc , d.pres desc , d.den desc , d.temp desc , d.vari desc ";
     }
 
     public static List<DataBean> getBetween(UnitBean unitBean, DataSearchPara para) throws SQLException {
-        String sql = "select * from ( select g.number gatewaynumber, u.type unittype, u.number unitnumber, period, channel, pres, temp, den, vari, batlv, date\n" +
-                "from data d,unit u ,gateway g,point p\n" +
-                "where p.point = u.point and d.unittype = u.type and d.unitnumber = u.number and p.gatewaytype = g.type and p.gatewaynumber = g.number and u.type = ? and u.number = ? \n";
+        StringBuilder sql = new StringBuilder(" select * from ( select g.number gatewaynumber, u.type unittype, u.number unitnumber, period, channel, pres, temp, den, vari, batlv, date\n" +
+                " from data d,unit u ,gateway g,point p\n" +
+                " where p.point = u.point and d.unittype = u.type and d.unitnumber = u.number and p.gatewaytype = g.type and p.gatewaynumber = g.number and u.type = ? and u.number = ? \n");
+        switch (unitBean.getType()) {
+            case 1:
+                sql.append(" and d.den>0 and d.pres>0 and d.temp>=-273 ");
+                break;
+            case 2:
+                sql.append(" and d.vari > 0 and d.vari <= 125");
+                break;
+        }
         ArrayList<Object> p = new ArrayList<>();
         p.add(unitBean.getType());
         p.add(unitBean.getNumber());
@@ -39,20 +47,22 @@ public class DataService {
             p.add(para.getT1());
             if (para.getT2() != null) {
                 p.add(para.getT2());
-                sql += " and date between ? and ? ";
+                sql.append(" and date between ? and ? ");
             } else {
-                sql += " and date >= ? ";
+                sql.append(" and date >= ? ");
             }
         } else {
             if (para.getT2() != null) {
                 p.add(para.getT2());
-                sql += " and date <= ? ";
+                sql.append(" and date <= ? ");
             }
         }
-        sql += sqlOrder;
-        sql += " ) d group by date;\n";
+
+
+        sql.append(sqlOrder);
+        sql.append(" ) d group by date;\n");
         System.out.println(p.size());
-        return MyDbUtil.queryBeanListData(sql, DataBean.class, p.toArray());
+        return MyDbUtil.queryBeanListData(sql.toString(), DataBean.class, p.toArray());
     }
 
     public static void saveCollData(List<DataBean> datas) throws SQLException {

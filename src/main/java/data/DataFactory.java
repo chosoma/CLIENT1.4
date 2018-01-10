@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import domain.UnitBean;
 import domain.UnitPacket;
 import protocol.ProtocolX;
@@ -107,10 +108,41 @@ public class DataFactory {
                     if (bytes3[1] == 1) {
                         databean.setLowLock(true);
                     }
+                    /*
+                    * 数据无效判断
+                    */
+                    byte bflag = -1;
+                    boolean flag = true;
+                    for (byte b : bytes1) {
+                        if (b != bflag) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        databean.setDisconnect(true);
+                        databean.setPres(-1);
+                        databean.setDen(-1);
+                        flag = true;
+                    }
+                    for (byte b : bytes2) {
+                        if (b != bflag) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        databean.setTemp(-274);
+                    }
                     databean.setName(SensorAttr.Sensor_SF6);// 类型 SF6
                 } else if (unitType == ProtocolX.UnitTypeSSJ) {
                     Float f3 = FormatTransfer.bytesL2Float2(bytes3, 0, 4, 1);
-                    databean.setVari(f3);
+                    if (f3 > 125 || f3 < 0) {
+                        databean.setDisconnect(true);
+                        databean.setVari(-1);
+                    } else {
+                        databean.setVari(f3);
+                    }
                     databean.setName(SensorAttr.Sensor_SSJ);// 类型 伸缩节
                 } else {//温度
                     Float f3 = FormatTransfer.bytesL2Float2(bytes3, 0, 4, 1);

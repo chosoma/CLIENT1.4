@@ -17,6 +17,6 @@
     <GPRS addr="" localport="8088"/> 
   </communication>  
   <!--数据库-->  
-  <database ip="localhost" port="3306" dbname="gil"/>  
+  <database ip="118.89.103.234" port="3306" dbname="gil"/>
   <start jflib="" gzlib=""/> 
 </property>

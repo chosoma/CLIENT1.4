@@ -118,8 +118,7 @@ public class MyDbUtil {
                 }, params);
     }
 
-    public static List<Vector<Object>> queryTableData(String sql,
-                                                      Object... params) throws SQLException {
+    public static List<Vector<Object>> queryTableData(String sql, Object... params) throws SQLException {
         QueryRunner runner = new QueryRunner(dataSource);
         return runner.query(sql, new TableListHandler(), params);
     }
@@ -170,7 +169,7 @@ public class MyDbUtil {
     /**
      * 批量操作数据
      *
-     * @param sql  sql操作语句
+     * @param sql   sql操作语句
      * @param datas 数据集合
      * @throws SQLException
      */

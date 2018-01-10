@@ -107,13 +107,13 @@ public class HomePanel extends GlassPanel {
 
     JLabel title, companyName;
 
-    MySkipButton mtbSF6, mtbTemp, mtbVari, mtbOther1, mtbOther2, mtbLadder;
+    MySkipButton mtbSF6, mtbTemp, mtbVari, mobGZ, mtbOther1, mtbOther2, mtbLadder;
 
-    MyOutButton mobGZ, mobJF;
+    MyOutButton mobJF;
 
     private void init() {
         this.setOpaque(false);
-        this.setLayout(new GridLayout(2, 3,50,50));
+        this.setLayout(new GridLayout(2, 3, 50, 50));
 //        JPanel jPanel1 = new JPanel();
 //        jPanel1.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
 //        jPanel1.setBackground(new Color(134, 73, 128));
@@ -126,7 +126,7 @@ public class HomePanel extends GlassPanel {
 //        jPanel1.add(mtbTemp);
 //        jPanel1.add(mtbVari);
 
-        this.mobGZ = new MyOutButton("故障定位", new UnKnownIcon(), 0);
+        this.mobGZ = new MySkipButton("故障定位", new WarnIcon(), 4);
         this.mobJF = new MyOutButton("局放检测", new UnKnownIcon(), 1);
 //        JPanel jPanel2 = new JPanel();
 //        jPanel2.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));

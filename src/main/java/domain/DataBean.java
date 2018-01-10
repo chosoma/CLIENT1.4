@@ -13,7 +13,7 @@ public class DataBean implements Comparable {
     private float pres, temp, den, vari, batlv;
     private Date date;
     private int point;
-    private boolean lowPres, lowLock;
+    private boolean lowPres, lowLock, disconnect;
 
     public String getXw() {
         return xw;
@@ -179,6 +179,14 @@ public class DataBean implements Comparable {
         this.lowLock = lowLock;
     }
 
+    public boolean isDisconnect() {
+        return disconnect;
+    }
+
+    public void setDisconnect(boolean disconnect) {
+        this.disconnect = disconnect;
+    }
+
     public Vector<Object> getTableData() {
 
         Vector<Object> data = new Vector<Object>();
@@ -208,22 +216,36 @@ public class DataBean implements Comparable {
 //        data.add(gatewayType);
 //        data.add(gatewayNumber);
         if (name.equals("SF6")) {
-            data.add(den);
-            data.add(pres);
-            data.add(temp);
+            if (den < 0) {
+                data.add("××");
+            } else {
+                data.add(den);
+            }
+            if (pres < 0) {
+                data.add("××");
+            } else {
+                data.add(pres);
+            }
+            if (temp <= -273) {
+                data.add("××");
+            } else {
+                data.add(temp);
+            }
             data.add(null);
         } else if (name.equals("伸缩节")) {
             data.add(null);
             data.add(null);
             data.add(null);
-            UnitBean unit = SysUnitService.getUnitBean(unitType, unitNumber);
-            float vari;
-            if (unit == null) {
-                vari = this.vari;
+            if (this.vari < 0) {
+                data.add("××");
             } else {
-                vari = FormatTransfer.newScale(this.vari, unit.getInitvari());
+                float vari = this.vari;
+                UnitBean unit = SysUnitService.getUnitBean(unitType, unitNumber);
+                if (unit != null) {
+                    vari = FormatTransfer.newScale(this.vari, unit.getInitvari());
+                }
+                data.add(vari);
             }
-            data.add(vari);
         } else {//温度
             data.add(null);
             data.add(null);

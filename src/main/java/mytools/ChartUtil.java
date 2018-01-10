@@ -529,9 +529,9 @@ public class ChartUtil {
 		plot.setDomainGridlineStroke(GridLineStroke);
 
 		JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT,
-				plot, false);
+				plot, true);
 		ChartFactory.getChartTheme().apply(chart);
-		rendererL.setSeriesPaint(0, XY_line);// 折线的颜色
+//		rendererL.setSeriesPaint(0, XY_line);// 折线的颜色
 		rendererL.setSeriesStroke(0, stroke);// 折线笔触
 		if (rendererR != null) {
 			rendererR.setSeriesPaint(0, TemperatureColor);// 折线的颜色

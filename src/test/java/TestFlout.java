@@ -11,18 +11,21 @@ public class TestFlout {
 //
 //        System.out.println((int) Math.floor(f));
 //
-//        byte[] bytes = new byte[4];
-//        bytes[0] = 0;
-//        bytes[1] = 0;
-//        bytes[2] = (byte) 0xff;
-//        bytes[3] = (byte) 0xff;
-//        System.out.println(FormatTransfer.bytesL2Float2(bytes, 0, 4, 1));
+        byte[] bytes = new byte[4];
+        bytes[0] = (byte) 0xff;
+        bytes[1] = (byte) 0xff;
+        bytes[2] = (byte) 0xff;
+        bytes[3] = (byte) 0x7f;
+        System.out.println(FormatTransfer.bytesL2Float2(bytes, 0, 4, 1));
 //        newScale();/**/
 //        int i = 5;
 //        i += i *= i /= i -= i++;
 //        System.out.println(i);
-        float f = (float) 0.00011;
-        System.out.println(String.valueOf(f));
+//        float f = (float) 0.00011;
+//        System.out.println(String.valueOf(f));
+
+
+
     }
 
     public static void newScale() {

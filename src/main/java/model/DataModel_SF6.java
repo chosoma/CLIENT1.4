@@ -71,9 +71,9 @@ public class DataModel_SF6 extends DataManageModel {
 //                "  u.number AS un,\n" +
                 "  p.place AS us,\n" +
                 "  u.xw AS ux,\n" +
-                "  i.Den AS den,\n" +
-                "  i.Pres AS pres,\n" +
-                "  i.Temp AS temp,\n" +
+                "  case when i.Den  < 0     then '××' else i.Den  end AS den,\n" +
+                "  case when i.Pres < 0     then '××' else i.Pres end AS pres,\n" +
+                "  case when i.Temp <= -273 then '××' else i.Temp end AS temp,\n" +
                 "  i.BatLv AS batlv,\n" +
                 "  i.date\n" +
                 "FROM\n" +

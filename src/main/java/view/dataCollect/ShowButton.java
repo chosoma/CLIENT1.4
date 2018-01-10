@@ -42,7 +42,7 @@ public class ShowButton extends JButton {
         return jPanel;
     }
 
-    public ShowButton(PointBean pointBean) {
+    public ShowButton(final PointBean pointBean) {
         this.pointBean = pointBean;
         switch (pointBean.getPoint()) {
             case 0:
@@ -61,7 +61,7 @@ public class ShowButton extends JButton {
         jPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         jPanel.setLayout(new BorderLayout());
         jPanel.setBounds(0, 0, 70, 70);
-        jPanel.setVisible(true);
+        jPanel.setVisible(false);
 
 //        titleLabel = new JLabel(pointBean.getPlace(), JLabel.CENTER);
 //        titleLabel.setFont(font);
@@ -69,24 +69,27 @@ public class ShowButton extends JButton {
 
         jlA = new JLabel("A", JLabel.CENTER);
         jlA.setFont(font);
+        jlA.setForeground(new Color(105, 42, 42));
         jlB = new JLabel("B", JLabel.CENTER);
         jlB.setFont(font);
+        jlB.setForeground(new Color(42, 105, 42));
         jlC = new JLabel("C", JLabel.CENTER);
         jlC.setFont(font);
-        JLabel jlsub1 = new JLabel("--", JLabel.CENTER);
-        jlsub1.setFont(font);
-        JLabel jlsub2 = new JLabel("--", JLabel.CENTER);
-        jlsub2.setFont(font);
+        jlC.setForeground(new Color(42, 42, 105));
+//        JLabel jlsub1 = new JLabel("--", JLabel.CENTER);
+//        jlsub1.setFont(font);
+//        JLabel jlsub2 = new JLabel("--", JLabel.CENTER);
+//        jlsub2.setFont(font);
         jldw = new JLabel("", JLabel.CENTER);
         jldw.setFont(font);
 
 
         center = new JPanel();
-        center.setLayout(new GridLayout(5, 1));
+        center.setLayout(new GridLayout(3, 1));
         center.add(jlA);
-        center.add(jlsub1);
+//        center.add(jlsub1);
         center.add(jlB);
-        center.add(jlsub2);
+//        center.add(jlsub2);
         center.add(jlC);
 
         jPanel.add(center, BorderLayout.CENTER);
@@ -107,7 +110,7 @@ public class ShowButton extends JButton {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-//                ladderFrame.setHeadTitle(titleLabel.getText());
+                ladderFrame.setHeadTitle(ShowButton.this.pointBean.getPlace());
                 ladderFrame.setUnitBeanList(unitList);
 //                ladderFrame.getjPanel().setFlag(false);
                 ladderFrame.setVisible(true);
@@ -115,12 +118,12 @@ public class ShowButton extends JButton {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-//                jPanel.setVisible(true);
+                jPanel.setVisible(true);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-//                jPanel.setVisible(false);
+                jPanel.setVisible(false);
             }
 
             @Override
@@ -164,30 +167,36 @@ public class ShowButton extends JButton {
     void alignZero(String xw) {
         switch (xw) {
             case "A":
-                jlA.setText("0.0");
+                jlA.setText("A:0.0");
                 break;
             case "B":
-                jlB.setText("0.0");
+                jlB.setText("B:0.0");
                 break;
             case "C":
-                jlC.setText("0.0");
+                jlC.setText("C:0.0");
                 break;
         }
     }
 
     void addData(DataBean dataBean) {
-        String str = "";
+        String str = "××";
         switch (dataBean.getUnitType()) {
             case 1:
-                str = String.valueOf(dataBean.getPres());
+                if (dataBean.isLowPres() || dataBean.isLowLock()) {
+                    break;
+                }
+                if (dataBean.getPres() >= 0) {
+                    str = String.valueOf(dataBean.getPres());
+                }
                 break;
             case 2:
+                float vari = dataBean.getVari();
+                if (vari < 0) {
+                    break;
+                }
                 UnitBean unit = getUnit(dataBean);
-                float vari;
-                if (unit == null) {
-                    vari = dataBean.getVari();
-                } else {
-                    vari = FormatTransfer.newScale(dataBean.getVari(), unit.getInitvari());
+                if (unit != null) {
+                    vari = FormatTransfer.newScale(vari, unit.getInitvari());
                 }
                 str = String.valueOf(vari);
                 break;
@@ -199,13 +208,13 @@ public class ShowButton extends JButton {
         String xw = getXw(dataBean);
         switch (xw) {
             case "A":
-                jlA.setText(str);
+                jlA.setText("A:" + str);
                 break;
             case "B":
-                jlB.setText(str);
+                jlB.setText("B:" + str);
                 break;
             case "C":
-                jlC.setText(str);
+                jlC.setText("C:" + str);
                 break;
         }
     }
