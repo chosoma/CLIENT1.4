@@ -91,6 +91,12 @@ public class AbcView extends JPanel {
         }
     }
 
+    public void clearData() {
+        for (AbcUnitView unit : units) {
+            unit.clearData();
+        }
+    }
+
     public void setTitle(PointBean pointBean) {
         for (AbcUnitView auv : units) {
             if (auv.getPointBean().getPoint() == pointBean.getPoint()) {

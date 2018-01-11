@@ -31,7 +31,7 @@ public class DataService {
     public static List<DataBean> getBetween(UnitBean unitBean, DataSearchPara para) throws SQLException {
         StringBuilder sql = new StringBuilder(" select * from ( select g.number gatewaynumber, u.type unittype, u.number unitnumber, period, channel, pres, temp, den, vari, batlv, date\n" +
                 " from data d,unit u ,gateway g,point p\n" +
-                " where p.point = u.point and d.unittype = u.type and d.unitnumber = u.number and p.gatewaytype = g.type and p.gatewaynumber = g.number and u.type = ? and u.number = ? \n");
+                " where p.point = u.point and d.unittype = u.type and d.unitnumber = u.number and gatewaytype = g.type and gatewaynumber = g.number and u.type = ? and u.number = ? \n");
         switch (unitBean.getType()) {
             case 1:
                 sql.append(" and d.den>0 and d.pres>0 and d.temp>=-273 ");
@@ -167,8 +167,8 @@ public class DataService {
                 "      ((`d`.`unittype` = `u`.`type`)\n" +
                 "        AND (`d`.`unitnumber` = `u`.`number`)\n" +
                 "        AND (`u`.`point` = `p`.`point`)\n" +
-                "        AND (`p`.`gatewaytype` = `g`.`type`)\n" +
-                "        AND (`p`.`gatewaynumber` = `g`.`number`))) d\n" +
+                "        AND (`u`.`gatewaytype` = `g`.`type`)\n" +
+                "        AND (`u`.`gatewaynumber` = `g`.`number`))) d\n" +
                 "      JOIN (SELECT\n" +
                 "        `data`.`unittype`, `data`.`unitnumber`, MAX(`data`.`date`) AS 'date'\n" +
                 "      FROM\n" +

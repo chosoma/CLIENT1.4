@@ -210,6 +210,7 @@ public class CollectShow extends JPanel {
 
     public synchronized void clearData() {
         dataModel.clearData();
+        chartView.clearData();
     }
 
     public boolean isNeedRoll() {

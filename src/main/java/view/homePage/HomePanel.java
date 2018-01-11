@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import com.MyLgoInfo;
 import mytools.MyOutButton;
 import mytools.MySkipButton;
 import view.dataCollect.LadderFrame;
@@ -113,12 +114,15 @@ public class HomePanel extends GlassPanel {
 
     private void init() {
         this.setOpaque(false);
-        this.setLayout(new GridLayout(2, 3, 50, 50));
+        this.setLayout(new BorderLayout());
 //        JPanel jPanel1 = new JPanel();
 //        jPanel1.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
 //        jPanel1.setBackground(new Color(134, 73, 128));
 //        jPanel1.setOpaque(false);
 //        this.add(jPanel1,BorderLayout.NORTH);
+        JPanel center = new JPanel();
+        center.setLayout(new GridLayout(2, 3, 50, 50));
+        center.setOpaque(false);
         this.mtbSF6 = new MySkipButton("SF6", new SF6Icon(), 0);
         this.mtbTemp = new MySkipButton("温度", new TempIcon(), 1);
         this.mtbVari = new MySkipButton("伸缩节", new VariIcon(), 2);
@@ -143,12 +147,13 @@ public class HomePanel extends GlassPanel {
 //            }
 //        });
 
-        this.add(mtbSF6);
-        this.add(mtbTemp);
-        this.add(mtbVari);
-        this.add(mobGZ);
-        this.add(mobJF);
-        this.add(mtbLadder);
+        center.add(mtbSF6);
+        center.add(mtbTemp);
+        center.add(mtbVari);
+        center.add(mobGZ);
+        center.add(mobJF);
+        center.add(mtbLadder);
+        this.add(center, BorderLayout.CENTER);
 
 //        ladders = new ArrayList<>();
 //        JPanel top = new JPanel(new BorderLayout());
@@ -162,13 +167,13 @@ public class HomePanel extends GlassPanel {
         // this.add(new JLabel(), BorderLayout.CENTER);
 
 
-//        JPanel bottom = new GlassPanel(new BorderLayout(), 0.3f);
+        JPanel bottom = new GlassPanel(new BorderLayout(), 0.3f);
 
-//        companyName = new JLabel("© CopyRight " + MyLgoInfo.CopyrightName, JLabel.CENTER);
-//        companyName.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-//        bottom.add(companyName, BorderLayout.NORTH);
+        companyName = new JLabel("© CopyRight " + MyLgoInfo.CopyrightName, JLabel.CENTER);
+        companyName.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+        bottom.add(companyName, BorderLayout.NORTH);
 
-//        this.add(bottom, BorderLayout.SOUTH);
+        this.add(bottom, BorderLayout.SOUTH);
     }
 
 //    @Override

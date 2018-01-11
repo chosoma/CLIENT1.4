@@ -18,7 +18,7 @@ public class SysPointService {
     }
 
     public static void init() throws SQLException {
-        String sql = " select p.point,place ,gatewaytype,gatewaynumber,u.type as unittype\n" +
+        String sql = " select p.point , place , x , y , gatewaytype , gatewaynumber , u.type as unittype\n" +
                 " from " + pointTable + " p , " + unitTable + " u\n" +
                 " where u.point = p.point group by p.point";
         pointList = MyDbUtil.queryBeanListData(sql, PointBean.class);

@@ -74,7 +74,7 @@ public class SysUnitService {
      */
     public static void init() throws SQLException {
         String sql = "select " +
-                "type , number , p.gatewaytype, p.gatewaynumber, " +
+                "type , number , gatewaytype, gatewaynumber, " +
                 "period, initvari, minvari, maxvari, minden, minden, maxper, minper, warntemp, xw, u.point, p.place " +
                 "from " + UnitTable + " u , " + PointTable + " p " +
                 "where u.point = p.point";

@@ -1,5 +1,6 @@
 package view.dataCollect;
 
+import com.DefaultUIManager;
 import com.sun.awt.AWTUtilities;
 import domain.DataBean;
 import domain.DataSearchPara;
@@ -63,6 +64,7 @@ public class LadderFrame extends JFrame {
     JPanel contentPane;
 
     public LadderFrame() {
+        this.setIconImages(DefaultUIManager.icons);
 //        setModal(true);// 设置对话框模式
         setUndecorated(true);// 去除JDialog边框
         // 设置JDialog背景透明
@@ -79,7 +81,6 @@ public class LadderFrame extends JFrame {
                 g2.dispose();
                 super.paintComponent(g);
             }
-
             public boolean isOpaque() {
                 return false;
             }
@@ -167,6 +168,11 @@ public class LadderFrame extends JFrame {
         c2s2 = new Check2SPinner(false, date2);
         c2s2.setMaximumSize(new Dimension(165, 17));
         toolBarL.add(c2s2);
+
+        JLabel jlxw = new JLabel("相位", JLabel.CENTER);
+        jlxw.setOpaque(false);
+        toolBarL.add(jlxw);
+
         String[] xws = new String[]{"A", "B", "C"};
         jcbxw = new JComboBox<>(xws);
         toolBarL.add(jcbxw);
@@ -274,6 +280,7 @@ public class LadderFrame extends JFrame {
 
     public void setHeadTitle(String title) {
         this.title.setText(title);
+        this.setTitle(title);
     }
 
     public void clear() {

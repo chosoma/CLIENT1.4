@@ -950,6 +950,8 @@ public class AbcUnitView extends JPanel
                     public void actionPerformed(ActionEvent ae) {
                         if (dataBeans[index] == null) {
                             JOptionPane.showMessageDialog(null, "请先获得初始值", "错误", JOptionPane.WARNING_MESSAGE);
+                        } else if (dataBeans[index].getVari() > 125 || dataBeans[index].getVari() < 0) {
+                            JOptionPane.showMessageDialog(null, "该数据无效,请重新获取", "错误", JOptionPane.WARNING_MESSAGE);
                         } else {
                             UnitBean unitBean = getUnitBean(index);
                             if (unitBean == null) {
@@ -1164,7 +1166,7 @@ public class AbcUnitView extends JPanel
             return;
         }
         getInitLabel(unitBean).setText(String.valueOf(unitBean.getInitvari()));
-        getVariLabel(unitBean).setText(String.valueOf(unitBean.getInitvari()));
+        getVariLabel(unitBean).setText("0.0");
         getVariLabel(unitBean).setBackground(colorB);
     }
 
@@ -1419,4 +1421,14 @@ public class AbcUnitView extends JPanel
         getBatlvLabel(unit).setText(String.valueOf(data.getBatlv()));
     }
 
+    public void clearData() {
+        for (int i = 0; i <= 4; i++) {
+            jlas[i].setText("");
+            jlbs[i].setText("");
+            jlcs[i].setText("");
+        }
+        for (DataBean dataBean : dataBeans) {
+            dataBean = null;
+        }
+    }
 }

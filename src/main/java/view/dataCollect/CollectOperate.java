@@ -73,7 +73,7 @@ public class CollectOperate {
     private void initFirst() {
         JPanel pane = new JPanel(null);
         pane.setPreferredSize(new Dimension(248, 200));
-        center.add(new MyFoldPanel("SF6、温度、伸缩节", false, pane));
+        center.add(new MyFoldPanel("服务区", false, pane));
 
         jbtOpen1 = new MyButton2("启动服务");
         jbtOpen1.setBounds(75, 10, 100, 30);
@@ -475,6 +475,8 @@ public class CollectOperate {
 
     }
 
+    JButton show;
+
     private void initThird() {
         JPanel pane1 = new JPanel(null);
         pane1.setPreferredSize(new Dimension(248, 105));
@@ -507,7 +509,8 @@ public class CollectOperate {
         });
         pane1.add(clearData);
 
-        JButton show = new MyButton2("表格显示");
+        show = new MyButton2("表格显示");
+//        JButton show = new MyButton2("表格显示");
         show.setFont(MyUtil.FONT_14);
         show.setBounds(75, 72, 100, 26);
         show.addActionListener(new ActionListener() {
@@ -527,8 +530,16 @@ public class CollectOperate {
 
         JPanel c = new MyFoldPanel("数据区", false, pane1);
         center.add(c);
-
     }
+
+    public void showGraph() {
+        if (show.isSelected()) {
+            CollectShow.getInstance().showTable(false);
+            show.setSelected(false);
+            show.setText("表格显示");
+        }
+    }
+
 
     JComboBox<Integer> jcbNetId4;
     JComboBox<Integer> jcbTimes4;

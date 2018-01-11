@@ -6,9 +6,24 @@ public class PointBean {
     private String place;
     private byte unitType;
     private byte gatewayType, gatewayNumber;
+    private float x, y;
 
     public byte getUnitType() {
         return unitType;
+    }
+
+    @Override
+    public String toString() {
+        return "PointBean{" +
+                "id=" + id +
+                ", point=" + point +
+                ", place='" + place + '\'' +
+                ", unitType=" + unitType +
+                ", gatewayType=" + gatewayType +
+                ", gatewayNumber=" + gatewayNumber +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
     }
 
     public void setUnitType(byte unitType) {
@@ -55,16 +70,20 @@ public class PointBean {
         this.place = place;
     }
 
-    @Override
-    public String toString() {
-        return "PointBean{" +
-                "id=" + id +
-                ", point=" + point +
-                ", place='" + place + '\'' +
-                ", unitType=" + unitType +
-                ", gatewayType=" + gatewayType +
-                ", gatewayNumber=" + gatewayNumber +
-                '}';
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     public PointBean() {

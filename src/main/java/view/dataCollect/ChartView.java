@@ -79,6 +79,13 @@ public class ChartView extends JPanel {
         this.add(panelHitch, "GZ");
     }
 
+    public void clearData() {
+        panelSF6.clearData();
+        panelWd.clearData();
+        panelSSJ.clearData();
+        panelGraph.clearData();
+    }
+
     public void alignZero(UnitBean unit) {
         panelGraph.alignZero(unit);
     }
@@ -106,6 +113,7 @@ public class ChartView extends JPanel {
             panelGraph.addData(data);
         }
     }
+
 
     public void refresh(UnitBean unit) {
         switch (unit.getType()) {

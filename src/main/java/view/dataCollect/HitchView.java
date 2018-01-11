@@ -28,16 +28,13 @@ public class HitchView extends JPanel {
         } catch (IOException ignored) {
 
         }
-        init2();
-        init3();
+        init();
 
     }
 
-    private void init3() {
 
-    }
 
-    private void init2() {
+    private void init() {
 
     }
 

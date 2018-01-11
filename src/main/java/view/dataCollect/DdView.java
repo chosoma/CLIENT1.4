@@ -81,7 +81,8 @@ public class DdView extends JPanel {
         for (PointBean pointBean : pointBeans) {
             showButtons.add(new ShowButton(pointBean));
         }
-        setBounds();
+
+//        setBounds3();
 
         for (UnitBean unitBean : units) {
             for (ShowButton show : showButtons) {
@@ -90,17 +91,20 @@ public class DdView extends JPanel {
                 }
             }
         }
+        setBounds2();
+
         for (ShowButton show : showButtons) {
             this.add(show);
             this.add(show.getjPanel());
         }
     }
 
-    private void setBounds() {
+    private void setBounds3() {
         Rectangle[] rs;
         rs = new Rectangle[12];
         int width = getWidth();
         int height = getHeight();
+        System.out.println(width + "," + height);
         rs[0] = new Rectangle((int) (width / 1.67) - 17, (int) (height / 1.94) - 17, 35, 35);
         rs[1] = new Rectangle((int) (width / 8.03) - 17, (int) (height / 2.48) - 17, 35, 35);
         rs[2] = new Rectangle((int) (width / 4.30) - 17, (int) (height / 2.36) - 17, 35, 35);
@@ -146,6 +150,15 @@ public class DdView extends JPanel {
         }
     }
 
+    private void setBounds2() {
+        int width = getWidth();
+        int height = getHeight();
+//        System.out.println(width+","+height);
+        for (ShowButton show : showButtons) {
+            show.setBounds((int) (width * show.getPointX() - 17), (int) (height * show.getPointY() - 17), show.getWidth(), show.getHeight());
+            show.getjPanel().setBounds(0, height - 225, 125, 225);
+        }
+    }
 
     public void setTitle(int point, String title) {
         for (ShowButton show : showButtons) {
@@ -171,6 +184,11 @@ public class DdView extends JPanel {
         }
     }
 
+    public void clearData() {
+        for (ShowButton showButton : showButtons) {
+            showButton.clearData();
+        }
+    }
 
     public UnitBean getUnit(DataBean dataBean) {
         UnitBean unit = null;
@@ -192,6 +210,6 @@ public class DdView extends JPanel {
         if (dwimage != null) {
             g.drawImage(dwimage, getWidth() - 260, 10, 250, 30, this);
         }
-        setBounds();
+        setBounds2();
     }
 }

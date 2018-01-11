@@ -43,24 +43,26 @@ public class ShowButton extends JButton {
     }
 
     public ShowButton(final PointBean pointBean) {
+        super.setSize(35, 35);
+        super.setPreferredSize(new Dimension(35, 35));
         this.pointBean = pointBean;
-        switch (pointBean.getPoint()) {
-            case 0:
+        switch (pointBean.getUnitType()) {
+            case 1:
+                this.setIcon(new SF6IconMIN());
+                break;
+            case 2:
                 this.setIcon(new VariIconMIN());
                 break;
-            case 10:
-            case 11:
+            case 3:
                 this.setIcon(new TempIconMIN());
                 break;
-            default:
-                this.setIcon(new SF6IconMIN());
         }
-        Font font = new Font(null, Font.PLAIN, 15);
+        Font font = new Font(null, Font.PLAIN, 25);
         unitList = new ArrayList<>();
         jPanel = new JPanel();
         jPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         jPanel.setLayout(new BorderLayout());
-        jPanel.setBounds(0, 0, 70, 70);
+//        jPanel.setBounds(0, 0, 70, 70);
         jPanel.setVisible(false);
 
 //        titleLabel = new JLabel(pointBean.getPlace(), JLabel.CENTER);
@@ -178,6 +180,12 @@ public class ShowButton extends JButton {
         }
     }
 
+    void clearData(){
+        jlA.setText("A");
+        jlB.setText("B");
+        jlC.setText("C");
+    }
+
     void addData(DataBean dataBean) {
         String str = "××";
         switch (dataBean.getUnitType()) {
@@ -240,4 +248,15 @@ public class ShowButton extends JButton {
     public void setTitle(String title) {
         this.titleLabel.setText(title);
     }
+
+
+    public float getPointX() {
+        return pointBean.getX();
+    }
+
+    public float getPointY() {
+        return pointBean.getY();
+    }
+
+
 }

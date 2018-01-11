@@ -82,6 +82,6 @@ public class DataModel_SF6 extends DataManageModel {
                 "    JOIN data i\n" +
                 "    JOIN point p\n" +
                 "WHERE\n" +
-                "  g.type = p.gatewaytype AND u.type = i.unittype AND u.type = 1 AND g.number = p.gatewaynumber AND u.number = i.unitnumber AND u.point = p.point";
+                "  g.type = u.gatewaytype AND u.type = i.unittype AND u.type = 1 AND g.number = u.gatewaynumber AND u.number = i.unitnumber AND u.point = p.point";
     }
 }

@@ -19,7 +19,7 @@ import javax.xml.bind.DatatypeConverter;
 
 public class MyLgoInfo {
 
-    static String fileName ="propertyInfo\\logoInfo.xml";
+    static String fileName = "propertyInfo\\logoInfo.xml";
     private static final String HEXES = "0123456789ABCDEF";
     static byte key = 16;
     public static String SoftName, CompanyName, CopyrightName;
@@ -99,33 +99,32 @@ public class MyLgoInfo {
 
 
     private static void intiDefault() {
-        SoftName = "GIL在线检测系统";
-        CompanyName = "无锡讯泰科技有限公司";
-        CopyrightName = "无锡讯泰科技有限公司";
+        SoftName = "220KV GIL在线检测系统";
+        CompanyName = "江苏南瑞恒驰电气装备有限公司";
+        CopyrightName = "江苏南瑞恒驰电气装备有限公司";
     }
 
-    /**
-     * 将密文的HEX字符串转换成字节数组，并将每个字节加key，转换成明文字符串
-     *
-     * @param msg
-     * @return
-     */
-    /**
-     * GBK编码格式
-     * public static String MyDecode(String msg) {
-     * msg = msg.trim();
-     * if (msg == null || msg.equals("")) {
-     * throw new NumberFormatException("解密内容不能为空或者空字符串");
-     * }
-     * int len = msg.length();
-     * byte[] ret = new byte[len / 2];
-     * for (int i = 0; i < len; i += 2) {
-     * ret[i / 2] = (byte) Integer.parseInt(msg.substring(i, i + 2), 16);
-     * ret[i / 2] += key;
-     * }
-     * return new String(ret);
-     * }
-     */
+
+    public static String MyDecode2(String msg) {
+        msg = msg.trim();
+        if (msg == null || msg.equals("")) {
+            throw new NumberFormatException("解密内容不能为空或者空字符串");
+        }
+        int len = msg.length();
+        byte[] ret = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            ret[i / 2] = (byte) Integer.parseInt(msg.substring(i, i + 2), 16);
+            ret[i / 2] += key;
+        }
+        return new String(ret);
+    }
+
+    public static void main(String[] args) {
+        String str = "220KV GIL在线监测系统";
+        System.out.println(MyCode(str));
+        String str2 = "江苏南瑞恒驰电气装备有限公司";
+        System.out.println(MyCode(str2));
+    }
 
     public static String MyDecode(String msg) {//UTF-8
         msg = msg.trim();

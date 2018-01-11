@@ -14,16 +14,7 @@ import java.io.IOException;
 
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
+import javax.swing.*;
 
 import mytools.*;
 import view.dataCollect.ChartView;
@@ -95,7 +86,7 @@ public class Shell extends JFrame implements ActionListener {
 
         contentCard = new CardLayout();
         contentPane = new JPanel(contentCard);
-        contentPane.setBorder(BorderFactory.createLineBorder(new Color(44, 46,                54)));
+        contentPane.setBorder(BorderFactory.createLineBorder(new Color(44, 46, 54)));
         setContentPane(contentPane);
 
         try {
@@ -397,19 +388,18 @@ public class Shell extends JFrame implements ActionListener {
         });
         pop.add(voiceAlarm);
 
-//        JMenuItem help = new JMenuItem("帮 助 ", new ImageIcon(
-//                "images/main/help_16.png"));
-//        help.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                try {
-//                    // 文件路径空格解决办法***.replace(" ", "\" \"")
-//                    Runtime.getRuntime().exec("cmd /c start " + "help.chm");
-//                } catch (IOException e1) {
-//                    e1.printStackTrace();
-//                }
-//            }
-//        });
-//        pop.add(help);
+        JMenuItem help = new JMenuItem("帮 助 ", new ImageIcon("images/main/help_16.png"));
+        help.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // 文件路径空格解决办法***.replace(" ", "\" \"")
+                    Runtime.getRuntime().exec("cmd /c start " + "help.chm");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+        pop.add(help);
     }
 
     private Rectangle getMaxBounds() {
@@ -498,6 +488,7 @@ public class Shell extends JFrame implements ActionListener {
                     break;
             }
             ChartView.getInstance().showPane(str);
+            CollectOperate.getInstance().showGraph();
             for (Component b : toolBar.getComponents()) {
                 if (b instanceof MyTitleButton) {
                     MyTitleButton myTitleButton = (MyTitleButton) b;

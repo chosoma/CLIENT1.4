@@ -70,6 +70,7 @@ public class LineLadder {
         String str = "";
         switch (unitBean.getType()) {
             case 1:
+                str = "压力 / 密度 (MPa)";
                 lineDataset2 = new TimeSeriesCollection();
                 TimeSeries timeSeries1 = new TimeSeries("压力(MPa)");
                 for (DataBean data : dataBeans) {
