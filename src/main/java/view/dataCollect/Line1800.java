@@ -38,7 +38,7 @@ public class Line1800 extends ChartContainer {
 //		sjbh = sensor.getSjbh();
 //		dw = sensor.getDw();
 //		exceedUp = sensor.getAlarm();
-//		this.setName(sjbh);
+//		this.setUsername(sjbh);
 //		JFreeChart chart = createJFreeChart();
 //		ChartPanel chartPanel = ChartUtil.getChartPanel(chart);
 //		super.initialize(chartPanel);

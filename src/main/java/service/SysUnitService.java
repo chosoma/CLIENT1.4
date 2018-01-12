@@ -274,7 +274,7 @@ public class SysUnitService {
      */
 //    public static void setTb(Date time, byte unitid) throws SQLException {
 //        for (UnitBean bean : unitList) {
-//            if (bean.getName().equals(SensorAttr.Sensor_SW)
+//            if (bean.getUsername().equals(SensorAttr.Sensor_SW)
 //                    && bean.getNumber() == unitid) {
 ////                if (bean.getOrderType() == MyCollection.CLOCK) {
 //                String sql = "update " + UnitTable

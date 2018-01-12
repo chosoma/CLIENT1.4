@@ -12,14 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
@@ -40,7 +33,7 @@ public class CollectShow extends JPanel {
     private static CollectShow CS = new CollectShow();
     private JTable dataTable;
     private Collect_DataModel dataModel = Collect_DataModel.getInstance();
-    private JLabel jlbWarn;
+    private JTextArea jlbWarn;
     private boolean isNeedRoll = true;
 
     private JPanel warnPanel;
@@ -50,7 +43,10 @@ public class CollectShow extends JPanel {
     }
 
     public void setPlace(String place) {
-        jlbWarn.setText(place);
+        jlbWarn.append(place);
+        jlbWarn.append("\n\n");
+//        jlbWarn.setCaretPosition(jlbWarn.getWidth());
+        jlbWarn.setCaretPosition(jlbWarn.getText().length());
     }
 
     private CollectShow() {
@@ -148,10 +144,14 @@ public class CollectShow extends JPanel {
         warnPanel.setBackground(AbcUnitView.colorWarn);
         this.add(warnPanel, BorderLayout.EAST);
 
-        jlbWarn = new JLabel("", JLabel.CENTER);
-        jlbWarn.setForeground(Color.BLUE);
+        jlbWarn = new JTextArea("");
+        jlbWarn.setEditable(false);
+        jlbWarn.setForeground(AbcUnitView.colorWarn);
+        jlbWarn.setOpaque(false);
         jlbWarn.setFont(MyUtil.FONT_16);
-        warnPanel.add(jlbWarn, BorderLayout.CENTER);
+
+        JScrollPane jspwarn = new JScrollPane(jlbWarn);
+        warnPanel.add(jspwarn, BorderLayout.CENTER);
 
         JButton jb = new MyButton3("解除警报", new ImageIcon("images/delete.png"));
 //        jb.setToolTipText("解除报警");

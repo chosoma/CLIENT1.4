@@ -107,19 +107,7 @@ public class SetTitleDialog extends JDialog {
                     JOptionPane.showMessageDialog(null, "请输入监测位置名称", "错误", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                String begin = "";
-                switch (pointBean.getUnitType()) {
-                    case 1:
-                        begin = "SF6:";
-                        break;
-                    case 2:
-                        begin = "伸缩节:";
-                        break;
-                    case 3:
-                        begin = "温度:";
-                        break;
-                }
-                pointBean.setPlace(begin + jtftitle.getText());
+                pointBean.setPlace(jtftitle.getText());
                 try {
                     SysPointService.updatePlace(pointBean);
                 } catch (SQLException e1) {

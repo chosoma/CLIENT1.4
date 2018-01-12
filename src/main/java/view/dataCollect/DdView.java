@@ -35,7 +35,7 @@ public class DdView extends JPanel {
 
         }
         init2();
-        init3();
+//        init3();
 
     }
 

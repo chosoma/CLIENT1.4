@@ -345,6 +345,7 @@ public class Shell extends JFrame implements ActionListener {
 
     }
 
+
     JPanel buttonPanel;
 
     MyTitleButton debugs;
@@ -466,7 +467,6 @@ public class Shell extends JFrame implements ActionListener {
                 centerCard.show(centerPanel, temp.getText());
             }
         } else if (e.getSource() instanceof MySkipButton) {
-            centerCard.show(centerPanel, "数据采集");
             MySkipButton temp = (MySkipButton) e.getSource();
 
             String str = "";
@@ -487,21 +487,11 @@ public class Shell extends JFrame implements ActionListener {
                     str = "GZ";
                     break;
             }
-            ChartView.getInstance().showPane(str);
-            CollectOperate.getInstance().showGraph();
-            for (Component b : toolBar.getComponents()) {
-                if (b instanceof MyTitleButton) {
-                    MyTitleButton myTitleButton = (MyTitleButton) b;
-                    if (myTitleButton.getText().equals("数据采集")) {
-                        myTitleButton.setSelected(true);
-                    } else {
-                        myTitleButton.setSelected(false);
-                    }
-                }
 
-            }
-            MyButton4 jb = (MyButton4) buttonPanel.getComponent(temp.getType());
-            myButtonGroup(jb, str);
+            showCollection(str);
+//            MyButton4 jb = (MyButton4) buttonPanel.getComponent(temp.getType());
+//            myButtonGroup(jb, str);
+            myButtonGroup(temp.getType(), str);
         } else if (e.getSource() instanceof MyOutButton) {
             MyOutButton temp = (MyOutButton) e.getSource();
             String libstring = "";
@@ -541,6 +531,44 @@ public class Shell extends JFrame implements ActionListener {
         myButtonGroup(jb, name);
     }
 
+    private void showCollection(String str) {
+        centerCard.show(centerPanel, "数据采集");
+        CollectOperate.getInstance().showGraph();
+        for (Component b : toolBar.getComponents()) {
+            if (b instanceof MyTitleButton) {
+                MyTitleButton myTitleButton = (MyTitleButton) b;
+                if (myTitleButton.getText().equals("数据采集")) {
+                    myTitleButton.setSelected(true);
+                } else {
+                    myTitleButton.setSelected(false);
+                }
+            }
+        }
+        ChartView.getInstance().showPane(str);
+    }
+
+    public void showPanel(byte unitType) {
+        String str = "";
+        int type = -1;
+        switch (unitType) {
+            case 1:
+                str = "SF6";
+                type = 0;
+                break;
+            case 3:
+                str = "WD";
+                type = 1;
+                break;
+            case 2:
+                str = "SSJ";
+                type = 2;
+                break;
+        }
+        showCollection(str);
+        MyButton4 jb = (MyButton4) buttonPanel.getComponent(type);
+        myButtonGroup(jb, str);
+    }
+
     private void myButtonGroup(MyButton4 jb, String name) {
         if (!jb.isSelected()) {
             jb.setSelected(true);
@@ -551,6 +579,11 @@ public class Shell extends JFrame implements ActionListener {
             }
             ChartView.getInstance().showPane(name);
         }
+    }
+
+    private void myButtonGroup(int type, String name) {
+        MyButton4 jb = (MyButton4) buttonPanel.getComponent(type);
+        myButtonGroup(jb, name);
     }
 
     public boolean isMaximized() {

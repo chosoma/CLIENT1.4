@@ -107,7 +107,7 @@
 //    public void correctClock(Byte mkh) throws Exception {
 //
 //        if (operateThread != null && operateThread.isAlive()) {
-//            throw new Exception("正在进行" + operateThread.getName() + "，请稍候再试");
+//            throw new Exception("正在进行" + operateThread.getUsername() + "，请稍候再试");
 //        }
 //        if (spoTip != null) {
 //            throw new Exception(spoTip);
@@ -122,7 +122,7 @@
 //    @Override
 //    public void collect(Byte mkh) throws Exception {
 //        if (operateThread != null && operateThread.isAlive()) {
-//            throw new Exception("正在进行" + operateThread.getName() + "，请稍候再试");
+//            throw new Exception("正在进行" + operateThread.getUsername() + "，请稍候再试");
 //        }
 //        if (spoTip != null) {
 //            throw new Exception(spoTip);
@@ -137,7 +137,7 @@
 //            return;
 //        }
 //        if (operateThread != null && operateThread.isAlive()) {
-//            throw new Exception("正在进行" + operateThread.getName() + "，请稍候再试");
+//            throw new Exception("正在进行" + operateThread.getUsername() + "，请稍候再试");
 //        }
 //        if (spoTip != null) {
 //            throw new Exception(spoTip);
@@ -152,7 +152,7 @@
 //            return;
 //        }
 //        if (operateThread != null && operateThread.isAlive()) {
-//            throw new Exception("正在进行" + operateThread.getName() + "，请稍候再试");
+//            throw new Exception("正在进行" + operateThread.getUsername() + "，请稍候再试");
 //        }
 //        if (spoTip != null) {
 //            throw new Exception(spoTip);
@@ -170,7 +170,7 @@
 //            return;
 //        }
 //        if (operateThread != null && operateThread.isAlive()) {
-//            throw new Exception("正在进行" + operateThread.getName() + "，请稍候再试");
+//            throw new Exception("正在进行" + operateThread.getUsername() + "，请稍候再试");
 //        }
 //        if (spoTip != null) {
 //            throw new Exception(spoTip);

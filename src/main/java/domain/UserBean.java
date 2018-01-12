@@ -5,15 +5,15 @@ package domain;
  */
 public class UserBean {
 
-	private String name, password;
+	private String username, password;
 	private int authority;
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -35,7 +35,7 @@ public class UserBean {
 	@Override
 	public String toString() {
 		return "UserBean{" +
-				"name='" + name + '\'' +
+				"username='" + username + '\'' +
 				", password='" + password + '\'' +
 				", authority=" + authority +
 				'}';
@@ -48,11 +48,11 @@ public class UserBean {
 
 		UserBean userBean = (UserBean) o;
 
-		return name != null ? name.equals(userBean.name) : userBean.name == null;
+		return username != null ? username.equals(userBean.username) : userBean.username == null;
 	}
 
 	@Override
 	public int hashCode() {
-		return name != null ? name.hashCode() : 0;
+		return username != null ? username.hashCode() : 0;
 	}
 }

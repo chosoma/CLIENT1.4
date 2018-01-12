@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import mytools.MyButton2;
 import mytools.MyUtil;
 import service.SysUnitService;
 import domain.DataBean;
+import view.Shell;
 
 /**
  * 单元视图
@@ -137,7 +139,18 @@ public class AbcUnitView extends JPanel
     private JLabel jlbSjbh;
 
     public void setTitle(String title) {
-        jlbSjbh.setText(title);
+        switch (pointBean.getUnitType()) {
+            case 1:
+                jlbSjbh.setText("SF6:" + title);
+                break;
+            case 2:
+                jlbSjbh.setText("伸缩节:" + title);
+                break;
+            case 3:
+                jlbSjbh.setText("温度:" + title);
+                break;
+        }
+
     }
 
     private void init() {
@@ -879,11 +892,15 @@ public class AbcUnitView extends JPanel
 
     public void addData(DataBean data) {
         flags.clear();
+        warningstr.delete(0, warningstr.length());
+        initWarning();
         byte unitnumber = data.getUnitNumber();
         UnitBean unit = getUnitBean(unitnumber);
         if (unit == null) {
             return;
         }
+        addData(unit, data);
+        checkWarning(unit, data);
         switch (unit.getXw()) {
             case "A":
                 dataBeans[0] = data;
@@ -895,23 +912,21 @@ public class AbcUnitView extends JPanel
                 dataBeans[2] = data;
                 break;
         }
-
-        checkWarning(unit, data);
-        addData(unit, data);
-        for (boolean flag : flags) {
-            if (flag) {
-                JPanel warnPanel = CollectShow.getInstance().getWarnPanel();
-                CollectShow.getInstance().setPlace(pointBean.getPlace() + ":" + unit.getXw());
-                if (!warnPanel.isVisible()) warnPanel.setVisible(true);
-                PlayWAV.getInstance().play();//报警
-                break;
-            }
+        if (flags.size() > 0) {
+            Shell.getInstance().showPanel(unit.getType());
+            JPanel warnPanel = CollectShow.getInstance().getWarnPanel();
+            warningstr.append("\n--");
+            warningstr.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(data.getDate()));
+            CollectShow.getInstance().setPlace(warningstr.toString());
+            if (!warnPanel.isVisible()) warnPanel.setVisible(true);
+            PlayWAV.getInstance().play();//报警
         }
 
     }
 
 
     private void init2() {
+//        initWarning();
         initTitle();
         int y = 40;
         for (int i = 0; i < jlas.length; i++) {
@@ -965,8 +980,31 @@ public class AbcUnitView extends JPanel
         }
     }
 
+    private StringBuilder warningstr = new StringBuilder();
+
+    private void initWarning() {
+        switch (pointBean.getUnitType()) {
+            case 1:
+                warningstr.append("监测类型:SF6,");
+                break;
+            case 2:
+                warningstr.append("监测类型:伸缩节,");
+                break;
+            case 3:
+                warningstr.append("监测类型:温度,");
+                break;
+        }
+        warningstr.append("监测点:");
+        warningstr.append(pointBean.getPlace());
+        warningstr.append(",相位:");
+    }
+
+
     private void initTitle() {
-        jlbSjbh = new JLabel(pointBean.getPlace(), JLabel.CENTER);
+
+
+        jlbSjbh = new JLabel("", JLabel.CENTER);
+        setTitle(pointBean.getPlace());
 //        jlbSjbh = new JLabel("监测点:" + unitBean.getPlace(), JLabel.CENTER);
         jlbSjbh.setBounds(0, 0, 161, 21);
         jlbSjbh.setBorder(border);
@@ -975,7 +1013,7 @@ public class AbcUnitView extends JPanel
         this.add(jlbSjbh);
 
         MyButton2 jbreset = new MyButton2("修改");
-        jbreset.setBounds(160, 0, 41, 23);
+        jbreset.setBounds(160, 0, 42, 23);
         jbreset.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -1221,6 +1259,8 @@ public class AbcUnitView extends JPanel
     }
 
     private void checkWarning(UnitBean unit, DataBean data) {
+        warningstr.append(unit.getXw());
+        warningstr.append("\t");
         switch (unit.getType()) {
             case 1:
                 SF6CheckWarning(unit, data);
@@ -1235,18 +1275,50 @@ public class AbcUnitView extends JPanel
     }
 
     private void SF6CheckWarning(UnitBean unit, DataBean data) {
-        boolean[] flags = new boolean[3];
-        if (unit.getWarnTemp() != null && data.getTemp() > unit.getWarnTemp()) {
-            flags[0] = true;
+        if (data.isLowPres()) {
+            warningstr.append("\n--低压报警");
         }
-        if (unit.getMaxden() != null && unit.getMinden() != null) {
+        if (data.isLowLock()) {
+            warningstr.append("\n--低压闭锁");
+        }
+
+        boolean[] flags = new boolean[3];
+
+        if (data.isDisconnect() || data.getTemp() < -273) {
+            flags[0] = true;
+            warningstr.append("\n--温度值无效");
+        } else if (unit.getWarnTemp() != null && data.getTemp() > unit.getWarnTemp()) {
+            flags[0] = true;
+            warningstr.append("\n--温度过高");
+        }
+        if (data.isDisconnect() || data.getDen() < 0) {
+            flags[1] = true;
+            warningstr.append("\n--密度值无效");
+        } else if (unit.getMaxden() != null && unit.getMinden() != null) {
             if (data.getDen() > unit.getMaxden() || data.getDen() < unit.getMinden()) {
                 flags[1] = true;
+                if (unit.getMaxden() != null && unit.getMinden() != null) {
+                    if (data.getDen() > unit.getMaxden()) {
+                        warningstr.append("\n--密度过高");
+                    } else if (data.getDen() < unit.getMinden()) {
+                        warningstr.append("\n--密度过低");
+                    }
+                }
             }
         }
-        if (unit.getMaxper() != null && unit.getMinper() != null) {
+        if (data.isDisconnect() || data.getPres() < 0) {
+            flags[2] = true;
+            warningstr.append("\n--压力值无效");
+        } else if (unit.getMaxper() != null && unit.getMinper() != null) {
             if (data.getPres() > unit.getMaxper() || data.getPres() < unit.getMinper()) {
                 flags[2] = true;
+                if (unit.getMaxper() != null && unit.getMinper() != null) {
+                    if (data.getPres() > unit.getMaxper()) {
+                        warningstr.append("\n--压力过高");
+                    } else if (data.getPres() < unit.getMinper()) {
+                        warningstr.append("\n--压力过低");
+                    }
+                }
             }
         }
         for (int i = 0; i < flags.length; i++) { // 0 temp 1 den 2 per
@@ -1263,7 +1335,6 @@ public class AbcUnitView extends JPanel
                         jlcs[i].setBackground(colorWarn);
                         break;
                 }
-                break;
             } else {
                 switch (unit.getXw()) {
                     case "A":
@@ -1282,8 +1353,13 @@ public class AbcUnitView extends JPanel
 
     private void TempCheckWarning(UnitBean unit, DataBean data) {
         boolean flag = false;
+//        if (data.isDisconnect() || data.getTemp() < -273) {
+//            flag = true;
+//            warningstr.append("\n--温度值无效");
+//        } else
         if (unit.getWarnTemp() != null && data.getTemp() > unit.getWarnTemp()) {
             flag = true;
+            warningstr.append("\n--温度过高");
         }
         if (flag) {
             flags.add(true);
@@ -1316,9 +1392,13 @@ public class AbcUnitView extends JPanel
     private void VariCheckWarning(UnitBean unit, DataBean data) {
         boolean flag = false;
         float vari = FormatTransfer.newScale(data.getVari(), unit.getInitvari());
-        if (unit.getMaxvari() != null && unit.getMinvari() != null) {
+        if (data.isDisconnect() || data.getVari() < 0 || data.getVari() > 125) {
+            flag = true;
+            warningstr.append("\n--偏移量无效");
+        } else if (unit.getMaxvari() != null && unit.getMinvari() != null) {
             if (vari > unit.getMaxvari() || vari < unit.getMinvari()) {
                 flag = true;
+                warningstr.append("\n--伸缩节超出范围");
             }
         }
         JLabel jLabel = getVariLabel(unit);
@@ -1371,33 +1451,32 @@ public class AbcUnitView extends JPanel
 
     private void addData(UnitBean unit, DataBean data) {
 
-        switch (unit.getType()) {
+        switch (data.getUnitType()) {
             case 1:
                 if (data.getTemp() <= -273) {
                     getTempLabel(unit).setText("××");
                 } else {
                     getTempLabel(unit).setText(String.valueOf(data.getTemp()));
                 }
-                if (data.isLowPres()) {
-                    getPresLabel(unit).setText("低压");
-                    getPresLabel(unit).setBackground(colorWarn);
-                    flags.add(true);
+                if (data.isDisconnect() || data.getPres() < 0) {
+                    getPresLabel(unit).setText("××");
                 } else {
-                    if (data.isDisconnect() || data.getPres() < 0) {
-                        getPresLabel(unit).setText("××");
-                    } else {
-                        getPresLabel(unit).setText(String.valueOf(data.getPres()));
+                    getPresLabel(unit).setText(String.valueOf(data.getPres()));
+                    if (data.isLowPres()) {
+//                        getPresLabel(unit).setText("低压");
+//                        getPresLabel(unit).setBackground(colorWarn);
+                        flags.add(true);
                     }
                 }
-                if (data.isLowLock()) {
-                    getDenLabel(unit).setText("闭锁");
-                    getDenLabel(unit).setBackground(colorWarn);
-                    flags.add(true);
+                if (data.isDisconnect() || data.getDen() < 0) {
+                    getDenLabel(unit).setText("××");
+
                 } else {
-                    if (data.isDisconnect() || data.getDen() < 0) {
-                        getDenLabel(unit).setText("××");
-                    } else {
-                        getDenLabel(unit).setText(String.valueOf(data.getDen()));
+                    getDenLabel(unit).setText(String.valueOf(data.getDen()));
+                    if (data.isLowLock()) {
+//                        getDenLabel(unit).setText("闭锁");
+//                        getDenLabel(unit).setBackground(colorWarn);
+                        flags.add(true);
                     }
                 }
                 break;
@@ -1424,8 +1503,11 @@ public class AbcUnitView extends JPanel
     public void clearData() {
         for (int i = 0; i <= 4; i++) {
             jlas[i].setText("");
+            jlas[i].setBackground(colorB);
             jlbs[i].setText("");
+            jlbs[i].setBackground(colorB);
             jlcs[i].setText("");
+            jlcs[i].setBackground(colorB);
         }
         for (DataBean dataBean : dataBeans) {
             dataBean = null;

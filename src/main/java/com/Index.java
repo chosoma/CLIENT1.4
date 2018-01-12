@@ -80,7 +80,7 @@ public class Index {
         }
 
 //        RuntimeMXBean runtime = ManagementFactory.getRuntimeMXBean();
-//        String info = runtime.getName();
+//        String info = runtime.getUsername();
 //        int index = info.indexOf("@");
 //        String pid = info.substring(0, index);
 //        String processName = getProcessName(pid);

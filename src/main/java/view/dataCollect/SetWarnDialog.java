@@ -294,7 +294,7 @@ public class SetWarnDialog extends JDialog {
     void setPerameter() throws NumberFormatException, SQLException {
 //        UnitBean unitBean = new UnitBean();
 //        String name = jlbTypes.getText();
-//        unitBean.setName(name);
+//        unitBean.setUsername(name);
         System.out.println("1");
         for (UnitBean unit : SysUnitService.getUnitList()) {
 //            boolean flag = false;
@@ -307,7 +307,7 @@ public class SetWarnDialog extends JDialog {
 //                    continue;
 //                }
 //            }
-//            if (!unit.getName().equals(name)) {
+//            if (!unit.getUsername().equals(name)) {
 //                continue;
 //            }
             System.out.println("2");

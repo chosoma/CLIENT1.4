@@ -1,6 +1,7 @@
 package view.dataCollect;
 
 import domain.DataBean;
+import domain.PointBean;
 import domain.UnitBean;
 import service.SysUnitService;
 import view.icon.SF6IconMIN;
@@ -32,8 +33,8 @@ public class HitchView extends JPanel {
 
     }
 
-
-
+    private java.util.List<PointBean> pointBeans;
+    private java.util.List<UnitBean> units;
     private void init() {
 
     }

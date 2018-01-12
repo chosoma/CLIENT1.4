@@ -215,7 +215,7 @@ public class System2User extends JPanel {
                 if (MyUtils.isNull(name)) {
                     JOptionPane.showMessageDialog(null, "请输入用户名称", "提示", JOptionPane.ERROR_MESSAGE);
                 }
-                user.setName(name);
+                user.setUsername(name);
                 String status = (String) jcb.getSelectedItem();
                 if (status == null) {
                     JOptionPane.showMessageDialog(null, "请选择用户类型", "提示", JOptionPane.ERROR_MESSAGE);
@@ -227,6 +227,13 @@ public class System2User extends JPanel {
                     user.setAuthority(UserService.UP);
                 }
                 try {
+                    UserBean userBean = UserService.checkUser(user.getUsername());
+                    if (userBean != null) {
+                        JOptionPane.showMessageDialog(null,
+                                "用户名已存在", "失败",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     UserService.addUser(user);
                     refreshUser.doClick();// 刷新用户列表
                     int flag = JOptionPane.showConfirmDialog(null,
@@ -284,7 +291,7 @@ public class System2User extends JPanel {
             return null;
         }
         String UserName = tempLabel.getText();
-        user.setName(UserName);
+        user.setUsername(UserName);
         if (UserName.equals("admin")) {
             JOptionPane.showMessageDialog(null,
                     "'admin'为系统默认管理员用户，只能修改密码，不能删除或修改其用户类型", "提示",
@@ -315,10 +322,10 @@ public class System2User extends JPanel {
         for (UserBean user : users) {
             JLabel temp = null;
             if (user.getAuthority() == UserService.AP) {
-                temp = new JLabel(user.getName(), icon1, 0);
+                temp = new JLabel(user.getUsername(), icon1, 0);
                 temp.setToolTipText(UserService.ADMIN);
             } else if (user.getAuthority() == UserService.UP) {
-                temp = new JLabel(user.getName(), icon2, 0);
+                temp = new JLabel(user.getUsername(), icon2, 0);
                 temp.setToolTipText(UserService.USER);
             } else {
                 continue;

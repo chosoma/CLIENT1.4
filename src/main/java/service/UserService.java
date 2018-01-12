@@ -47,6 +47,15 @@ public class UserService {
         return UserLogin;
     }
 
+
+    /**
+     * 校验用户
+     */
+    public static UserBean checkUser(String paras) throws SQLException {
+        String sql = "select * from " + tableName
+                + " where username = ? ";
+        return  MyDbUtil.queryBeanData(sql, UserBean.class, paras);
+    }
     /**
      * 检验密码
      *
@@ -65,7 +74,7 @@ public class UserService {
     public static void changePassword(String password) throws SQLException {
         String sql = "update " + tableName
                 + "  set password=? where username=?";
-        MyDbUtil.update(sql, password, UserLogin.getName());
+        MyDbUtil.update(sql, password, UserLogin.getUsername());
         UserLogin.setPassword(password);
     }
 
@@ -76,12 +85,11 @@ public class UserService {
      * @throws SQLException
      */
     public static List<UserBean> query() throws SQLException {
-        String sql = "select username as name , authority from " + tableName
+        String sql = "select username , authority from " + tableName
                 + " where authority >= ? order by authority , username";
         List<UserBean> users = MyDbUtil.queryBeanListData(sql, UserBean.class, 1);
         return users;
     }
-
 
 
     /**
@@ -93,7 +101,7 @@ public class UserService {
     public static void changeRole(UserBean user) throws SQLException {
         String sql = "update " + tableName
                 + "  set authority = ? where username = ? ";
-        MyDbUtil.update(sql, user.getAuthority(), user.getName());
+        MyDbUtil.update(sql, user.getAuthority(), user.getUsername());
     }
 
     /**
@@ -104,7 +112,7 @@ public class UserService {
      */
     public static void deleteUser(UserBean user) throws SQLException {
         String sql = "delete from " + tableName + "  where username = ? ";
-        MyDbUtil.update(sql, user.getName());
+        MyDbUtil.update(sql, user.getUsername());
     }
 
     /**
@@ -116,7 +124,7 @@ public class UserService {
     public static void addUser(UserBean user) throws SQLException {
         String sql = "insert into " + tableName
                 + " (username,password,authority) values (?,123456,?)";
-        MyDbUtil.update(sql, user.getName(), user.getAuthority());
+        MyDbUtil.update(sql, user.getUsername(), user.getAuthority());
     }
 
     /**
@@ -125,7 +133,7 @@ public class UserService {
      * @return
      */
     public String getUserName() {
-        return UserLogin.getName();
+        return UserLogin.getUsername();
     }
 
     /**
